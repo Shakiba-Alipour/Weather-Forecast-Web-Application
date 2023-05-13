@@ -1,6 +1,13 @@
 import requests
 import json
+from flask import Flask, render_template, request
 
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 class Weather:
     
@@ -20,6 +27,9 @@ class Weather:
         self.air_pollution = air_pollution      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
         self.icon_id = icon_id
 
+
+
+@app.route('/result', methods=['POST'])
 # a function to get weather data from openweathermap.org
 def get_weather_data(city_name):
 
