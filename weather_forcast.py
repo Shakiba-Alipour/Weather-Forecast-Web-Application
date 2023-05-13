@@ -2,6 +2,24 @@ import requests
 import json
 
 
+class Weather:
+    
+    def __init__(self, city_name, country_name, longitude, latitude, temperature, min_temperatur, max_temperatur,
+                 humidity, wind_speed, main_weather_condition, description, air_pollution, icon_id):
+        self.city_name = city_name
+        self.country_name = country_name
+        self.longitude = longitude
+        self.latitude = latitude
+        self.temperature = temperature
+        self.min_temperatur = min_temperatur
+        self.max_temperatur = max_temperatur
+        self.humidity = humidity
+        self.wind_speed = wind_speed
+        self.main_weather_condition = main_weather_condition
+        self.description = description
+        self.air_pollution = air_pollution      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+        self.icon_id = icon_id
+
 # a function to get weather data from openweathermap.org
 def get_weather_data(city_name):
 
@@ -20,8 +38,8 @@ def get_weather_data(city_name):
     data = json.loads(response.text)
     
     # Get latitude and longitude
-    lon = data["coord"]["lon"]
-    lat = data["coord"]["lat"]
+    longitude = data["coord"]["lon"]
+    latitude = data["coord"]["lat"]
     
     # Extract relevant weather data
     # Convert temperature from Kelvin to Celsius
@@ -33,10 +51,11 @@ def get_weather_data(city_name):
     main_weather_condition = data["weather"][0]["main"]
     description = data["weather"][0]["description"]
     country = data["sys"]["country"]
+    icon_id = data["weather"][0]["id"]
     
     
     # Air pollution API
-    air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
+    air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
     response = requests.get(air_pollution_url)
 
     # Parse the JSON response
@@ -44,3 +63,4 @@ def get_weather_data(city_name):
     
     air_pollution = data["list"][0]["main"]["aqi"]      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
+    
