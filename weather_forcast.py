@@ -50,7 +50,7 @@ def get_weather_data(city_name):
     wind_speed = data["wind"]["speed"]
     main_weather_condition = data["weather"][0]["main"]
     description = data["weather"][0]["description"]
-    country = data["sys"]["country"]
+    country_name = data["sys"]["country"]
     icon_id = data["weather"][0]["id"]
     
     
@@ -63,4 +63,8 @@ def get_weather_data(city_name):
     
     air_pollution = data["list"][0]["main"]["aqi"]      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
+    weather = Weather(city_name, country_name, longitude, latitude, temperature, min_temperatur, max_temperatur,
+                 humidity, wind_speed, main_weather_condition, description, air_pollution, icon_id)
     
+    
+    return weather
