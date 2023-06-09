@@ -5,14 +5,29 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+
+# @app.route("/")
+# def home():
+#     return render_template("index.html")
+
 
 class Weather:
-    
-    def __init__(self, city_name, country_name, longitude, latitude, temperature, min_temperatur, max_temperatur,
-                 humidity, wind_speed, main_weather_condition, description, air_pollution, icon_id):
+    def __init__(
+        self,
+        city_name,
+        country_name,
+        longitude,
+        latitude,
+        temperature,
+        min_temperatur,
+        max_temperatur,
+        humidity,
+        wind_speed,
+        main_weather_condition,
+        description,
+        air_pollution,
+        icon_id,
+    ):
         self.city_name = city_name
         self.country_name = country_name
         self.longitude = longitude
@@ -24,14 +39,14 @@ class Weather:
         self.wind_speed = wind_speed
         self.main_weather_condition = main_weather_condition
         self.description = description
-        self.air_pollution = air_pollution      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+        self.air_pollution = air_pollution  # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
         self.icon_id = icon_id
 
 
-
-@app.route('/result', methods=['POST'])
+@app.route("/index", methods=["POST", "GET"])
 # a function to get weather data from openweathermap.org
-def get_weather_data(city_name):
+def get_weather_data():
+    city_name = request.form.get("city_name")
 
     api_key = "6e10fbb861b606deeab532507ffcb0d7"
 
@@ -46,11 +61,11 @@ def get_weather_data(city_name):
 
     # Convert the JSON response to a Python dictionary
     data = json.loads(response.text)
-    
+
     # Get latitude and longitude
     longitude = data["coord"]["lon"]
     latitude = data["coord"]["lat"]
-    
+
     # Extract relevant weather data
     # Convert temperature from Kelvin to Celsius
     temperature = round(data["main"]["temp"] - 273.15, 2)
@@ -62,19 +77,54 @@ def get_weather_data(city_name):
     description = data["weather"][0]["description"]
     country_name = data["sys"]["country"]
     icon_id = data["weather"][0]["id"]
-    
-    
+
     # Air pollution API
     air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
     response = requests.get(air_pollution_url)
 
     # Parse the JSON response
     data = json.loads(response.text)
-    
-    air_pollution = data["list"][0]["main"]["aqi"]      # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
-    weather = Weather(city_name, country_name, longitude, latitude, temperature, min_temperatur, max_temperatur,
-                 humidity, wind_speed, main_weather_condition, description, air_pollution, icon_id)
-    
-    
-    return weather
+    air_pollution = data["list"][0]["main"][
+        "aqi"
+    ]  # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+
+    weather = Weather(
+        city_name,
+        country_name,
+        longitude,
+        latitude,
+        temperature,
+        min_temperatur,
+        max_temperatur,
+        humidity,
+        wind_speed,
+        main_weather_condition,
+        description,
+        air_pollution,
+        icon_id,
+    )
+
+    # print(weather.city_name)
+    # print(weather.country_name)
+    # print(weather.latitude)
+    # print(weather.longitude)
+    # print(weather.temperature)
+    # print(weather.min_temperatur)
+    # print(weather.max_temperatur)
+    # print(weather.humidity)
+    # print(weather.wind_speed)
+    # print(weather.main_weather_condition)
+    # print(weather.description)
+    # print(weather.air_pollution)
+    # print(weather.icon_id)
+    # return f"{weather}"
+
+    if weather:
+        return render_template("index.html", weather_data=weather)
+    else:
+        return render_template("index.html", error_message="City not found")
+
+
+if __name__ == "__main__":
+    app.run(host="lacalhost", port=5000)

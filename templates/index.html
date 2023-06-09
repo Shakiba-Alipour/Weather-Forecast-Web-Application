@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Weather Forcast</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="web_app.js"></script>
+  </head>
+
+  <body>
+    <form action="/index" method="post">
+      <input
+        type="text"
+        id="search"
+        name="city_name"
+        placeholder="City Name"
+        required
+      />
+      <button type="submit">Get weather data</button>
+    </form>
+    <h2>Weather in {{ weather_data }}</h2>
+    <p>Temperature: {{ weather_data }}°C</p>
+    <p>{{ error_message }}</p>
+  </body>
+</html>
