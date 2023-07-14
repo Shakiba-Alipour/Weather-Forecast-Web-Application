@@ -1,14 +1,16 @@
 import requests
 import json
-from flask import Flask, render_template, request
+import subprocess
+from flask import Flask, jsonify, render_template, request
 
 
 app = Flask(__name__)
 
 
-# @app.route("/")
-# def home():
-#     return render_template("index.html")
+# Serve the HTML file from the "template" package
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 class Weather:
@@ -43,88 +45,108 @@ class Weather:
         self.icon_id = icon_id
 
 
-@app.route("/index", methods=["POST", "GET"])
+@app.route("/static/weather_forcast", methods=["POST", "GET"])
 # a function to get weather data from openweathermap.org
 def get_weather_data():
-    city_name = request.form.get("city_name")
+    # subprocess.run(["python", __file__])
 
-    api_key = "6e10fbb861b606deeab532507ffcb0d7"
+    if request.method == "POST":
+        city_name = request.args.get("city_name")
 
-    # Base URL for the OpenWeatherMap API
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+        api_key = "6e10fbb861b606deeab532507ffcb0d7"
 
-    # Weather API
-    weather_url = base_url + "appid=" + api_key + "&q=" + city_name
+        # Base URL for the OpenWeatherMap API
+        base_url = "http://api.openweathermap.org/data/2.5/weather?"
 
-    # API call
-    response = requests.get(weather_url)
+        # Weather API
+        weather_url = base_url + "appid=" + api_key + "&q=" + city_name
 
-    # Convert the JSON response to a Python dictionary
-    data = json.loads(response.text)
+        # API call
+        response = requests.get(weather_url)
 
-    # Get latitude and longitude
-    longitude = data["coord"]["lon"]
-    latitude = data["coord"]["lat"]
+        # Convert the JSON response to a Python dictionary
+        data = json.loads(response.text)
 
-    # Extract relevant weather data
-    # Convert temperature from Kelvin to Celsius
-    temperature = round(data["main"]["temp"] - 273.15, 2)
-    min_temperatur = round(data["main"]["temp_min"] - 273.15, 2)
-    max_temperatur = round(data["main"]["temp_max"] - 273.15, 2)
-    humidity = data["main"]["humidity"]
-    wind_speed = data["wind"]["speed"]
-    main_weather_condition = data["weather"][0]["main"]
-    description = data["weather"][0]["description"]
-    country_name = data["sys"]["country"]
-    icon_id = data["weather"][0]["id"]
+        # Get latitude and longitude
+        longitude = data["coord"]["lon"]
+        latitude = data["coord"]["lat"]
 
-    # Air pollution API
-    air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
-    response = requests.get(air_pollution_url)
+        # Extract relevant weather data
+        # Convert temperature from Kelvin to Celsius
+        temperature = round(data["main"]["temp"] - 273.15, 2)
+        min_temperatur = round(data["main"]["temp_min"] - 273.15, 2)
+        max_temperatur = round(data["main"]["temp_max"] - 273.15, 2)
+        humidity = data["main"]["humidity"]
+        wind_speed = data["wind"]["speed"]
+        main_weather_condition = data["weather"][0]["main"]
+        description = data["weather"][0]["description"]
+        country_name = data["sys"]["country"]
+        icon_id = data["weather"][0]["id"]
 
-    # Parse the JSON response
-    data = json.loads(response.text)
+        # Air pollution API
+        air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
+        response = requests.get(air_pollution_url)
 
-    air_pollution = data["list"][0]["main"][
-        "aqi"
-    ]  # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+        # Parse the JSON response
+        data = json.loads(response.text)
 
-    weather = Weather(
-        city_name,
-        country_name,
-        longitude,
-        latitude,
-        temperature,
-        min_temperatur,
-        max_temperatur,
-        humidity,
-        wind_speed,
-        main_weather_condition,
-        description,
-        air_pollution,
-        icon_id,
-    )
+        air_pollution = data["list"][0]["main"][
+            "aqi"
+        ]  # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
-    # print(weather.city_name)
-    # print(weather.country_name)
-    # print(weather.latitude)
-    # print(weather.longitude)
-    # print(weather.temperature)
-    # print(weather.min_temperatur)
-    # print(weather.max_temperatur)
-    # print(weather.humidity)
-    # print(weather.wind_speed)
-    # print(weather.main_weather_condition)
-    # print(weather.description)
-    # print(weather.air_pollution)
-    # print(weather.icon_id)
-    # return f"{weather}"
+        # weather = Weather(
+        #     city_name,
+        #     country_name,
+        #     longitude,
+        #     latitude,
+        #     temperature,
+        #     min_temperatur,
+        #     max_temperatur,
+        #     humidity,
+        #     wind_speed,
+        #     main_weather_condition,
+        #     description,
+        #     air_pollution,
+        #     icon_id,
+        # )
 
-    if weather:
-        return render_template("index.html", weather_data=weather)
-    else:
-        return render_template("index.html", error_message="City not found")
+        weather = {
+            "city": city_name,
+            "country": country_name,
+            "longitude": longitude,
+            "latitude": latitude,
+            "temp": temperature,
+            "min_temp": min_temperatur,
+            "max_temp": max_temperatur,
+            "humidity": humidity,
+            "wind_speed": wind_speed,
+            "condition": main_weather_condition,
+            "description": description,
+            "air_pollution": air_pollution,
+            "icon_id": icon_id,
+        }
+
+        # print(weather.city_name)
+        # print(weather.country_name)
+        # print(weather.latitude)
+        # print(weather.longitude)
+        # print(weather.temperature)
+        # print(weather.min_temperatur)
+        # print(weather.max_temperatur)
+        # print(weather.humidity)
+        # print(weather.wind_speed)
+        # print(weather.main_weather_condition)
+        # print(weather.description)
+        # print(weather.air_pollution)
+        # print(weather.icon_id)
+        # return f"{weather}"
+
+        if weather:
+            return jsonify(weather)
+            # return render_template("index.html", weather_data=weather)
+        else:
+            return jsonify({"error": "Unable to fetch weather data."})
 
 
 if __name__ == "__main__":
-    app.run(host="lacalhost", port=5000)
+    app.run(host="127.0.0.1", port=500, debug=True, threaded=True)

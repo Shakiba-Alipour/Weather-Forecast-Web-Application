@@ -2,10 +2,9 @@
 
 <html>
   <head>
-    <title>Weather Forcast</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>WeatherSense</title>
     <!-- <script src="web_app.js"></script> -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -24,7 +23,7 @@
         <p id="open-about-popup">About</p>
       </div>
     </header>
-    <form action="/index" method="post">
+    <form method="post">
       <div id="search-bar">
         <button type="submit" id="search-icon">
           <i class="material-icons">search</i>
@@ -134,7 +133,7 @@
     <p>Temperature: {{ weather_data }}°C</p>
     <p>{{ error_message }}</p> -->
 
-    <script src="web_app.js"></script>
+    <script src="static/script.js"></script>
   </body>
 </html>
 
