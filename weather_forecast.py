@@ -1,7 +1,13 @@
 import requests
 import json
-import subprocess
 from flask import Flask, jsonify, render_template, request
+import http.server
+import socketserver
+
+# Define the proxy server settings
+proxy_port = 8000
+api_host = "openweathermap.org"
+api_port = 80
 
 
 app = Flask(__name__)
@@ -11,6 +17,17 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+class ProxyHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        # Modify the request URL to replace the proxy host and port with the API host and port
+        self.path = self.path.replace(
+            f"http://localhost:{proxy_port}", f"http://{api_host}:{api_port}"
+        )
+
+        # Forward the request to the API server
+        return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 
 class Weather:
