@@ -1,31 +1,16 @@
 import requests
 import json
 from flask import Flask, jsonify, render_template, request
-
-# Define the proxy server settings
-# proxy_port = 8000
-# api_host = "openweathermap.org"
-# api_port = 80
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 # Serve the HTML file from the "template" package
 @app.route("/")
 def index():
     return render_template("/templates/index.html")
-
-
-# class ProxyHandler(http.server.SimpleHTTPRequestHandler):
-#     def do_GET(self):
-#         # Modify the request URL to replace the proxy host and port with the API host and port
-#         self.path = self.path.replace(
-#             f"http://localhost:{proxy_port}", f"http://{api_host}:{api_port}"
-#         )
-
-#         # Forward the request to the API server
-#         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 
 class Weather:
@@ -63,8 +48,6 @@ class Weather:
 @app.route("/weather", methods=["POST", "GET"])
 # a function to get weather data from openweathermap.org
 def get_weather_data():
-    # subprocess.run(["python", __file__])
-
     if request.method == "GET":
         city_name = request.args.get("city_name")
 
