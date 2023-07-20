@@ -54,7 +54,7 @@ def get_weather_data():
         api_key = "6e10fbb861b606deeab532507ffcb0d7"
 
         # Base URL for the OpenWeatherMap API
-        base_url = "http://api.openweathermap.org/data/2.5/weather?"
+        base_url = "https://api.openweathermap.org/data/2.5/weather?"
 
         # Weather API
         weather_url = base_url + "appid=" + api_key + "&q=" + city_name
@@ -82,7 +82,7 @@ def get_weather_data():
         icon_id = data["weather"][0]["id"]
 
         # Air pollution API
-        air_pollution_url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
+        air_pollution_url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
         response = requests.get(air_pollution_url)
 
         # Parse the JSON response

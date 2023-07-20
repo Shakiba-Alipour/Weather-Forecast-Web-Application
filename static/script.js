@@ -13,7 +13,7 @@ document.getElementById("close-popup").addEventListener("click", function () {
 document.getElementById("search-icon").addEventListener("click", function () {
   var city_name = document.getElementById("search-input").value;
   // Fetch weather data from the server
-  fetch(`/weather?city=${encodeURIComponent(city_name)}`)
+  fetch(`https://localhost:5500/weather?city=${encodeURIComponent(city_name)}`)
     .then((response) => response.json())
     .then((data) => {
       // const weatherInfo = document.getElementById('weather-info');
@@ -26,11 +26,9 @@ document.getElementById("search-icon").addEventListener("click", function () {
       // descriptionElement.textContent = data.description;
 
       // weatherInfo.style.display = 'block';
-      console.log("finallllllyyyyyyy done");
       document.getElementById("open-about-popup").click;
     })
     .catch((error) => {
-      console.error("Error fetching weather data:", error);
       alert("Failed to fetch weather data.");
     });
 });

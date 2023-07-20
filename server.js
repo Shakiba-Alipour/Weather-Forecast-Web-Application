@@ -1,9 +1,12 @@
+const https = require("https");
+const fs = require("fs");
 const express = require("express");
 const { spawn } = require("child_process");
 const app = express();
+const path = require("path");
 
 // Allow cross-origin requests (if needed)
-app.use(function (req, res, next) {
+app.use(function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -13,7 +16,7 @@ app.use(function (req, res, next) {
 });
 
 // Route to fetch weather data from Python script
-app.get("/weather", (req, res) => {
+app.get("/weather", (_req, res) => {
   const pythonProcess = spawn("python", ["weather_forecast.py"]);
   let weatherData = "";
 
@@ -34,5 +37,16 @@ app.get("/weather", (req, res) => {
 
 const port = 5500;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on https://localhost:${port}`);
+});
+
+// Configure the options for the HTTPS server
+const options = {
+  key: fs.readFileSync(path.resolve(__dirname, "privatekey.pem")),
+  cert: fs.readFileSync(path.resolve(__dirname, "certificate.pem")),
+};
+
+// Create the HTTPS server
+https.createServer(options, app).listen(port, () => {
+  console.log(`Server is running on https://localhost:${port}`);
 });
