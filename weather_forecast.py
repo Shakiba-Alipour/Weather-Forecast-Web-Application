@@ -2,7 +2,6 @@ import requests
 import json
 from flask import Flask, jsonify, render_template, request
 import http.server
-import socketserver
 
 # Define the proxy server settings
 proxy_port = 8000
@@ -16,18 +15,18 @@ app = Flask(__name__)
 # Serve the HTML file from the "template" package
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("/templates/index.html")
 
 
-class ProxyHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        # Modify the request URL to replace the proxy host and port with the API host and port
-        self.path = self.path.replace(
-            f"http://localhost:{proxy_port}", f"http://{api_host}:{api_port}"
-        )
+# class ProxyHandler(http.server.SimpleHTTPRequestHandler):
+#     def do_GET(self):
+#         # Modify the request URL to replace the proxy host and port with the API host and port
+#         self.path = self.path.replace(
+#             f"http://localhost:{proxy_port}", f"http://{api_host}:{api_port}"
+#         )
 
-        # Forward the request to the API server
-        return http.server.SimpleHTTPRequestHandler.do_GET(self)
+#         # Forward the request to the API server
+#         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 
 class Weather:
@@ -67,7 +66,7 @@ class Weather:
 def get_weather_data():
     # subprocess.run(["python", __file__])
 
-    if request.method == "POST":
+    if request.method == "GET":
         city_name = request.args.get("city_name")
 
         api_key = "6e10fbb861b606deeab532507ffcb0d7"
@@ -143,27 +142,12 @@ def get_weather_data():
             "icon_id": icon_id,
         }
 
-        # print(weather.city_name)
-        # print(weather.country_name)
-        # print(weather.latitude)
-        # print(weather.longitude)
-        # print(weather.temperature)
-        # print(weather.min_temperatur)
-        # print(weather.max_temperatur)
-        # print(weather.humidity)
-        # print(weather.wind_speed)
-        # print(weather.main_weather_condition)
-        # print(weather.description)
-        # print(weather.air_pollution)
-        # print(weather.icon_id)
-        # return f"{weather}"
-
         if weather:
             return jsonify(weather)
             # return render_template("index.html", weather_data=weather)
         else:
-            return jsonify({"error": "Unable to fetch weather data."})
+            return jsonify(error="Unable to fetch weather data.")
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=500, debug=True, threaded=True)
+    app.run(host="127.0.0.1", port=5000, debug=True, threaded=True)
