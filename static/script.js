@@ -13,7 +13,7 @@ document.getElementById("close-popup").addEventListener("click", function () {
 document.getElementById("search-icon").addEventListener("click", function () {
   var city_name = document.getElementById("search-input").value;
   // Fetch weather data from the server
-  fetch(`/static/weather_forcast?city=${encodeURIComponent(city_name)}`)
+  fetch(`/weather?city=${encodeURIComponent(city_name)}`)
     .then((response) => response.json())
     .then((data) => {
       // const weatherInfo = document.getElementById('weather-info');

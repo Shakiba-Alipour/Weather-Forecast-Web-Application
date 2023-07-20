@@ -1,12 +1,11 @@
 import requests
 import json
 from flask import Flask, jsonify, render_template, request
-import http.server
 
 # Define the proxy server settings
-proxy_port = 8000
-api_host = "openweathermap.org"
-api_port = 80
+# proxy_port = 8000
+# api_host = "openweathermap.org"
+# api_port = 80
 
 
 app = Flask(__name__)
@@ -61,7 +60,7 @@ class Weather:
         self.icon_id = icon_id
 
 
-@app.route("/static/weather_forcast", methods=["POST", "GET"])
+@app.route("/weather", methods=["POST", "GET"])
 # a function to get weather data from openweathermap.org
 def get_weather_data():
     # subprocess.run(["python", __file__])

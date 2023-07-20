@@ -1,5 +1,5 @@
-import express from "express";
-import { spawn } from "child_process";
+const express = require("express");
+const { spawn } = require("child_process");
 const app = express();
 
 // Allow cross-origin requests (if needed)
@@ -13,7 +13,7 @@ app.use(function (req, res, next) {
 });
 
 // Route to fetch weather data from Python script
-app.get("/static/weather_forcast", (req, res) => {
+app.get("/weather", (req, res) => {
   const pythonProcess = spawn("python", ["weather_forecast.py"]);
   let weatherData = "";
 
@@ -32,7 +32,7 @@ app.get("/static/weather_forcast", (req, res) => {
   });
 });
 
-const port = 3000;
+const port = 5500;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
