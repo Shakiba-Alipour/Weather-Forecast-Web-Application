@@ -14,7 +14,7 @@ document.getElementById("search-icon").addEventListener("click", function () {
   var city_name = document.getElementById("search-input").value;
   // Fetch weather data from the server
   var api_url =
-    "https://localhost:5500/weather?city=$%7BencodeURIComponent(city_name)";
+    "https://localhost:5500/weather?city=${encodeURIComponent(cityName)}";
   fetch(api_url)
     .then((response) => response.json())
     .then((data) => {
