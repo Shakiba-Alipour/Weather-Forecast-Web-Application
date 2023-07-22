@@ -36,9 +36,6 @@ app.get("/weather", (_req, res) => {
 });
 
 const port = 5500;
-app.listen(port, () => {
-  console.log(`Server is running on https://localhost:${port}`);
-});
 
 // Configure the options for the HTTPS server
 const options = {
