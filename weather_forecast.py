@@ -28,6 +28,7 @@ class Weather:
         main_weather_condition,
         description,
         air_pollution,
+        next_five_days,
         icon_id,
     ):
         self.city_name = city_name
@@ -42,6 +43,7 @@ class Weather:
         self.main_weather_condition = main_weather_condition
         self.description = description
         self.air_pollution = air_pollution  # Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+        self.next_five_days = next_five_days
         self.icon_id = icon_id
 
 
@@ -85,6 +87,17 @@ def get_weather_data():
         air_pollution_url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={api_key}"
         response = requests.get(air_pollution_url)
 
+        # Extract forecast for next 5 days (index 1 to 5)
+        forecast = data["daily"][1:6]
+        next_five_days = []
+        for day in forecast:
+            date = day["dt"]
+            min_temp = day["temp"]["min"]
+            max_temp = day["temp"]["max"]
+            next_five_days.append(
+                {"date": date, "min_temp": min_temp, "max_temp": max_temp}
+            )
+
         # Parse the JSON response
         data = json.loads(response.text)
 
@@ -105,6 +118,7 @@ def get_weather_data():
         #     main_weather_condition,
         #     description,
         #     air_pollution,
+        #     next_five_days,
         #     icon_id,
         # )
 
@@ -121,6 +135,7 @@ def get_weather_data():
             "condition": main_weather_condition,
             "description": description,
             "air_pollution": air_pollution,
+            "next_five_days": next_five_days,
             "icon_id": icon_id,
         }
 
