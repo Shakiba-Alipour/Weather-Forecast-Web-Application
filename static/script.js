@@ -14,11 +14,11 @@ document.getElementById("search-icon").addEventListener("click", function () {
   var city_name = document.getElementById("search-input").value;
   // Fetch weather data from the server
   var api_url =
-    "https://localhost:5500/weather?city=${encodeURIComponent(cityName)}";
+    "https://127.0.0.1:5500/weather?city=" + encodeURIComponent(city_name);
   fetch(api_url)
     .then((response) => response.json())
     .then((data) => {
-      console.log("Done");
+      alert("done");
       // change the location of the search bar
       const search_bar = document.getElementsByTagName("form");
       const header = document.getElementById("header");
@@ -38,6 +38,6 @@ document.getElementById("search-icon").addEventListener("click", function () {
       // weatherInfo.style.display = "block";
     })
     .catch((error) => {
-      alert("Failed to fetch weather data.");
+      alert("Failed to fetch weather data: " + error.message);
     });
 });

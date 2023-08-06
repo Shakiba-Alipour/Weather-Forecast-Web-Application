@@ -39,11 +39,12 @@ const port = 5500;
 
 // Configure the options for the HTTPS server
 const options = {
+  // Path to SSL certificate files
   key: fs.readFileSync(path.resolve(__dirname, "privatekey.pem")),
   cert: fs.readFileSync(path.resolve(__dirname, "certificate.pem")),
 };
 
 // Create the HTTPS server
 https.createServer(options, app).listen(port, () => {
-  console.log(`Server is running on https://localhost:${port}`);
+  console.log(`Server is running on https://127.0.0.1:${port}`);
 });
