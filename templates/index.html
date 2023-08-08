@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Welcome to Firebase Hosting</title>
+    <title>WeatherForecast</title>
+
+    <!-- FireBase Configuration -->
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/10.1.0/firebase-app-compat.js"></script>
@@ -44,84 +46,181 @@
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-    <style media="screen">
-      body {
-        background: #eceff1;
-        color: rgba(0, 0, 0, 0.87);
-        font-family: Roboto, Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      #message {
-        background: white;
-        max-width: 360px;
-        margin: 100px auto 16px;
-        padding: 32px 24px;
-        border-radius: 3px;
-      }
-      #message h2 {
-        color: #ffa100;
-        font-weight: bold;
-        font-size: 16px;
-        margin: 0 0 8px;
-      }
-      #message h1 {
-        font-size: 22px;
-        font-weight: 300;
-        color: rgba(0, 0, 0, 0.6);
-        margin: 0 0 16px;
-      }
-      #message p {
-        line-height: 140%;
-        margin: 16px 0 24px;
-        font-size: 14px;
-      }
-      #message a {
-        display: block;
-        text-align: center;
-        background: #039be5;
-        text-transform: uppercase;
-        text-decoration: none;
-        color: white;
-        padding: 16px;
-        border-radius: 4px;
-      }
-      #message,
-      #message a {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      }
-      #load {
-        color: rgba(0, 0, 0, 0.4);
-        text-align: center;
-        font-size: 13px;
-      }
-      @media (max-width: 600px) {
-        body,
-        #message {
-          margin-top: 0;
-          background: white;
-          box-shadow: none;
-        }
-        body {
-          border-top: 16px solid #ffa100;
-        }
-      }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-..."
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>
-        You're seeing this because you've successfully setup Firebase Hosting.
-        Now it's time to go build something extraordinary!
-      </p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/"
-        >Open Hosting Documentation</a
-      >
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <header>
+      <div id="header">
+        <p id="open-about-popup">About</p>
+      </div>
+    </header>
 
+    <form>
+      <div id="search-bar">
+        <button type="submit" id="search-icon">
+          <i class="material-icons">search</i>
+        </button>
+        <input
+          id="search-input"
+          type="text"
+          name="city_name"
+          placeholder="Type your city name"
+          required
+        />
+      </div>
+    </form>
+
+    <!-- About Popup -->
+    <div id="about-popup" class="popup">
+      <div id="about-content">
+        <button id="close-popup">
+          <i class="material-icons">close</i>
+        </button>
+        <p>
+          <span id="web-name">WeatherForecast</span>
+          is an
+          <a
+            href="https://github.com/Shakiba-Alipour/Weather-Forcast-Web-Application"
+            target="_blank"
+            >open-source</a
+          >
+          cutting-edge web application that brings you the power of weather
+          knowledge at your fingertips. With its intuitive design and real-time
+          data, WeatherForecast is your ultimate guide to staying informed about
+          the ever-changing weather conditions around you. Powered by the
+          trusted
+          <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>
+          API, WeatherForecast delivers accurate and up-to-date forecasts to
+          help you plan your day with confidence.
+        </p>
+        <h4>Key Features:</h4>
+        <ul id="features">
+          <li class="feature">
+            Real-time Weather Updates: WeatherForecast harnesses the OpenWeather
+            API to provide you with real-time weather updates for your location.
+            Stay informed about temperature, humidity, wind speed,
+            precipitation, and more, all delivered with precision and
+            reliability.
+          </li>
+          <li class="feature">
+            Intuitive and User-Friendly Interface: Designed with simplicity in
+            mind, WeatherForecast offers an intuitive interface that is easy to
+            navigate, ensuring a seamless user experience. Whether you're a
+            weather enthusiast or a casual user, you'll appreciate the app's
+            user-friendly design that makes accessing weather information a
+            breeze.
+          </li>
+          <li class="feature">
+            Historical Weather Data: Unlock valuable insights with access to
+            historical weather data. WeatherForecast allows you to explore past
+            weather patterns and trends, enabling you to analyze climate
+            conditions for specific dates or periods. Plan your future
+            activities based on a thorough understanding of past weather
+            occurrences.
+          </li>
+          <li class="feature">
+            Cross-Platform Compatibility: Access WeatherForecast seamlessly
+            across multiple devices, including desktops, laptops, tablets, and
+            smartphones. Whether you're at home, on the go, or in the office,
+            you can rely on WeatherForecast to keep you informed about the
+            weather conditions wherever you are.
+          </li>
+        </ul>
+        <p>
+          WeatherForecast is built upon the OpenWeather API, a trusted source of
+          weather data that ensures the utmost accuracy and reliability. With
+          WeatherForecast, you can make informed decisions, plan your
+          activities, and stay prepared for whatever Mother Nature has in store.
+          Experience the power of WeatherForecast today and never be caught off
+          guard by the weather again. It's time to embrace weather intelligence
+          and let WeatherForecast be your ultimate weather companion!
+        </p>
+      </div>
+    </div>
+
+    <!-- <div id="result-section">
+      <div id="today">
+        <ul>
+          <li>
+            <i class="material-icons">cloud</i>
+          </li>
+          <li>
+            <ul>
+              <li id="location">Tehran - Iran</li>
+              <li id="temp">30 &#8451</li>
+            </ul>
+          </li>
+        </ul>
+
+    </div>
+
+      <div id="forecast">
+        <div class="next-days">
+            <i class="material-icons">search</i>
+            <p>day 1</p>
+            <p>max temp</p>
+            <p>min temp</p>
+        </div>
+        <div class="next-days">
+            <i class="material-icons">search</i>
+            <p>day 2</p>
+            <p>max temp</p>
+            <p>min temp</p>
+        </div>
+        <div class="next-days">
+            <i class="material-icons">search</i>
+            <p>day 3</p>
+            <p>max temp</p>
+            <p>min temp</p>
+        </div>
+        <div class="next-days">
+            <i class="material-icons">search</i>
+            <p>day 4</p>
+            <p>max temp</p>
+            <p>min temp</p>
+        </div>
+        <div class="next-days">
+            <i class="material-icons">search</i>
+            <p>day 5</p>
+            <p>max temp</p>
+            <p>min temp</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="description-section">
+        <div class="feature">
+            <p>humidity</p>
+        </div>
+        <div class="feature">
+            <p>wind speed</p>
+        </div>
+        <div class="feature">
+            <p>main condition</p>
+        </div>
+        <div class="feature">
+            <p>air pollution</p>
+        </div>
+        <div class="feature">
+            <p>description</p>
+        </div>
+    </div> -->
+
+    <!-- Javascript -->
+    <script src="script.js"></script>
+
+    <!-- Firebase -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const loadEl = document.querySelector("#load");
