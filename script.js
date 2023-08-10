@@ -46,66 +46,64 @@ async function getWeatherData(city_name) {
       }
       return response.json(); // Parse response as JSON
     })
-    .then((data) => {
+    .then(async (data) => {
       alert("API response:", data);
-      // Process the data here
+
+      // Extract relevant weather data
+      // Convert temperature from Kelvin to Celsius
+
+      const longitude = data.coord.lon;
+      const latitude = data.coord.lat;
+      const temperature = round(data.main.temp - 273.15, 2);
+      const min_temperature = round(data.main.temp_min - 273.15, 2);
+      const max_temperature = round(data.main.temp_max - 273.15, 2);
+      const humidity = data.main.humidity;
+      const wind_speed = data.wind.speed;
+      const main_weather_condition = data.weather[0].main;
+      const description = data.weather[0].description;
+      const country_name = data.sys.country;
+      const icon_id = data.weather[0].id;
+
+      // Air pollution API
+      const air_pollution_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
+      const air_pollution_response = await fetch(air_pollution_url);
+      const air_pollution_data = await air_pollution_response.json();
+      const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+
+      // Extract forecast for next 5 days (index 1 to 5)
+      const forecast_url = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
+      const forecast_response = await fetch(forecast_url);
+      const forecast_data = await forecast_response.json();
+      const forecast = await forecast_data.daily.slice(1, 6).map((day) => {
+        return {
+          date: day.dt,
+          min_temp: day.temp.min,
+          max_temp: day.temp.max,
+        };
+      });
+
+      const weather = new Weather(
+        city_name,
+        country_name,
+        longitude,
+        latitude,
+        temperature,
+        min_temperature,
+        max_temperature,
+        humidity,
+        wind_speed,
+        main_weather_condition,
+        description,
+        air_pollution,
+        forecast,
+        icon_id
+      );
+
+      return weather;
     })
     .catch((error) => {
       alert("error: ", error);
     });
-
-  // Extract relevant weather data
-  // Convert temperature from Kelvin to Celsius
-  // const data = response.json();
-
-  const longitude = data.coord.lon;
-  const latitude = data.coord.lat;
-  const temperature = round(data.main.temp - 273.15, 2);
-  const min_temperature = round(data.main.temp_min - 273.15, 2);
-  const max_temperature = round(data.main.temp_max - 273.15, 2);
-  const humidity = data.main.humidity;
-  const wind_speed = data.wind.speed;
-  const main_weather_condition = data.weather[0].main;
-  const description = data.weather[0].description;
-  const country_name = data.sys.country;
-  const icon_id = data.weather[0].id;
-
-  // Air pollution API
-  const air_pollution_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
-  const air_pollution_response = await fetch(air_pollution_url);
-  const air_pollution_data = await air_pollution_response.json();
-  const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
-
-  // Extract forecast for next 5 days (index 1 to 5)
-  const forecast_url = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
-  const forecast_response = await fetch(forecast_url);
-  const forecast_data = await forecast_response.json();
-  const forecast = await forecast_data.daily.slice(1, 6).map((day) => {
-    return {
-      date: day.dt,
-      min_temp: day.temp.min,
-      max_temp: day.temp.max,
-    };
-  });
-
-  const weather = new Weather(
-    city_name,
-    country_name,
-    longitude,
-    latitude,
-    temperature,
-    min_temperature,
-    max_temperature,
-    humidity,
-    wind_speed,
-    main_weather_condition,
-    description,
-    air_pollution,
-    forecast,
-    icon_id
-  );
-
-  return weather;
 }
 
 // about popup management
