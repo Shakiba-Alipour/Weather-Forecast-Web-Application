@@ -47,6 +47,7 @@ async function getWeatherData(city_name) {
       return response.json(); // Parse response as JSON
     })
     .then(async (data) => {
+      console.log(data);
       alert("API response:", data);
 
       // Extract relevant weather data
