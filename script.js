@@ -37,9 +37,15 @@ class Weather {
 function getWeatherData(city_name) {
   // connect API
   const apiKey = "6e10fbb861b606deeab532507ffcb0d7";
-  const response = fetch(
+  fetch(
     `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${city_name}`
   )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      // return response.json(); // Parse response as JSON
+    })
     .then((data) => {
       console.log("API response:", data);
       // Process the data here
