@@ -44,7 +44,7 @@ function getWeatherData(city_name) {
       if (!response.ok) {
         console.log(`API request failed with status ${response.status}`);
       }
-      // return response.json(); // Parse response as JSON
+      return response.json(); // Parse response as JSON
     })
     .then((data) => {
       console.log("API response:", data);
@@ -56,7 +56,7 @@ function getWeatherData(city_name) {
 
   // Extract relevant weather data
   // Convert temperature from Kelvin to Celsius
-  const data = response.json();
+  // const data = response.json();
 
   const longitude = data.coord.lon;
   const latitude = data.coord.lat;
