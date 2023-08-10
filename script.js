@@ -34,10 +34,10 @@ class Weather {
 }
 
 // get weather data method
-async function getWeatherData(city_name) {
+function getWeatherData(city_name) {
   // connect API
   const apiKey = "6e10fbb861b606deeab532507ffcb0d7";
-  const response = await fetch(
+  const response = fetch(
     `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${city_name}`
   )
     .then((data) => {
@@ -50,7 +50,7 @@ async function getWeatherData(city_name) {
 
   // Extract relevant weather data
   // Convert temperature from Kelvin to Celsius
-  const data = await response.json();
+  const data = response.json();
 
   const longitude = data.coord.lon;
   const latitude = data.coord.lat;
