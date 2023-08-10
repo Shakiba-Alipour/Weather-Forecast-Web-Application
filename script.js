@@ -34,10 +34,10 @@ class Weather {
 }
 
 // get weather data method
-function getWeatherData(city_name) {
+async function getWeatherData(city_name) {
   // connect API
   const apiKey = "6e10fbb861b606deeab532507ffcb0d7";
-  fetch(
+  await fetch(
     `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${city_name}`
   )
     .then((response) => {
@@ -72,15 +72,15 @@ function getWeatherData(city_name) {
 
   // Air pollution API
   const air_pollution_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
-  const air_pollution_response = fetch(air_pollution_url);
-  const air_pollution_data = air_pollution_response.json();
+  const air_pollution_response = await fetch(air_pollution_url);
+  const air_pollution_data = await air_pollution_response.json();
   const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
   // Extract forecast for next 5 days (index 1 to 5)
   const forecast_url = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
-  const forecast_response = fetch(forecast_url);
-  const forecast_data = forecast_response.json();
-  const forecast = forecast_data.daily.slice(1, 6).map((day) => {
+  const forecast_response = await fetch(forecast_url);
+  const forecast_data = await forecast_response.json();
+  const forecast = await forecast_data.daily.slice(1, 6).map((day) => {
     return {
       date: day.dt,
       min_temp: day.temp.min,
