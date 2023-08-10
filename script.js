@@ -36,9 +36,9 @@ class Weather {
 // get weather data method
 async function getWeatherData(city_name) {
   // connect API
-  const apiKey = "6e10fbb861b606deeab532507ffcb0d7";
+  const api_key = "6e10fbb861b606deeab532507ffcb0d7";
   await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${city_name}`
+    `https://api.openweathermap.org/data/2.5/weather?appid=${api_key}&q=${city_name}`
   )
     .then((response) => {
       if (!response.ok) {
