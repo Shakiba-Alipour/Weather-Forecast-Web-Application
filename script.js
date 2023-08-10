@@ -42,7 +42,7 @@ function getWeatherData(city_name) {
   )
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+        console.log(`API request failed with status ${response.status}`);
       }
       // return response.json(); // Parse response as JSON
     })
