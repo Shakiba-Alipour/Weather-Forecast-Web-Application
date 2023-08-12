@@ -1,5 +1,6 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const cors = require("cors"); // Import the cors module
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -55,11 +56,11 @@ app.use(express.static("public"));
 app.get("/weather", async (req, res) => {
   // connect API
   const api_key = "6e10fbb861b606deeab532507ffcb0d7";
-  const city = req.query.city_name;
+  const city_name = req.query.city;
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );
 
     if (!response.ok) {
@@ -103,7 +104,7 @@ app.get("/weather", async (req, res) => {
     });
 
     const weather = new Weather(
-      city,
+      city_name,
       country_name,
       longitude,
       latitude,
