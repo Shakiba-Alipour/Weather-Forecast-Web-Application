@@ -1,6 +1,6 @@
-const express = require("express");
-const fetch = require("node-fetch");
-const cors = require("cors"); // Import the cors module
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors"; // Import the cors module
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -120,7 +120,7 @@ app.get("/weather", async (req, res) => {
       icon_id
     );
 
-    res.json(weather); // Send the weather data as a JSON response
+    return res.json(weather); // Send the weather data as a JSON response
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }

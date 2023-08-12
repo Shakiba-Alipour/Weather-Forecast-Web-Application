@@ -123,7 +123,9 @@ document
   .getElementById("search-icon")
   .addEventListener("click", async function () {
     var city_name = document.getElementById("search-input").value;
-    const response = await fetch(`/weather?city=${city_name}`);
+    const response = await fetch(
+      `http://127.0.0.1:3000/weather?city_name=${city_name}`
+    );
     if (response.ok) {
       const weatherData = await response.json();
       // Update your UI with the weatherData
