@@ -1,8 +1,10 @@
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors"; // Import the cors module
+import https from "https";
+import fs from "fs";
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 class Weather {
   constructor(
@@ -38,17 +40,50 @@ class Weather {
   }
 }
 
+// use SSL/TLS certificates
+const options = {
+  key: fs.readFileSync("key.pem"), // Private Key file
+  cert: fs.readFileSync("cert.pem"), // Certificate file
+  passphrase: "shakiba", // Passphrase used to encrypt the private key
+};
+
+app.get("/", (req, res) => {
+  res.send("Hello, Weather App (HTTPS)!");
+});
+
+const server = https.createServer(options, app);
+
 // Set up CORS to allow requests from your Glitch app's domain
-app.use(cors());
+// app.use(cors());
+const corsOpts = {
+  origin: "*",
+
+  methods: ["GET", "POST"],
+
+  allowedHeaders: ["Content-Type"],
+};
+
+app.use(cors(corsOpts));
+// app.use((req, res, next) => {
+//   //allow access from every, elminate CORS
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.removeHeader("x-powered-by");
+//   //set the allowed HTTP methods to be requested
+//   res.setHeader("Access-Control-Allow-Methods", "POST");
+//   //headers clients can use in their requests
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//   //allow request to continue and be handled by routes
+//   next();
+// });
 
 // Redirect HTTP requests to HTTPS
-app.use((req, res, next) => {
-  if (req.header("x-forwarded-proto") !== "https") {
-    res.redirect(`https://${req.header("host")}${req.url}`);
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.header("x-forwarded-proto") !== "https") {
+//     res.redirect(`https://${req.header("host")}${req.url}`);
+//   } else {
+//     next();
+//   }
+// });
 
 // Serve static files (HTML, CSS, JS) from the "public" directory
 app.use(express.static("public"));
@@ -62,7 +97,7 @@ app.get("/weather", async (req, res) => {
   try {
     console.log("in try block");
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
+      `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );
 
     if (!response.ok) {
@@ -128,6 +163,9 @@ app.get("/weather", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+server.listen(PORT, () => {
+  console.log("Server is running (HTTPS)");
 });
