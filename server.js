@@ -56,9 +56,11 @@ app.use(express.static("public"));
 app.get("/weather", async (req, res) => {
   // connect API
   const api_key = "6e10fbb861b606deeab532507ffcb0d7";
-  const city_name = req.query.city;
+  const city_name = req.query.city_name;
+  console.log("nodejs");
 
   try {
+    console.log("in try block");
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );

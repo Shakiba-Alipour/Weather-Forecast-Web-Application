@@ -123,15 +123,17 @@ document
   .getElementById("search-icon")
   .addEventListener("click", async function () {
     var city_name = document.getElementById("search-input").value;
+    // var city = document.querySelector("input").value;
     const response = await fetch(
       `http://127.0.0.1:3000/weather?city_name=${city_name}`
     );
+    console.log("not a loop");
     if (response.ok) {
       const weatherData = await response.json();
       // Update your UI with the weatherData
-      alert("Weather data:", weatherData);
+      console.log("Weather data:", weatherData);
     } else {
-      alert("API request failed with status:", response.status);
+      console.log("API request failed with status:", response.status);
     }
     // getWeatherData(city_name)
     //   .then((data) => {
