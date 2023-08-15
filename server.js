@@ -151,8 +151,6 @@ app.get("/weather", async (req, res) => {
 
     // parse the JSON response from the API call and assigns it to the data variable
     const data = await response.json();
-    //  send the data object as the JSON response from Node.js server to the client making the request
-    res.json(data);
 
     // Extract relevant weather data
     // Convert temperature from Kelvin to Celsius
@@ -222,7 +220,10 @@ app.get("/weather", async (req, res) => {
       feels_like
     );
 
-    return res.json(weather); // Send the weather data as a JSON response
+    //  send the weather as the JSON response from Node.js server to the client making the request
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(weather));
+    return res.json(weather);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
