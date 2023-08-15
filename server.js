@@ -110,7 +110,7 @@ app.get("/weather", async (req, res) => {
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     } else {
-      console.log("successful fetching");
+      console.log("API request succeed");
     }
 
     // parse the JSON response from the API call and assigns it to the data variable
