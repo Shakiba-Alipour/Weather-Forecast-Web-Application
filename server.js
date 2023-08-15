@@ -42,6 +42,55 @@ class Weather {
   }
 }
 
+// store all data about 5 days
+class Five_days_forecast {
+  constructor() {
+    this.days = new Map(); //key: day, value: array of data on that name(each 3 hours)
+  }
+
+  // add data for a day
+  async push_day_data(
+    month_name,
+    day_name,
+    hour,
+    min_temp,
+    max_temp,
+    main_weather_condition,
+    description
+  ) {
+    let day_info;
+    if (this.days.has(day_name)) {
+      day_info = this.days.get(day_name);
+    } else {
+      day_info = [];
+    }
+    day_info.push([
+      month_name,
+      hour,
+      min_temp,
+      max_temp,
+      main_weather_condition,
+      description,
+    ]);
+    this.days.set(day_name, day_info);
+    return;
+  }
+
+  print() {
+    this.days.forEach((day_name, day_info) => {
+      console.log("day " + day_name);
+      for (let j = 0; j < day_info.length; j++) {
+        console.log("month " + day_info[j][0]);
+        console.log("hour " + day_info[j][1]);
+        console.log("min " + day_info[j][2]);
+        console.log("max " + day_info[j][3]);
+        console.log("main " + day_info[j][4]);
+        console.log("description " + day_info[j][5]);
+      }
+    });
+  }
+}
+
 // use SSL/TLS certificates
 // const options = {
 //   key: fs.readFileSync("key.pem"), // Private Key file
@@ -66,17 +115,6 @@ const corsOpts = {
 };
 
 app.use(cors(corsOpts));
-// app.use((req, res, next) => {
-//   //allow access from every, elminate CORS
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.removeHeader("x-powered-by");
-//   //set the allowed HTTP methods to be requested
-//   res.setHeader("Access-Control-Allow-Methods", "POST");
-//   //headers clients can use in their requests
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//   //allow request to continue and be handled by routes
-//   next();
-// });
 
 // Redirect HTTP requests to HTTPS
 // app.use((req, res, next) => {
@@ -94,10 +132,8 @@ app.get("/weather", async (req, res) => {
   // connect API
   const api_key = "6e10fbb861b606deeab532507ffcb0d7";
   const city_name = req.query.city_name;
-  console.log("nodejs");
 
   try {
-    console.log("in try block");
     const response = await fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );
@@ -115,36 +151,23 @@ app.get("/weather", async (req, res) => {
 
     // parse the JSON response from the API call and assigns it to the data variable
     const data = await response.json();
-    //  send the data object as the JSON response from your Node.js server to the client making the request
+    //  send the data object as the JSON response from Node.js server to the client making the request
     res.json(data);
 
     // Extract relevant weather data
     // Convert temperature from Kelvin to Celsius
-
     const longitude = data.coord.lon;
     const latitude = data.coord.lat;
-    const temperature = round(data.main.temp - 273.15, 2);
-    const min_temperature = round(data.main.temp_min - 273.15, 2);
-    const max_temperature = round(data.main.temp_max - 273.15, 2);
+    const temperature = Math.round(data.main.temp - 273.15, 2);
+    const min_temperature = Math.round(data.main.temp_min - 273.15, 2);
+    const max_temperature = Math.round(data.main.temp_max - 273.15, 2);
     const humidity = data.main.humidity;
     const wind_speed = data.wind.speed;
     const main_weather_condition = data.weather[0].main;
     const description = data.weather[0].description;
     const country_name = data.sys.country;
     const icon_id = data.weather[0].id;
-    const feels_like = data.main.feels_like;
-
-    console.log(latitude);
-    console.log(longitude);
-    console.log(temperature);
-    console.log(min_temperature);
-    console.log(max_temperature);
-    console.log(humidity);
-    console.log(wind_speed);
-    console.log(main_weather_condition);
-    console.log(description);
-    console.log(country_name);
-    console.log(icon_id);
+    const feels_like = Math.round(data.main.feels_like - 273.15, 2);
 
     // Air pollution API
     const air_pollution_url = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
@@ -153,17 +176,34 @@ app.get("/weather", async (req, res) => {
     const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
     // Extract forecast for next 5 days (index 1 to 5)
-    const forecast_url = `http://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
+    const forecast_url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
     const forecast_response = await fetch(forecast_url);
     const forecast_data = await forecast_response.json();
-    const forecast = await forecast_data.daily.slice(1, 6).map((day) => {
-      return {
-        date: day.dt,
-        min_temp: day.temp.min,
-        max_temp: day.temp.max,
-      };
-    });
+    const forecast = new Five_days_forecast();
+    for (let i = 0; i < forecast_data.list.length; i++) {
+      let item = JSON.parse(JSON.stringify(forecast_data.list))[i];
+      let date = item.dt_txt.split("-");
+      let month = date[1];
+      date = date[2].split(" ");
+      let day = date[0];
+      let time = item.dt_txt.split(":")[0].split(" ");
+      let hour = time[1];
+      let min_temp = Math.round(item.main.temp_min - 273.15, 2);
+      let max_temp = Math.round(item.main.temp_max - 273.15, 2);
+      let main_weather_condition = item.weather[0].main;
+      let description = item.weather[0].description;
+      forecast.push_day_data(
+        month,
+        day,
+        hour,
+        min_temp,
+        max_temp,
+        main_weather_condition,
+        description
+      );
+    }
 
+    // make a new object of the whole forecasting data
     const weather = new Weather(
       city_name,
       country_name,
@@ -180,36 +220,6 @@ app.get("/weather", async (req, res) => {
       forecast,
       icon_id,
       feels_like
-    );
-
-    console.log(
-      city_name +
-        "  " +
-        country_name +
-        "  " +
-        longitude +
-        "  " +
-        latitude +
-        "  " +
-        temperature +
-        "  " +
-        min_temperature +
-        "  " +
-        max_temperature +
-        "  " +
-        humidity +
-        "  " +
-        wind_speed +
-        "  " +
-        main_weather_condition +
-        "  " +
-        description +
-        "  " +
-        air_pollution +
-        "  " +
-        forecast +
-        "  " +
-        icon_id
     );
 
     return res.json(weather); // Send the weather data as a JSON response
