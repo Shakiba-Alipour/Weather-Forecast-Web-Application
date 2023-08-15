@@ -21,7 +21,8 @@ class Weather {
     description,
     air_pollution,
     next_five_days,
-    icon_id
+    icon_id,
+    feels_like
   ) {
     this.city_name = city_name;
     this.country_name = country_name;
@@ -37,6 +38,7 @@ class Weather {
     this.air_pollution = air_pollution; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
     this.next_five_days = next_five_days;
     this.icon_id = icon_id;
+    this.feels_like = feels_like;
   }
 }
 
@@ -111,7 +113,9 @@ app.get("/weather", async (req, res) => {
       console.log("successful fetching");
     }
 
+    // parse the JSON response from the API call and assigns it to the data variable
     const data = await response.json();
+    //  send the data object as the JSON response from your Node.js server to the client making the request
     res.json(data);
 
     // Extract relevant weather data
@@ -128,32 +132,19 @@ app.get("/weather", async (req, res) => {
     const description = data.weather[0].description;
     const country_name = data.sys.country;
     const icon_id = data.weather[0].id;
+    const feels_like = data.main.feels_like;
 
-    console.log(
-      city_name +
-        "  " +
-        country_name +
-        "  " +
-        longitude +
-        "  " +
-        latitude +
-        "  " +
-        temperature +
-        "  " +
-        min_temperature +
-        "  " +
-        max_temperature +
-        "  " +
-        humidity +
-        "  " +
-        wind_speed +
-        "  " +
-        main_weather_condition +
-        "  " +
-        description +
-        "  " +
-        icon_id
-    );
+    console.log(latitude);
+    console.log(longitude);
+    console.log(temperature);
+    console.log(min_temperature);
+    console.log(max_temperature);
+    console.log(humidity);
+    console.log(wind_speed);
+    console.log(main_weather_condition);
+    console.log(description);
+    console.log(country_name);
+    console.log(icon_id);
 
     // Air pollution API
     const air_pollution_url = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
@@ -187,7 +178,8 @@ app.get("/weather", async (req, res) => {
       description,
       air_pollution,
       forecast,
-      icon_id
+      icon_id,
+      feels_like
     );
 
     console.log(
