@@ -127,7 +127,6 @@ document
     const response = await fetch(
       `http://127.0.0.1:3000/weather?city_name=${city_name}`
     );
-    console.log("not a loop");
     if (response.ok) {
       const weatherData = await response.json();
       // Update your UI with the weatherData

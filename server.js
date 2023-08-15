@@ -41,17 +41,17 @@ class Weather {
 }
 
 // use SSL/TLS certificates
-const options = {
-  key: fs.readFileSync("key.pem"), // Private Key file
-  cert: fs.readFileSync("cert.pem"), // Certificate file
-  passphrase: "shakiba", // Passphrase used to encrypt the private key
-};
+// const options = {
+//   key: fs.readFileSync("key.pem"), // Private Key file
+//   cert: fs.readFileSync("cert.pem"), // Certificate file
+//   passphrase: "shakiba", // Passphrase used to encrypt the private key
+// };
 
 app.get("/", (req, res) => {
   res.send("Hello, Weather App (HTTPS)!");
 });
 
-const server = https.createServer(options, app);
+// const server = https.createServer(options, app);
 
 // Set up CORS to allow requests from your Glitch app's domain
 // app.use(cors());
@@ -97,11 +97,18 @@ app.get("/weather", async (req, res) => {
   try {
     console.log("in try block");
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
+      `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );
+
+    // use a proxy server when app isn't running locally
+    // const response = await fetch(
+    //   `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
+    // );
 
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
+    } else {
+      console.log("successful fetching");
     }
 
     const data = await response.json();
@@ -122,14 +129,40 @@ app.get("/weather", async (req, res) => {
     const country_name = data.sys.country;
     const icon_id = data.weather[0].id;
 
+    console.log(
+      city_name +
+        "  " +
+        country_name +
+        "  " +
+        longitude +
+        "  " +
+        latitude +
+        "  " +
+        temperature +
+        "  " +
+        min_temperature +
+        "  " +
+        max_temperature +
+        "  " +
+        humidity +
+        "  " +
+        wind_speed +
+        "  " +
+        main_weather_condition +
+        "  " +
+        description +
+        "  " +
+        icon_id
+    );
+
     // Air pollution API
-    const air_pollution_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
+    const air_pollution_url = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
     const air_pollution_response = await fetch(air_pollution_url);
     const air_pollution_data = await air_pollution_response.json();
     const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
 
     // Extract forecast for next 5 days (index 1 to 5)
-    const forecast_url = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
+    const forecast_url = `http://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${api_key}`;
     const forecast_response = await fetch(forecast_url);
     const forecast_data = await forecast_response.json();
     const forecast = await forecast_data.daily.slice(1, 6).map((day) => {
@@ -157,15 +190,48 @@ app.get("/weather", async (req, res) => {
       icon_id
     );
 
+    console.log(
+      city_name +
+        "  " +
+        country_name +
+        "  " +
+        longitude +
+        "  " +
+        latitude +
+        "  " +
+        temperature +
+        "  " +
+        min_temperature +
+        "  " +
+        max_temperature +
+        "  " +
+        humidity +
+        "  " +
+        wind_speed +
+        "  " +
+        main_weather_condition +
+        "  " +
+        description +
+        "  " +
+        air_pollution +
+        "  " +
+        forecast +
+        "  " +
+        icon_id
+    );
+
     return res.json(weather); // Send the weather data as a JSON response
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-server.listen(PORT, () => {
-  console.log("Server is running (HTTPS)");
+// HTTP
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
+
+// HTTPS
+// server.listen(PORT, () => {
+//   console.log("Server is running (HTTPS)");
+// });
