@@ -222,7 +222,7 @@ app.get("/weather", async (req, res) => {
 
     //  send the weather as the JSON response from Node.js server to the client making the request
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(weather));
+    // res.end(JSON.stringify(weather));
     return res.json(weather);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });

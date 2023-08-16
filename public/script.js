@@ -19,13 +19,12 @@ document
       `http://127.0.0.1:3000/weather?city_name=${city_name}`
     );
     console.log(response);
-    if (response.ok) {
-      const weatherData = await response.json();
-      // Update your UI with the weatherData
-      console.log("Weather data:", weatherData);
-    } else {
-      console.log("API request failed with status:", response.status);
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
     }
+    const weatherData = await response.json(); // Parse the JSON response
+    // Update your UI with the weatherData
+    console.log("Weather data:", weatherData);
     // getWeatherData(city_name)
     //   .then((data) => {
     //     alert("getting data");
