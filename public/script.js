@@ -14,13 +14,6 @@ document
   .getElementById("search-icon")
   .addEventListener("click", async function () {
     var city_name = document.getElementById("search-input").value;
-    // const response = await fetch(
-    //   `http://127.0.0.1:3000/weather?city_name=${city_name}`
-    // );
-    // console.log(response);
-    // if (!response.ok) {
-    //   throw new Error(`API request failed with status ${response.status}`);
-    // }
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
       .then(async (response) => {
         const data = await response.json();
