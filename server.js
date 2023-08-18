@@ -20,9 +20,10 @@ class Weather {
     main_weather_condition,
     description,
     air_pollution,
-    next_five_days,
+    next_four_days,
     icon_id,
-    feels_like
+    feels_like,
+    today_total_forecast
   ) {
     this.city_name = city_name;
     this.country_name = country_name;
@@ -36,14 +37,39 @@ class Weather {
     this.main_weather_condition = main_weather_condition;
     this.description = description;
     this.air_pollution = air_pollution; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
-    this.next_five_days = next_five_days;
+    this.next_four_days = next_four_days;
     this.icon_id = icon_id;
     this.feels_like = feels_like;
+    this.today_total_forecast = today_total_forecast;
   }
 }
 
-// store all data about 5 days
-class Five_days_forecast {
+class Today_forecast {
+  constructor() {
+    this.today = new Map(); //key: hour, value: min and max temp(each 3 hours)
+  }
+
+  // add data for a day
+  async push_day_data(hour, min_temp, max_temp) {
+    let temp = [];
+    temp.push([min_temp, max_temp]);
+    this.today.set(hour, temp);
+    return;
+  }
+
+  print() {
+    this.days.forEach((hour, temp) => {
+      console.log("hour " + hour);
+      for (let j = 0; j < temp.length; j++) {
+        console.log("min " + temp[j][0]);
+        console.log("max " + temp[j][1]);
+      }
+    });
+  }
+}
+
+// store all data for 4 days
+class Four_days_forecast {
   constructor() {
     this.days = new Map(); //key: day, value: array of data on that name(each 3 hours)
   }
@@ -111,7 +137,7 @@ const corsOpts = {
 
   methods: ["GET", "POST"],
 
-  allowedHeaders: ["Content-Type"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOpts));
@@ -177,7 +203,9 @@ app.get("/weather", async (req, res) => {
     const forecast_url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
     const forecast_response = await fetch(forecast_url);
     const forecast_data = await forecast_response.json();
-    const forecast = new Five_days_forecast();
+    const forecast = new Four_days_forecast();
+    const today_forecast = new Today_forecast();
+    const current_day = new Date().getDate();
     for (let i = 0; i < forecast_data.list.length; i++) {
       let item = JSON.parse(JSON.stringify(forecast_data.list))[i];
       let date = item.dt_txt.split("-");
@@ -188,17 +216,24 @@ app.get("/weather", async (req, res) => {
       let hour = time[1];
       let min_temp = Math.round(item.main.temp_min - 273.15, 2);
       let max_temp = Math.round(item.main.temp_max - 273.15, 2);
-      let main_weather_condition = item.weather[0].main;
-      let description = item.weather[0].description;
-      forecast.push_day_data(
-        month,
-        day,
-        hour,
-        min_temp,
-        max_temp,
-        main_weather_condition,
-        description
-      );
+      // today forecast
+      if (day == current_day) {
+        today_forecast.push_day_data(hour, min_temp, max_temp);
+      }
+      // next four days forecast
+      else {
+        let main_weather_condition = item.weather[0].main;
+        let description = item.weather[0].description;
+        forecast.push_day_data(
+          month,
+          day,
+          hour,
+          min_temp,
+          max_temp,
+          main_weather_condition,
+          description
+        );
+      }
     }
 
     // make a new object of the whole forecasting data
@@ -217,13 +252,14 @@ app.get("/weather", async (req, res) => {
       air_pollution,
       forecast,
       icon_id,
-      feels_like
+      feels_like,
+      today_forecast
     );
 
+    console.log(weather);
+
     //  send the weather as the JSON response from Node.js server to the client making the request
-    res.setHeader("Content-Type", "application/json");
-    // res.end(JSON.stringify(weather));
-    return res.json(weather);
+    res.end(JSON.stringify(weather));
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
