@@ -20,7 +20,7 @@ class Weather {
     main_weather_condition,
     description,
     air_pollution,
-    next_four_days,
+    next_five_days,
     icon_id,
     feels_like,
     today_total_forecast
@@ -37,7 +37,7 @@ class Weather {
     this.main_weather_condition = main_weather_condition;
     this.description = description;
     this.air_pollution = air_pollution; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
-    this.next_four_days = next_four_days;
+    this.next_five_days = next_five_days;
     this.icon_id = icon_id;
     this.feels_like = feels_like;
     this.today_total_forecast = today_total_forecast;
@@ -69,7 +69,7 @@ class Today_forecast {
 }
 
 // store all data for 4 days
-class Four_days_forecast {
+class Five_days_forecast {
   constructor() {
     this.days = new Map(); //key: day, value: array of data on that name(each 3 hours)
   }
@@ -202,7 +202,7 @@ app.get("/weather", async (req, res) => {
     const forecast_url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
     const forecast_response = await fetch(forecast_url);
     const forecast_data = await forecast_response.json();
-    const forecast = new Four_days_forecast();
+    const forecast = new Five_days_forecast();
     const today_forecast = new Today_forecast();
     const current_day = new Date().getDate();
     for (let i = 0; i < forecast_data.list.length; i++) {
@@ -219,7 +219,7 @@ app.get("/weather", async (req, res) => {
       if (day == current_day) {
         today_forecast.push_day_data(hour, min_temp, max_temp);
       }
-      // next four days forecast
+      // next five days forecast
       else {
         let main_weather_condition = item.weather[0].main;
         let description = item.weather[0].description;
@@ -258,7 +258,8 @@ app.get("/weather", async (req, res) => {
     console.log(weather);
 
     //  send the weather as the JSON response from Node.js server to the client making the request
-    res.end(JSON.stringify(weather));
+    // res.end(JSON.stringify(weather));
+    res.json({ data: weather });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
