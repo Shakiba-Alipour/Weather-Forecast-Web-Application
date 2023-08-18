@@ -1,6 +1,6 @@
 import express from "express";
 import fetch from "node-fetch";
-import cors from "cors"; // Import the cors module
+import cors from "cors";
 import https from "https";
 import fs from "fs";
 const app = express();
@@ -131,7 +131,6 @@ app.get("/", (req, res) => {
 // const server = https.createServer(options, app);
 
 // Set up CORS to allow requests from your Glitch app's domain
-// app.use(cors());
 const corsOpts = {
   origin: "*",
 
