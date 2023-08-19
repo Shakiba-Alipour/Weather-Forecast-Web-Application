@@ -66,3 +66,41 @@ document
         console.error("Error fetching weather data:", error);
       });
   });
+
+function draw_chart(data) {
+  //   <script
+  // src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+  // </script>
+  let hours,
+    min_temps,
+    max_temps = [];
+  let i = 0;
+  data.forEach((hour, temp) => {
+    hours[i] = hour;
+    min_temps[i] = temp[0];
+    max_temps[i] = temp[1];
+    i++;
+  });
+
+  new Chart("today", {
+    type: "line",
+    data: {
+      labels: hours,
+      datasets: [
+        {
+          data: min_temps,
+          borderColor: "blue",
+          fill: false,
+        },
+        {
+          data: max_temps,
+          borderColor: "red",
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      legend: { display: false },
+    },
+  });
+}
