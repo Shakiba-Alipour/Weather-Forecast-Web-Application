@@ -15,9 +15,9 @@ document
   .addEventListener("click", async function () {
     var city_name = document.getElementById("search-input").value;
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
-      .then(async (response) => {
-        const data = await response.json();
-        console.log(data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Weather data:", data);
 
         // change the location of the search bar
         const search_bar = document.getElementsByTagName("form");
@@ -26,6 +26,31 @@ document
         header.style.justifyContent = "space-between";
         search_bar.style.marginRight = 0;
         search_bar.style.background = "#fffcf2ff";
+
+        // display today weather information
+        document
+          .getElementById("weather-icon")
+          .setAttribute(
+            "http://openweathermap.org/img/w/" + data.icon_id + ".png"
+          );
+        document
+          .getElementById("condition")
+          .setAttribute(data.main_weather_condition);
+        document.getElementById("temp").setAttribute(data.temperature);
+        document.getElementById("feels-like").setAttribute(data.feels_like);
+        document.getElementById("city").setAttribute(data.city_name);
+        document.getElementById("country").setAttribute(data.country_name);
+        document.getElementById("min-temp").setAttribute(data.min_temperature);
+        document.getElementById("max-temp").setAttribute(data.max_temperature);
+        document.getElementById("wind-speed").setAttribute(data.wind_speed);
+        document.getElementById("humidity").setAttribute(data.humidity);
+        document
+          .getElementById("air-pollution")
+          .setAttribute(data.air_pollution);
+
+        // draw a chart to display hourly forecast for today
+        draw_chart(data.today_forecast);
+
         // const weatherInfo = document.getElementById("weather-info");
         // const cityElement = document.getElementById("city");
         // const temperatureElement = document.getElementById("temperature");
