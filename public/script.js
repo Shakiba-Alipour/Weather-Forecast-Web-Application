@@ -67,40 +67,59 @@ document
       });
   });
 
-function draw_chart(data) {
+function draw_chart(input) {
+  // <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  var data = google.visualization.arrayToDataTable(
+    ["hour", "minimum temperature", "maximum temperature"],
+    input
+  );
+
+  var options = {
+    curveType: "function",
+    legend: { position: "bottom" },
+  };
+
+  var chart = new google.visualization.LineChart(
+    document.getElementById("curve_chart")
+  );
+
+  chart.draw(data, options);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
   //   <script
   // src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
   // </script>
-  let hours,
-    min_temps,
-    max_temps = [];
-  let i = 0;
-  data.forEach((hour, temp) => {
-    hours[i] = hour;
-    min_temps[i] = temp[0];
-    max_temps[i] = temp[1];
-    i++;
-  });
 
-  new Chart("today", {
-    type: "line",
-    data: {
-      labels: hours,
-      datasets: [
-        {
-          data: min_temps,
-          borderColor: "blue",
-          fill: false,
-        },
-        {
-          data: max_temps,
-          borderColor: "red",
-          fill: false,
-        },
-      ],
-    },
-    options: {
-      legend: { display: false },
-    },
-  });
+  // let hours,
+  //   min_temps,
+  //   max_temps = [];
+  // let i = 0;
+  // data.forEach((hour, temp) => {
+  //   hours[i] = hour;
+  //   min_temps[i] = temp[0];
+  //   max_temps[i] = temp[1];
+  //   i++;
+  // });
+
+  // new Chart("today", {
+  //   type: "line",
+  //   data: {
+  //     labels: hours,
+  //     datasets: [
+  //       {
+  //         data: min_temps,
+  //         borderColor: "blue",
+  //         fill: false,
+  //       },
+  //       {
+  //         data: max_temps,
+  //         borderColor: "red",
+  //         fill: false,
+  //       },
+  //     ],
+  //   },
+  //   options: {
+  //     legend: { display: false },
+  //   },
+  // });
 }
