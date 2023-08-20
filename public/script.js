@@ -49,7 +49,8 @@ document
           .setAttribute(data.air_pollution);
 
         // draw a chart to display hourly forecast for today
-        draw_chart(data.today_forecast);
+        google.charts.load("current", { packages: ["corechart"] });
+        google.setOnLoadCallback(draw_chart(data.today_forecast));
 
         // const weatherInfo = document.getElementById("weather-info");
         // const cityElement = document.getElementById("city");
@@ -68,7 +69,6 @@ document
   });
 
 function draw_chart(input) {
-  // <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   var data = google.visualization.arrayToDataTable(
     ["hour", "minimum temperature", "maximum temperature"],
     input
