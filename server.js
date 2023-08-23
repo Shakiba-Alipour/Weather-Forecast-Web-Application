@@ -255,11 +255,7 @@ app.get("/weather", async (req, res) => {
       today_forecast
     );
 
-    console.log(weather);
-
     //  send the weather as the JSON response from Node.js server to the client making the request
-    // res.end(JSON.stringify(weather));
-    // res.json(weather);
     res.send(weather);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
