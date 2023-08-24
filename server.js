@@ -196,7 +196,24 @@ app.get("/weather", async (req, res) => {
     const air_pollution_url = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
     const air_pollution_response = await fetch(air_pollution_url);
     const air_pollution_data = await air_pollution_response.json();
-    const air_pollution = air_pollution_data.list[0].main.aqi; // Possible values: 1, 2, 3, 4, 5. Where 1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+    let air_pollution;
+    switch (air_pollution_data.list[0].main.aqi) {
+      case 1:
+        air_pollution = "Good";
+        break;
+      case 2:
+        air_pollution = "Fair";
+        break;
+      case 3:
+        air_pollution = "Moderate";
+        break;
+      case 4:
+        air_pollution = "Poor";
+        break;
+      case 5:
+        air_pollution = "Very Poor";
+        break;
+    }
 
     // Extract forecast for next 5 days (index 1 to 5)
     const forecast_url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}`;
