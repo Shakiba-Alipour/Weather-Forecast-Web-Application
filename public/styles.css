@@ -111,7 +111,7 @@ a {
 }
 
 .forecast-result {
-  display: none;
+  display: none !important;
 }
 
 #today-forecast {
