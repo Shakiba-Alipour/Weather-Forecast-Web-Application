@@ -46,25 +46,21 @@ class Weather {
 
 class Today_forecast {
   constructor() {
-    this.today = new Map(); //key: hour, value: min and max temp(each 3 hours)
+    this.today = [];
   }
 
   // add data for a day
   async push_day_data(hour, min_temp, max_temp) {
-    let temp = [];
-    temp.push([min_temp, max_temp]);
-    this.today.set(hour, temp);
+    this.today.push([hour, min_temp, max_temp]);
     return;
   }
 
   print() {
-    this.days.forEach((hour, temp) => {
-      console.log("hour " + hour);
-      for (let j = 0; j < temp.length; j++) {
-        console.log("min " + temp[j][0]);
-        console.log("max " + temp[j][1]);
-      }
-    });
+    for (let j = 0; j < temp.length; j++) {
+      console.log("hour " + temp[j][0]);
+      console.log("min " + temp[j][1]);
+      console.log("max " + temp[j][2]);
+    }
   }
 }
 
@@ -273,7 +269,8 @@ app.get("/weather", async (req, res) => {
     );
 
     //  send the weather as the JSON response from Node.js server to the client making the request
-    res.send(weather);
+    // res.send(weather);
+    res.json(weather);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }

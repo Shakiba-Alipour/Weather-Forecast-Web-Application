@@ -31,7 +31,6 @@ document
         // display today weather information
         document.getElementById("weather-icon").src =
           "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
-
         document.getElementById("condition").innerHTML = data.description;
         document.getElementById("temp").innerHTML =
           data.temperature + " \u00B0" + "C";
@@ -52,7 +51,9 @@ document
 
         // draw a chart to display hourly forecast for today
         google.charts.load("current", { packages: ["corechart"] });
-        google.setOnLoadCallback(draw_chart(data.today_forecast));
+        google.setOnLoadCallback(() =>
+          draw_chart(data.today_total_forecast, "today-forecast-hourly")
+        );
 
         // const weatherInfo = document.getElementById("weather-info");
         // const cityElement = document.getElementById("city");
@@ -63,66 +64,46 @@ document
         // temperatureElement.textContent = data.temperature + " °C";
         // descriptionElement.textContent = data.description;
 
-        document.getElementsByClassName("forecast-result").style.display =
-          "block";
+        // document.getElementsByClassName("forecast-result").style.display =
+        //   "block";
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
       });
   });
 
-function draw_chart(input) {
-  var data = google.visualization.arrayToDataTable(
-    ["hour", "minimum temperature", "maximum temperature"],
-    input
-  );
+function draw_chart(input, container_id) {
+  // Create a DataTable
+  var dataTable = new google.visualization.DataTable();
+  dataTable.addColumn("string", "Hour");
+  dataTable.addColumn("number", "Min Temperature");
+  dataTable.addColumn("number", "Max Temperature");
 
-  var options = {
+  // Convert the Map data from Today_forecast to an array of arrays
+  const data = input.today.map(([hour, min_temp, max_temp]) => [
+    hour,
+    min_temp,
+    max_temp,
+  ]);
+
+  // Add the data to the DataTable
+  dataTable.addRows(data);
+
+  // Set chart options
+  const options = {
     curveType: "function",
     legend: { position: "bottom" },
+    // hAxis: {
+    //   title: "Hour", // Set the label for the horizontal axis
+    // },
+    vAxis: {
+      title: "Temperature (°C)", // Set the label for the vertical axis
+    },
   };
 
   var chart = new google.visualization.LineChart(
-    document.getElementById("curve_chart")
+    document.getElementById(container_id)
   );
 
-  chart.draw(data, options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  //   <script
-  // src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-  // </script>
-
-  // let hours,
-  //   min_temps,
-  //   max_temps = [];
-  // let i = 0;
-  // data.forEach((hour, temp) => {
-  //   hours[i] = hour;
-  //   min_temps[i] = temp[0];
-  //   max_temps[i] = temp[1];
-  //   i++;
-  // });
-
-  // new Chart("today", {
-  //   type: "line",
-  //   data: {
-  //     labels: hours,
-  //     datasets: [
-  //       {
-  //         data: min_temps,
-  //         borderColor: "blue",
-  //         fill: false,
-  //       },
-  //       {
-  //         data: max_temps,
-  //         borderColor: "red",
-  //         fill: false,
-  //       },
-  //     ],
-  //   },
-  //   options: {
-  //     legend: { display: false },
-  //   },
-  // });
+  chart.draw(dataTable, options);
 }
