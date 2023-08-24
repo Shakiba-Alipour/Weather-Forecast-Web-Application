@@ -19,32 +19,36 @@ document
       .then((response) => response.json())
       .then((data) => {
         // change the location of the search bar
-        const search_bar = document.getElementsByTagName("form");
+        const form = document.querySelector("form");
         const header = document.getElementById("header");
-        header.append(search_bar);
+        form.reset();
+        header.appendChild(form);
         header.style.justifyContent = "space-between";
-        // search_bar.style.background = "#fffcf2ff";
+        document.getElementById("search-bar").style.backgroundColor = "white";
+        document.getElementById("search-input").style.backgroundColor = "white";
+        document.getElementById("search-icon").style.backgroundColor = "white";
 
         // display today weather information
-        document
-          .getElementById("weather-icon")
-          .setAttribute(
-            "http://openweathermap.org/img/w/" + data.icon_id + ".png"
-          );
-        document
-          .getElementById("condition")
-          .setAttribute(data.main_weather_condition);
-        document.getElementById("temp").setAttribute(data.temperature);
-        document.getElementById("feels-like").setAttribute(data.feels_like);
-        document.getElementById("city").setAttribute(data.city_name);
-        document.getElementById("country").setAttribute(data.country_name);
-        document.getElementById("min-temp").setAttribute(data.min_temperature);
-        document.getElementById("max-temp").setAttribute(data.max_temperature);
-        document.getElementById("wind-speed").setAttribute(data.wind_speed);
-        document.getElementById("humidity").setAttribute(data.humidity);
-        document
-          .getElementById("air-pollution")
-          .setAttribute(data.air_pollution);
+        document.getElementById("weather-icon").src =
+          "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
+
+        document.getElementById("condition").innerHTML = data.description;
+        document.getElementById("temp").innerHTML =
+          data.temperature + " \u00B0" + "C";
+        document.getElementById("feels-like").innerHTML =
+          "Feels like " + data.feels_like + " \u00B0" + "C";
+        document.getElementById("city").innerHTML = data.city_name;
+        document.getElementById("country").innerHTML = data.country_name;
+        document.getElementById("min-temp").innerHTML =
+          data.min_temperature + " \u00B0" + "C";
+        document.getElementById("min-temp").style.color = "blue";
+        document.getElementById("max-temp").innerHTML =
+          data.max_temperature + " \u00B0" + "C";
+        document.getElementById("max-temp").style.color = "red";
+        document.getElementById("wind-speed").innerHTML =
+          data.wind_speed + " m/s";
+        document.getElementById("humidity").innerHTML = data.humidity + "%";
+        document.getElementById("air-pollution").innerHTML = data.air_pollution;
 
         // draw a chart to display hourly forecast for today
         google.charts.load("current", { packages: ["corechart"] });

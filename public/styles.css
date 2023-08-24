@@ -21,15 +21,14 @@ a {
   height: auto;
   border-radius: 40px;
   background: var(--timberwolf);
-  /* flex-shrink: 0; */
   display: flex;
   justify-content: left;
   align-items: center;
-  margin: 0 auto;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-bottom: 0.5%;
 }
 
 #search-icon {
@@ -57,11 +56,15 @@ a {
 
 #header {
   width: 100%;
-  height: 3.5rem;
+  height: 4rem;
   position: fixed;
   background-color: var(--timberwolf);
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 #open-about-popup {
@@ -105,4 +108,46 @@ a {
   margin-bottom: 0.5%;
   border: none;
   background-color: transparent;
+}
+
+#today-forecast {
+  margin-top: 4em;
+  display: flex;
+  height: 80%;
+  width: 90%;
+  border-radius: 0.7em;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#today-forecast ul {
+  list-style: none;
+}
+
+#total-info {
+  display: grid;
+  justify-items: start;
+}
+
+#temp-info {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-start;
+}
+
+#additional-info {
+  display: flex;
+  flex-direction: row;
+}
+
+#additional-info div {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
 }
