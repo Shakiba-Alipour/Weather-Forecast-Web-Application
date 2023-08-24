@@ -67,7 +67,17 @@ class Today_forecast {
 // store all data for 4 days
 class Five_days_forecast {
   constructor() {
-    this.days = new Map(); //key: day, value: array of data on that name(each 3 hours)
+    this.days = [];
+  }
+
+  contains(day) {
+    // if the day already exists in the days array, its index would be returned
+    for (let i = 0; i < this.days.length; i++) {
+      if (day == this.days[1]) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   // add data for a day
@@ -81,35 +91,36 @@ class Five_days_forecast {
     description
   ) {
     let day_info;
-    if (this.days.has(day_name)) {
-      day_info = this.days.get(day_name);
+    let day_index = this.days.contains(day_name);
+    if (day_index != -1) {
+      // day info exists already
+      day_info = this.days[day_index];
     } else {
       day_info = [];
     }
     day_info.push([
       month_name,
+      day_name,
       hour,
       min_temp,
       max_temp,
       main_weather_condition,
       description,
     ]);
-    this.days.set(day_name, day_info);
+    this.days.push(day_info);
     return;
   }
 
   print() {
-    this.days.forEach((day_name, day_info) => {
-      console.log("day " + day_name);
-      for (let j = 0; j < day_info.length; j++) {
-        console.log("month " + day_info[j][0]);
-        console.log("hour " + day_info[j][1]);
-        console.log("min " + day_info[j][2]);
-        console.log("max " + day_info[j][3]);
-        console.log("main " + day_info[j][4]);
-        console.log("description " + day_info[j][5]);
-      }
-    });
+    for (let j = 0; j < day_info.length; j++) {
+      console.log("month " + day_info[j][0]);
+      console.log("day " + day_info[j][1]);
+      console.log("hour " + day_info[j][2]);
+      console.log("min " + day_info[j][3]);
+      console.log("max " + day_info[j][4]);
+      console.log("main " + day_info[j][5]);
+      console.log("description " + day_info[j][6]);
+    }
   }
 }
 
