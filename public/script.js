@@ -63,7 +63,8 @@ document
         // temperatureElement.textContent = data.temperature + " °C";
         // descriptionElement.textContent = data.description;
 
-        // weatherInfo.style.display = "block";
+        document.getElementsByClassName("forecast-result").style.display =
+          "block";
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);

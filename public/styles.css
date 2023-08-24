@@ -110,6 +110,10 @@ a {
   background-color: transparent;
 }
 
+.forecast-result {
+  display: none;
+}
+
 #today-forecast {
   margin-top: 4em;
   display: flex;
