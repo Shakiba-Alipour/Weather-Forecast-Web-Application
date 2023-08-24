@@ -189,7 +189,7 @@ app.get("/weather", async (req, res) => {
     const main_weather_condition = data.weather[0].main;
     const description = data.weather[0].description;
     const country_name = data.sys.country;
-    const icon_id = data.weather[0].id;
+    const icon_id = data.weather[0].icon;
     const feels_like = Math.round(data.main.feels_like - 273.15, 2);
 
     // Air pollution API
