@@ -12,20 +12,18 @@ document.getElementById("close-popup").addEventListener("click", function () {
 // search management
 document
   .getElementById("search-icon")
-  .addEventListener("click", async function () {
+  .addEventListener("click", async function (event) {
+    event.preventDefault();
     var city_name = document.getElementById("search-input").value;
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Weather data:", data);
-
         // change the location of the search bar
         const search_bar = document.getElementsByTagName("form");
         const header = document.getElementById("header");
-        header.appendChild(search_bar);
+        header.append(search_bar);
         header.style.justifyContent = "space-between";
-        search_bar.style.marginRight = 0;
-        search_bar.style.background = "#fffcf2ff";
+        // search_bar.style.background = "#fffcf2ff";
 
         // display today weather information
         document
