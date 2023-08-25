@@ -90,15 +90,7 @@ class Five_days_forecast {
     main_weather_condition,
     description
   ) {
-    let day_info;
-    let day_index = this.days.contains(day_name);
-    if (day_index != -1) {
-      // day info exists already
-      day_info = this.days[day_index];
-    } else {
-      day_info = [];
-    }
-    day_info.push([
+    this.days.push([
       month_name,
       day_name,
       hour,
@@ -107,7 +99,6 @@ class Five_days_forecast {
       main_weather_condition,
       description,
     ]);
-    this.days.push(day_info);
     return;
   }
 
