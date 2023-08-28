@@ -110,9 +110,10 @@ a {
   background-color: transparent;
 }
 
-/* .forecast-result {
-  display: none !important;
-} */
+.forecast-result {
+  visibility: hidden;
+  width: auto;
+}
 
 #today-forecast {
   margin-top: 4em;
@@ -122,6 +123,7 @@ a {
   border-radius: 0.7em;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1%;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
@@ -160,4 +162,24 @@ a {
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
+}
+
+#next-days-data {
+  width: 100%;
+  background-color: var(--timberwolf);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.date {
+  background-color: var(--floral-white);
+  height: 80%;
+  width: fit-content;
+  border-radius: 0.7em;
+}
+
+.hourly {
+  position: relative;
+  z-index: -1;
 }
