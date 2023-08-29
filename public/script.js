@@ -70,6 +70,9 @@ document
 
         // Set a callback to run when the Google Visualization API is loaded.
         google.setOnLoadCallback(draw_chart);
+
+        // diplay quiz section
+        document.getElementById("quiz-section").style.visibility = "visible";
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -416,3 +419,83 @@ function month(number) {
       return "DEC";
   }
 }
+
+// Quiz management
+document.addEventListener("DOMContentLoaded", function () {
+  const questionContainer = document.getElementById("question");
+  const optionsContainer = document.getElementById("options");
+
+  let questions = []; // JSON question bank
+  let currentQuestionIndex = -1; // Initialize with -1 to load the first question
+  let hasAnswered = false; // Track if the user has answered
+
+  // Fetch the JSON question bank
+  fetch("http://127.0.0.1:5500/databases/quiz.json")
+    .then((response) => response.json())
+    .then((data) => {
+      questions = data;
+      loadRandomQuestion();
+    })
+    .catch((error) => console.error("Error fetching question bank:", error));
+
+  //load and display a random question
+  function loadRandomQuestion() {
+    currentQuestionIndex = Math.floor(Math.random() * questions.length);
+    const questionData = questions[currentQuestionIndex];
+    questionContainer.textContent = questionData.question;
+
+    optionsContainer.innerHTML = "";
+    for (const option in questionData.options) {
+      const label = document.createElement("label");
+      label.classList.add("options-container");
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "option";
+      radio.value = option;
+
+      const text = document.createElement("span");
+      text.textContent = questionData.options[option];
+
+      label.appendChild(radio);
+      label.appendChild(text);
+
+      optionsContainer.appendChild(label);
+    }
+  }
+
+  // manage next question button
+  const nextButton = document.getElementById("next-button");
+  nextButton.addEventListener("click", function () {
+    loadRandomQuestion();
+    hasAnswered = false;
+  });
+
+  // show correct answer after user submits his choice
+  optionsContainer.addEventListener("change", function () {
+    if (!hasAnswered) {
+      const selectedOption = document.querySelector(
+        "input[name='option']:checked"
+      );
+
+      if (selectedOption) {
+        const selectedValue = selectedOption.value;
+        const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+
+        if (selectedValue === correctAnswer) {
+          selectedOption.parentNode.classList.add("correct-icon");
+        } else {
+          selectedOption.parentNode.classList.add("incorrect-icon");
+          const correctOption = optionsContainer.querySelector(
+            `input[value='${correctAnswer}']`
+          );
+          if (correctOption) {
+            correctOption.parentNode.classList.add("correct-icon");
+          }
+        }
+
+        hasAnswered = true;
+      }
+    }
+  });
+});
