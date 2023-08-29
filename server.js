@@ -154,7 +154,8 @@ app.use(express.static("public"));
 app.get("/weather", async (req, res) => {
   // connect API
   const api_key = "6e10fbb861b606deeab532507ffcb0d7";
-  const city_name = req.query.city_name;
+  let city_name = req.query.city_name.toString();
+  city_name = city_name[0].toUpperCase() + city_name.slice(1);
 
   try {
     const response = await fetch(
