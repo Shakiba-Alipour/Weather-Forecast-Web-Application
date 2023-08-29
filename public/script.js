@@ -56,6 +56,9 @@ document
         today_data = data.today_total_forecast;
         dispaly_next_days(data.next_five_days.days);
 
+        // draw a border for day1 button to show that the chart belongs to day 1
+        document.getElementById("button_day1").style.borderColor = "black";
+
         var target_list = document.getElementsByClassName("forecast-result");
         if (target_list) {
           for (let i = 0; i < target_list.length; i++) {
@@ -73,8 +76,8 @@ document
       });
   });
 
-// display hourly chart related to each day when user clickes on each day
-let user_selection = document.getElementsByClassName("day_number");
+// display hourly chart related to each day when user clicks on each day
+let user_selection = document.getElementsByClassName("date");
 for (var i = 0; i < user_selection.length; i++) {
   (function (index) {
     user_selection[index].addEventListener("click", async function () {
@@ -83,19 +86,49 @@ for (var i = 0; i < user_selection.length; i++) {
       ).charAt(3);
       switch (day_number) {
         case 1:
-          draw_chart(day1_data, "next_days_chart");
+          document.getElementById("day2_chart").style.display = "none";
+          document.getElementById("day3_chart").style.display = "none";
+          document.getElementById("day4_chart").style.display = "none";
+          document.getElementById("day5_chart").style.display = "none";
+          document.getElementById("day1_chart").style.display = "block";
+          document.getElementById("button_day1").style.borderColor =
+            "#403d39ff";
           break;
         case 2:
-          draw_chart(day2_data, "next_days_chart");
+          document.getElementById("day1_chart").style.display = "none";
+          document.getElementById("day3_chart").style.display = "none";
+          document.getElementById("day4_chart").style.display = "none";
+          document.getElementById("day5_chart").style.display = "none";
+          document.getElementById("day2_chart").style.display = "block";
+          document.getElementById("button_day2").style.borderColor =
+            "#403d39ff";
           break;
         case 3:
-          draw_chart(day3_data, "next_days_chart");
+          document.getElementById("day1_chart").style.display = "none";
+          document.getElementById("day2_chart").style.display = "none";
+          document.getElementById("day4_chart").style.display = "none";
+          document.getElementById("day5_chart").style.display = "none";
+          document.getElementById("day3_chart").style.display = "block";
+          document.getElementById("button_day3").style.borderColor =
+            "#403d39ff";
           break;
         case 4:
-          draw_chart(day4_data, "next_days_chart");
+          document.getElementById("day1_chart").style.display = "none";
+          document.getElementById("day2_chart").style.display = "none";
+          document.getElementById("day3_chart").style.display = "none";
+          document.getElementById("day5_chart").style.display = "none";
+          document.getElementById("day4_chart").style.display = "block";
+          document.getElementById("button_day4").style.borderColor =
+            "#403d39ff";
           break;
         case 5:
-          draw_chart(day5_data, "next_days_chart");
+          document.getElementById("day1_chart").style.display = "none";
+          document.getElementById("day2_chart").style.display = "none";
+          document.getElementById("day3_chart").style.display = "none";
+          document.getElementById("day4_chart").style.display = "none";
+          document.getElementById("day5_chart").style.display = "block";
+          document.getElementById("button_day5").style.borderColor =
+            "#403d39ff";
           break;
       }
     });
