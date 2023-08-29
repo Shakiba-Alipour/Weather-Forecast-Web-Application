@@ -1,0 +1,281 @@
+[
+  {
+    "question": "What is the term for a rotating column of air that extends from a thunderstorm to the ground?",
+    "options": {
+      "A": "Tornado",
+      "B": "Hurricane",
+      "C": "Typhoon"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "Which atmospheric layer is closest to the Earth's surface?",
+    "options": {
+      "A": "Stratosphere",
+      "B": "Mesosphere",
+      "C": "Troposphere"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the process of water vapor turning into liquid water called?",
+    "options": {
+      "A": "Condensation",
+      "B": "Evaporation",
+      "C": "Sublimation"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "Which instrument is used to measure atmospheric pressure?",
+    "options": {
+      "A": "Anemometer",
+      "B": "Thermometer",
+      "C": "Barometer"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the term for a large body of air with uniform temperature and humidity?",
+    "options": {
+      "A": "Front",
+      "B": "Jet Stream",
+      "C": "Air Mass"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the name for the boundary between two air masses with different temperatures?",
+    "options": {
+      "A": "Tropopause",
+      "B": "Front",
+      "C": "Equator"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "Which cloud type is often associated with thunderstorms and heavy rainfall?",
+    "options": {
+      "A": "Cirrus",
+      "B": "Cumulus",
+      "C": "Nimbostratus"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the main cause of the changing seasons on Earth?",
+    "options": {
+      "A": "Earth's rotation",
+      "B": "Distance from the sun",
+      "C": "Tilted axis"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the term for a sudden discharge of electricity in the atmosphere during a thunderstorm?",
+    "options": {
+      "A": "Hurricane",
+      "B": "Tornado",
+      "C": "Lightning"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "Which type of cloud is often thin and wispy and found at high altitudes?",
+    "options": {
+      "A": "Cumulus",
+      "B": "Cirrus",
+      "C": "Stratus"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the boundary between the troposphere and the stratosphere called?",
+    "options": {
+      "A": "Stratopause",
+      "B": "Tropopause",
+      "C": "Mesopause"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the name for a rotating tropical storm with sustained winds of at least 74 mph?",
+    "options": {
+      "A": "Tornado",
+      "B": "Hurricane",
+      "C": "Typhoon"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the term for the process of a gas turning into a liquid due to a decrease in temperature?",
+    "options": {
+      "A": "Condensation",
+      "B": "Evaporation",
+      "C": "Sublimation"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "Which atmospheric layer is characterized by a decrease in temperature with increasing altitude?",
+    "options": {
+      "A": "Troposphere",
+      "B": "Stratosphere",
+      "C": "Mesosphere"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the term for the release of water vapor from plants into the atmosphere?",
+    "options": {
+      "A": "Precipitation",
+      "B": "Evaporation",
+      "C": "Transpiration"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "Which type of cloud is often associated with flat, gray skies and light rain or drizzle?",
+    "options": {
+      "A": "Cumulus",
+      "B": "Cirrus",
+      "C": "Stratus"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the name for a large-scale wind system that circulates around a center of high pressure?",
+    "options": {
+      "A": "Jet Stream",
+      "B": "Front",
+      "C": "Trade Wind"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "Which atmospheric layer contains the ozone layer?",
+    "options": {
+      "A": "Troposphere",
+      "B": "Stratosphere",
+      "C": "Mesosphere"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the term for a low-lying, gray cloud that often brings light rain or drizzle?",
+    "options": {
+      "A": "Cirrus",
+      "B": "Cumulus",
+      "C": "Stratus"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "Which instrument is used to measure wind speed?",
+    "options": {
+      "A": "Thermometer",
+      "B": "Anemometer",
+      "C": "Barometer"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the name for the swirling center of a hurricane?",
+    "options": {
+      "A": "Eye",
+      "B": "Core",
+      "C": "Center"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "What is the term for the transfer of heat through direct contact of molecules?",
+    "options": {
+      "A": "Conduction",
+      "B": "Convection",
+      "C": "Radiation"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "What is the name for the boundary between two air masses with different moisture levels?",
+    "options": {
+      "A": "Front",
+      "B": "Jet Stream",
+      "C": "Tropopause"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "Which type of cloud is often thick and gray and brings continuous rain or snow?",
+    "options": {
+      "A": "Cumulus",
+      "B": "Nimbostratus",
+      "C": "Cirrus"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the term for the process of water turning into water vapor due to an increase in temperature?",
+    "options": {
+      "A": "Condensation",
+      "B": "Evaporation",
+      "C": "Sublimation"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "What is the name for the boundary between the troposphere and the mesosphere?",
+    "options": {
+      "A": "Stratopause",
+      "B": "Tropopause",
+      "C": "Mesopause"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "Which type of cloud is often thin and wispy and made of ice crystals?",
+    "options": {
+      "A": "Cirrus",
+      "B": "Cumulus",
+      "C": "Stratus"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "question": "What is the term for a large-scale wind system that circulates around a center of low pressure?",
+    "options": {
+      "A": "Jet Stream",
+      "B": "Front",
+      "C": "Trade Wind"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "Which atmospheric layer contains the ionosphere?",
+    "options": {
+      "A": "Troposphere",
+      "B": "Stratosphere",
+      "C": "Mesosphere"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "question": "What is the term for the release of water vapor from the surface of water bodies?",
+    "options": {
+      "A": "Precipitation",
+      "B": "Evaporation",
+      "C": "Transpiration"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "question": "Which type of cloud is often associated with fair weather and has a flat and puffy appearance?",
+    "options": {
+      "A": "Cumulus",
+      "B": "Cirrus",
+      "C": "Stratus"
+    },
+    "correctAnswer": "A"
+  }
+]
