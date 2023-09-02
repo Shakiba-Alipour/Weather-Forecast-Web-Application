@@ -1,6 +1,5 @@
 // arrays to store next five days data
 let today_data, day1_data, day2_data, day3_data, day4_data, day5_data;
-// var day1_chart, day2_chart, day3_chart, day4_chart, day5_chart;
 
 // about popup management
 document
@@ -73,6 +72,8 @@ document
 
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
+
+        exerciseRecommendation(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -357,7 +358,7 @@ function dispaly_next_days(data) {
     ct = 0, // counts forecast's day number (1 to 5)
     j = 0;
   for (let i = 0; i < data.length; i = j) {
-    let month = this.month(data[i][0]);
+    let month = getMonth(data[i][0]);
     let condition = data[i][6];
     let chart_data = [];
     ct++;
@@ -391,7 +392,7 @@ function dispaly_next_days(data) {
 }
 
 // find month name
-function month(number) {
+function getMonth(number) {
   switch (number) {
     case "01":
       return "JAN";
@@ -499,3 +500,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// Exercise Recommendation Section
+function exerciseRecommendation(weatherData) {
+  // Call the getExerciseRecommendations function
+  getExerciseRecommendations(weatherData)
+    .then((recommendedExercises) => {
+      // Handle the recommended exercises here
+      console.log("Recommended Exercises:", recommendedExercises);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
