@@ -1,4 +1,4 @@
-const sqlite3 = require("sqlite3").verbose();
+import sqlite3 from "sqlite3";
 
 function getExerciseRecommendations(weatherData) {
   const dbPath = "./databases/exercises.sql";
@@ -71,6 +71,5 @@ function getExerciseRecommendations(weatherData) {
   });
 }
 
-export default {
-  getExerciseRecommendations,
-};
+// Export the function
+module.exports = getExerciseRecommendations;

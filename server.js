@@ -2,7 +2,6 @@ import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 import https from "https";
-import fs from "fs";
 const app = express();
 const PORT = 3000;
 
@@ -114,13 +113,6 @@ class Five_days_forecast {
     }
   }
 }
-
-// use SSL/TLS certificates
-// const options = {
-//   key: fs.readFileSync("key.pem"), // Private Key file
-//   cert: fs.readFileSync("cert.pem"), // Certificate file
-//   passphrase: "shakiba", // Passphrase used to encrypt the private key
-// };
 
 app.get("/", (req, res) => {
   res.send("Hello, Weather App (HTTPS)!");
