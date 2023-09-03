@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeatherForecast</title>
+
+    <!-- Cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/styles.8986bff4.css">
+
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="/styles.8986bff4.js"></script></head>
+
+  <body>
+    <header>
+      <div id="header">
+        <p id="open-about-popup">About</p>
+      </div>
+    </header>
+
+    <!-- Search Bar -->
+    <form>
+      <div id="search-bar">
+        <button type="submit" id="search-icon">
+          <i class="material-icons">search</i>
+        </button>
+        <input id="search-input" type="text" name="city_name" placeholder="Type your city name" required="">
+      </div>
+    </form>
+
+    <!-- About Popup -->
+    <div id="about-popup" class="popup">
+      <div id="about-content">
+        <button id="close-popup">
+          <i class="material-icons">close</i>
+        </button>
+        <p>
+          <span id="web-name">WeatherForecast</span>
+          is an
+          <a href="https://github.com/Shakiba-Alipour/Weather-Forcast-Web-Application" target="_blank">open-source</a>
+          cutting-edge web application that brings you the power of weather
+          knowledge at your fingertips. With its intuitive design and real-time
+          data, WeatherForecast is your ultimate guide to staying informed about
+          the ever-changing weather conditions around you. Powered by the
+          trusted
+          <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>
+          API, WeatherForecast delivers accurate and up-to-date forecasts to
+          help you plan your day with confidence.
+        </p>
+        <h4>Key Features:</h4>
+        <ul id="features">
+          <li class="feature">
+            Real-time Weather Updates: WeatherForecast harnesses the OpenWeather
+            API to provide you with real-time weather updates for your location.
+            Stay informed about temperature, humidity, wind speed,
+            precipitation, and more, all delivered with precision and
+            reliability.
+          </li>
+          <li class="feature">
+            Intuitive and User-Friendly Interface: Designed with simplicity in
+            mind, WeatherForecast offers an intuitive interface that is easy to
+            navigate, ensuring a seamless user experience. Whether you're a
+            weather enthusiast or a casual user, you'll appreciate the app's
+            user-friendly design that makes accessing weather information a
+            breeze.
+          </li>
+          <li class="feature">
+            Historical Weather Data: Unlock valuable insights with access to
+            historical weather data. WeatherForecast allows you to explore past
+            weather patterns and trends, enabling you to analyze climate
+            conditions for specific dates or periods. Plan your future
+            activities based on a thorough understanding of past weather
+            occurrences.
+          </li>
+          <li class="feature">
+            Cross-Platform Compatibility: Access WeatherForecast seamlessly
+            across multiple devices, including desktops, laptops, tablets, and
+            smartphones. Whether you're at home, on the go, or in the office,
+            you can rely on WeatherForecast to keep you informed about the
+            weather conditions wherever you are.
+          </li>
+        </ul>
+        <p>
+          WeatherForecast is built upon the OpenWeather API, a trusted source of
+          weather data that ensures the utmost accuracy and reliability. With
+          WeatherForecast, you can make informed decisions, plan your
+          activities, and stay prepared for whatever Mother Nature has in store.
+          Experience the power of WeatherForecast today and never be caught off
+          guard by the weather again. It's time to embrace weather intelligence
+          and let WeatherForecast be your ultimate weather companion!
+        </p>
+      </div>
+    </div>
+
+    <!-- Today Forecast -->
+    <div id="today-forecast" class="forecast-result">
+      <div id="temp-info">
+        <div id="total-info">
+          <div id="temp-info">
+            <ul id="condition-info">
+              <li>
+                <img src="" id="weather-icon" alt="weather icon">
+              </li>
+              <li id="condition"></li>
+            </ul>
+            <ul>
+              <li id="temp"></li>
+              <li id="feels-like"></li>
+            </ul>
+          </div>
+
+          <div id="additional-info">
+            <div>
+              <ul id="location">
+                <li id="city"></li>
+                <li id="country"></li>
+              </ul>
+            </div>
+            <div>
+              <ul id="temp-range">
+                <li id="min-temp"></li>
+                <li id="max-temp"></li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li>Wind Speed</li>
+                <li id="wind-speed"></li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li>Humidity</li>
+                <li id="humidity"></li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li>Air Quality</li>
+                <li id="air-pollution"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="today-forecast-hourly" class="hourly">
+        <!-- a chart drawn in js to show min and max temp for next hours -->
+      </div>
+    </div>
+
+    <!-- Next Days Forecast -->
+    <div id="next-days-section" class="forecast-result">
+      <div id="next-days-data">
+        <button class="date" id="button_day1">
+          <p class="day_number" id="day1"></p>
+          <p id="condition1"></p>
+        </button>
+        <button class="date" id="button_day2">
+          <p class="day_number" id="day2"></p>
+          <p id="condition2"></p>
+        </button>
+        <button class="date" id="button_day3">
+          <p class="day_number" id="day3"></p>
+          <p id="condition3"></p>
+        </button>
+        <button class="date" id="button_day4">
+          <p class="day_number" id="day4"></p>
+          <p id="condition4"></p>
+        </button>
+        <button class="date" id="button_day5">
+          <p class="day_number" id="day5"></p>
+          <p id="condition5"></p>
+        </button>
+      </div>
+
+      <div id="next-days-charts">
+        <div class="hourly" id="day1_chart"></div>
+        <div class="hourly" id="day2_chart"></div>
+        <div class="hourly" id="day3_chart"></div>
+        <div class="hourly" id="day4_chart"></div>
+        <div class="hourly" id="day5_chart"></div>
+      </div>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section">
+      <embed src="/Thinking face-bro.70e2b503.svg" id="quiz-image">
+
+      <div id="quiz">
+        <div id="question"></div>
+        <div id="options"></div>
+        <button id="next-button">Next Question</button>
+      </div>
+    </div>
+
+    <!-- Javascript -->
+    <!-- <script type="module" src="script.js"></script> -->
+
+    <script type="module" src="/script.75da7f30.js"></script>
+    <script type="module" src="/exerciseRecommendation.c01d3e90.js"></script>
+  </body>
+</html>

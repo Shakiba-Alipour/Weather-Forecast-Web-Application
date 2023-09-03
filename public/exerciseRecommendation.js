@@ -1,6 +1,6 @@
-import sqlite3 from "sqlite3";
+import sqlite3 from "../node_modules/sqlite3";
 
-function getExerciseRecommendations(weatherData) {
+export function getExerciseRecommendations(weatherData) {
   const dbPath = "./databases/exercises.sql";
   const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
@@ -70,6 +70,3 @@ function getExerciseRecommendations(weatherData) {
     });
   });
 }
-
-// Export the function
-module.exports = getExerciseRecommendations;

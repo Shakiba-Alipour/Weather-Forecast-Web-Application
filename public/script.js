@@ -1,3 +1,5 @@
+import { getExerciseRecommendations } from "../public/exerciseRecommendation.js";
+
 // arrays to store next five days data
 let today_data, day1_data, day2_data, day3_data, day4_data, day5_data;
 
@@ -73,7 +75,7 @@ document
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
 
-        exerciseRecommendation(data);
+        displayExerciseRecommendation(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -502,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Exercise Recommendation Section
-function exerciseRecommendation(weatherData) {
+function displayExerciseRecommendation(weatherData) {
   // Call the getExerciseRecommendations function
   getExerciseRecommendations(weatherData)
     .then((recommendedExercises) => {

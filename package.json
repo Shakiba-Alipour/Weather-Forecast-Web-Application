@@ -1,20 +1,18 @@
 {
   "type": "module",
+  "scripts": {
+    "start:client": "parcel public/index.html",
+    "start:server": "node server.js",
+    "start": "npm run start:client & npm run start:server"
+  },
   "dependencies": {
-    "aws-sdk": "^2.1450.0",
-    "browserify-zlib": "^0.2.0",
-    "constants-browserify": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "https-browserify": "^1.0.0",
-    "mock-aws-s3": "^4.0.2",
-    "net": "^1.0.2",
-    "nock": "^13.3.3",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7",
-    "sqlite3": "^5.1.6",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.1"
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
   }
 }
