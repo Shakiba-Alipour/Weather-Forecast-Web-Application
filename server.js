@@ -3,6 +3,8 @@ import fetch from "node-fetch";
 import cors from "cors";
 import https from "https";
 const app = express();
+import sqlite3 from "sqlite3";
+import bodyParser from "body-parser";
 const PORT = 3000;
 
 class Weather {
@@ -280,3 +282,115 @@ app.listen(PORT, () => {
 // server.listen(PORT, () => {
 //   console.log("Server is running (HTTPS)");
 // });
+
+// exercise recommendation management
+app.get("/exercise-recommendations", (req, res) => {
+  const weatherDataString = req.query.weatherData;
+  const weatherData = JSON.parse(weatherDataString);
+
+  const dbPath = "../databases/exercises.db";
+  const db = new sqlite3.Database(dbPath, async (err) => {
+    if (err) {
+      console.error("Error opening database:", err.message);
+    } else {
+      console.log("Connected to the database");
+    }
+
+    let outdoor_possibility = 1;
+
+    // Modify indoor ,outdoor and airQuality based on weatherData
+    // temperature check
+    if (weatherData.min_temperature < 4 || weatherData.max_temperature > 30) {
+      outdoor_possibility = 0;
+    }
+    // humudity check
+    if (weatherData.humidity < 30 || weatherData.humidity > 70) {
+      outdoor_possibility = 0;
+    }
+    // wind speen check
+    if (weatherData.wind_speed >= 10) {
+      outdoor_possibility = 0;
+    }
+    // main weather condition check
+    if (
+      (weatherData.description.includes("rain") ||
+        weatherData.description.includes("snow")) &&
+      !weatherData.description.includes("light")
+    ) {
+      outdoor_possibility = 0;
+    }
+
+    // Modify airQuality based on weatherData or user preferences
+    // Indoor exercises are always recommended (indoor = 1).
+    // Outdoor exercises are recommended if they have an air quality sensitivity that is not 'High'.
+    // This means outdoor exercises are recommended if their air quality sensitivity is 'Low' or 'Normal'.
+    // Additionally, outdoor exercises are recommended if the weatherData.air_pollution is "Good" or "Fair".
+    // Outdoor exercises are recommended if the outdoor possibility is set to 1, regardless of other conditions.
+
+    const query = `
+        SELECT DISTINCT name, type, equipment_needed, difficulty_level
+        FROM exercises
+        WHERE
+            (
+                outdoor = 1 AND (
+                    air_quality_sensitivity != 'High'
+                    OR weatherData.air_pollution IN ('Good', 'Fair')
+                )
+            )
+            OR (${outdoor_possibility} = 1)
+            OR indoor = 1
+        `;
+
+    // Execute the SQL query and retrieve the recommendations
+    const rows = await new Promise((resolve, reject) => {
+      db.all(query, [], (err, rows) => {
+        if (err) {
+          console.log(err.message);
+          reject(err);
+        } else {
+          console.log(rows);
+          resolve(rows);
+        }
+      });
+    });
+
+    // Send the list of exercises as a JSON response
+    res.json(rows);
+    // db.all(query, [], (err, rows) => {
+    //   if (err) {
+    //     res
+    //       .status(500)
+    //       .json({ error: "Failed to fetch exercise recommendations" });
+    //   } else {
+    //     // Send the list of exercises as a JSON response
+    //     console.log(rows);
+    //     res.json(rows);
+    //   }
+    // });
+    // const query = `
+    //   SELECT DISTINCT name, type, equipment_needed, difficulty_level
+    //   FROM exercises
+    //   WHERE
+    //       (
+    //           outdoor = 1 AND (
+    //               air_quality_sensitivity != 'High'
+    //               OR air_pollution IN ('Good', 'Fair')
+    //           )
+    //       )
+    //       OR (? = 1)
+    //       OR indoor = 1
+    // `;
+
+    // // Bind the values to the placeholders in the query
+    // db.all(query, [outdoor_possibility], (err, rows) => {
+    //   if (err) {
+    //     res
+    //       .status(500)
+    //       .json({ error: "Failed to fetch exercise recommendations" });
+    //   } else {
+    //     // Send the list of exercises as a JSON response
+    //     res.json(rows);
+    //   }
+    // });
+  });
+});

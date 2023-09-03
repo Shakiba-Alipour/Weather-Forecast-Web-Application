@@ -1,5 +1,3 @@
-import { getExerciseRecommendations } from "../public/exerciseRecommendation.js";
-
 // arrays to store next five days data
 let today_data, day1_data, day2_data, day3_data, day4_data, day5_data;
 
@@ -504,12 +502,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Exercise Recommendation Section
-function displayExerciseRecommendation(weatherData) {
-  // Call the getExerciseRecommendations function
-  getExerciseRecommendations(weatherData)
-    .then((recommendedExercises) => {
-      // Handle the recommended exercises here
-      console.log("Recommended Exercises:", recommendedExercises);
+async function displayExerciseRecommendation(weatherData) {
+  fetch(
+    "http://127.0.0.1:3000/exercise-recommendations?weatherData=" +
+      encodeURIComponent(JSON.stringify(weatherData))
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the exercise recommendations (data) here
+      console.log("Exercise Recommendations:", data);
     })
     .catch((error) => {
       console.error("Error:", error);
