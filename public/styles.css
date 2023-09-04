@@ -73,7 +73,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
-  z-index: 100;
+  z-index: 1;
 }
 
 #open-about-popup {
@@ -90,13 +90,12 @@ body {
 .popup {
   display: none;
   position: fixed;
-  z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  z-index: 100;
+  z-index: 3;
 }
 
 #about-content {
@@ -105,6 +104,18 @@ body {
   padding: 2rem;
   width: 50%;
   border-radius: 0.5rem;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  backdrop-filter: blur(5px); /* Apply blur effect */
+  z-index: 2;
 }
 
 #web-name {
@@ -213,7 +224,7 @@ body {
 }
 
 .hourly {
-  z-index: 50;
+  z-index: 0.5;
   margin-top: 1%;
   margin-bottom: 1%;
   background-color: var(--floral-white);

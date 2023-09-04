@@ -6,10 +6,12 @@ document
   .getElementById("open-about-popup")
   .addEventListener("click", function () {
     document.getElementById("about-popup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
   });
 
 document.getElementById("close-popup").addEventListener("click", function () {
   document.getElementById("about-popup").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
 });
 
 // search management
