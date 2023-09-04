@@ -52,8 +52,8 @@ document
         document.getElementById("air-pollution").innerHTML = data.air_pollution;
 
         // display today and next five days forecast
-        today_data = data.today_total_forecast;
-        dispaly_next_days(data.next_five_days.days);
+        today_data = data.today_total_forecast.today;
+        fetch_next_days_data(data.next_five_days.days);
 
         // draw a border for day1 button to show that the chart belongs to day 1
         document.getElementById("button_day1").style.borderColor = "black";
@@ -68,12 +68,12 @@ document
         google.load("visualization", "1.0", { packages: ["corechart"] });
 
         // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(draw_chart);
+        google.setOnLoadCallback(draw_charts);
 
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
 
-        displayExerciseRecommendation(data);
+        // displayExerciseRecommendation(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -82,278 +82,84 @@ document
 
 // display hourly chart related to each day when user clicks on each day
 let user_selection = document.getElementsByClassName("date");
-for (var i = 0; i < user_selection.length; i++) {
-  (function (index) {
-    user_selection[index].addEventListener("click", async function () {
-      let day_number = String(
-        document.getElementsByClassName("day_number")[0].id
-      ).charAt(3);
-      switch (day_number) {
-        case 1:
-          document.getElementById("day2_chart").style.display = "none";
-          document.getElementById("day3_chart").style.display = "none";
-          document.getElementById("day4_chart").style.display = "none";
-          document.getElementById("day5_chart").style.display = "none";
-          document.getElementById("day1_chart").style.display = "block";
-          document.getElementById("button_day1").style.borderColor =
-            "#403d39ff";
-          break;
-        case 2:
-          document.getElementById("day1_chart").style.display = "none";
-          document.getElementById("day3_chart").style.display = "none";
-          document.getElementById("day4_chart").style.display = "none";
-          document.getElementById("day5_chart").style.display = "none";
-          document.getElementById("day2_chart").style.display = "block";
-          document.getElementById("button_day2").style.borderColor =
-            "#403d39ff";
-          break;
-        case 3:
-          document.getElementById("day1_chart").style.display = "none";
-          document.getElementById("day2_chart").style.display = "none";
-          document.getElementById("day4_chart").style.display = "none";
-          document.getElementById("day5_chart").style.display = "none";
-          document.getElementById("day3_chart").style.display = "block";
-          document.getElementById("button_day3").style.borderColor =
-            "#403d39ff";
-          break;
-        case 4:
-          document.getElementById("day1_chart").style.display = "none";
-          document.getElementById("day2_chart").style.display = "none";
-          document.getElementById("day3_chart").style.display = "none";
-          document.getElementById("day5_chart").style.display = "none";
-          document.getElementById("day4_chart").style.display = "block";
-          document.getElementById("button_day4").style.borderColor =
-            "#403d39ff";
-          break;
-        case 5:
-          document.getElementById("day1_chart").style.display = "none";
-          document.getElementById("day2_chart").style.display = "none";
-          document.getElementById("day3_chart").style.display = "none";
-          document.getElementById("day4_chart").style.display = "none";
-          document.getElementById("day5_chart").style.display = "block";
-          document.getElementById("button_day5").style.borderColor =
-            "#403d39ff";
-          break;
+let chartIds = [
+  "day1_chart",
+  "day2_chart",
+  "day3_chart",
+  "day4_chart",
+  "day5_chart",
+];
+for (let i = 0; i < user_selection.length; i++) {
+  user_selection[i].addEventListener("click", async function () {
+    for (let j = 0; j < chartIds.length; j++) {
+      let chart = document.getElementById(chartIds[j]);
+      let button = document.getElementById(`button_day${j + 1}`);
+
+      if (i === j) {
+        chart.style.display = "block";
+        button.style.borderColor = "#403d39ff";
+        button.style.borderStyle = "solid";
+      } else {
+        chart.style.display = "none";
+        button.style.borderStyle = "none"; // Reset border color for other buttons
       }
-    });
-  })(i);
+    }
+  });
 }
 
-// a method for drawing a chart to display min and max temperature
-function draw_chart() {
-  // today chart
-  // Create a DataTable for today
-  var today_dataTable = new google.visualization.DataTable();
-  today_dataTable.addColumn("string", "Hour");
-  today_dataTable.addColumn("number", "Min Temperature");
-  today_dataTable.addColumn("number", "Max Temperature");
+// Draw charts for each day asynchronously to display min and max temperature
+async function draw_charts() {
+  try {
+    await drawChartForDay(today_data, "today-forecast-hourly");
+    await drawChartForDay(day1_data, "day1_chart");
+    await drawChartForDay(day2_data, "day2_chart");
+    await drawChartForDay(day3_data, "day3_chart");
+    await drawChartForDay(day4_data, "day4_chart");
+    await drawChartForDay(day5_data, "day5_chart");
+  } catch (error) {
+    console.error("An error occurred in drawing charts:", error);
+  }
+}
 
-  // Convert the Map data from Today_forecast to an array of arrays
-  const today_array = today_data.today.map(([hour, min_temp, max_temp]) => [
+// Define a function to draw a chart for a specific day
+async function drawChartForDay(hourlyData, chartContainerId) {
+  // Create a DataTable for the chart
+  const dataTable = new google.visualization.DataTable();
+  dataTable.addColumn("string", "Hour");
+  dataTable.addColumn("number", "Min Temperature");
+  dataTable.addColumn("number", "Max Temperature");
+
+  // Convert the hourlyData to an array of arrays
+  const dataArray = hourlyData.map(([hour, minTemp, maxTemp]) => [
     hour,
-    min_temp,
-    max_temp,
+    minTemp,
+    maxTemp,
   ]);
 
   // Add the data to the DataTable
-  today_dataTable.addRows(today_array);
+  dataTable.addRows(dataArray);
 
-  // Set chart options
-  const today_options = {
+  // Set chart options (you can customize this as needed)
+  const options = {
     curveType: "function",
     legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
     vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
+      title: "Temperature (°C)",
     },
   };
 
-  var today_chart = new google.visualization.LineChart(
-    document.getElementById("today-forecast-hourly")
+  // Create the chart and attach it to the specified container
+  const chart = new google.visualization.LineChart(
+    document.getElementById(chartContainerId)
   );
-
-  today_chart.draw(today_dataTable, today_options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // day1 chart
-  // Create a DataTable for today
-  var day1_dataTable = new google.visualization.DataTable();
-  day1_dataTable.addColumn("string", "Hour");
-  day1_dataTable.addColumn("number", "Min Temperature");
-  day1_dataTable.addColumn("number", "Max Temperature");
-
-  const day1_array = day1_data.map(([hour, min_temp, max_temp]) => [
-    hour,
-    min_temp,
-    max_temp,
-  ]);
-
-  // Add the data to the DataTable
-  day1_dataTable.addRows(day1_array);
-
-  // Set chart options
-  const day1_options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
-    vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
-    },
-  };
-
-  var day1_chart = new google.visualization.LineChart(
-    document.getElementById("day1_chart")
-  );
-
-  day1_chart.draw(day1_dataTable, day1_options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // day2 chart
-  // Create a DataTable for today
-  var day2_dataTable = new google.visualization.DataTable();
-  day2_dataTable.addColumn("string", "Hour");
-  day2_dataTable.addColumn("number", "Min Temperature");
-  day2_dataTable.addColumn("number", "Max Temperature");
-
-  const day2_array = day2_data.map(([hour, min_temp, max_temp]) => [
-    hour,
-    min_temp,
-    max_temp,
-  ]);
-
-  // Add the data to the DataTable
-  day2_dataTable.addRows(day2_array);
-
-  // Set chart options
-  const day2_options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
-    vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
-    },
-  };
-
-  var day2_chart = new google.visualization.LineChart(
-    document.getElementById("day2_chart")
-  );
-
-  day2_chart.draw(day2_dataTable, day2_options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // day3 chart
-  // Create a DataTable for today
-  var day3_dataTable = new google.visualization.DataTable();
-  day3_dataTable.addColumn("string", "Hour");
-  day3_dataTable.addColumn("number", "Min Temperature");
-  day3_dataTable.addColumn("number", "Max Temperature");
-
-  const day3_array = day3_data.map(([hour, min_temp, max_temp]) => [
-    hour,
-    min_temp,
-    max_temp,
-  ]);
-
-  // Add the data to the DataTable
-  day3_dataTable.addRows(day3_array);
-
-  // Set chart options
-  const day3_options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
-    vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
-    },
-  };
-
-  var day3_chart = new google.visualization.LineChart(
-    document.getElementById("day3_chart")
-  );
-
-  day3_chart.draw(day3_dataTable, day3_options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // day4 chart
-  // Create a DataTable for today
-  var day4_dataTable = new google.visualization.DataTable();
-  day4_dataTable.addColumn("string", "Hour");
-  day4_dataTable.addColumn("number", "Min Temperature");
-  day4_dataTable.addColumn("number", "Max Temperature");
-
-  const day4_array = day4_data.map(([hour, min_temp, max_temp]) => [
-    hour,
-    min_temp,
-    max_temp,
-  ]);
-
-  // Add the data to the DataTable
-  day4_dataTable.addRows(day4_array);
-
-  // Set chart options
-  const day4_options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
-    vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
-    },
-  };
-
-  var day4_chart = new google.visualization.LineChart(
-    document.getElementById("day4_chart")
-  );
-
-  day4_chart.draw(day4_dataTable, day4_options);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // day5 chart
-  // Create a DataTable for today
-  var day5_dataTable = new google.visualization.DataTable();
-  day5_dataTable.addColumn("string", "Hour");
-  day5_dataTable.addColumn("number", "Min Temperature");
-  day5_dataTable.addColumn("number", "Max Temperature");
-
-  const day5_array = day5_data.map(([hour, min_temp, max_temp]) => [
-    hour,
-    min_temp,
-    max_temp,
-  ]);
-
-  // Add the data to the DataTable
-  day5_dataTable.addRows(day5_array);
-
-  // Set chart options
-  const day5_options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    // hAxis: {
-    //   title: "Hour", // Set the label for the horizontal axis
-    // },
-    vAxis: {
-      title: "Temperature (°C)", // Set the label for the vertical axis
-    },
-  };
-
-  var day5_chart = new google.visualization.LineChart(
-    document.getElementById("day5_chart")
-  );
-
-  day5_chart.draw(day5_dataTable, day5_options);
+  // google.visualization.events.addListener(chart, "ready", () => {
+  //   resolve();
+  // });
+  chart.draw(dataTable, options);
 }
 
 // display next five days forecast
-function dispaly_next_days(data) {
+function fetch_next_days_data(data) {
   let day_number = 0,
     ct = 0, // counts forecast's day number (1 to 5)
     j = 0;
