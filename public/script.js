@@ -27,9 +27,12 @@ document
         form.reset();
         header.appendChild(form);
         header.style.justifyContent = "space-between";
-        document.getElementById("search-bar").style.backgroundColor = "white";
-        document.getElementById("search-input").style.backgroundColor = "white";
-        document.getElementById("search-icon").style.backgroundColor = "white";
+        document.getElementById("search-bar").style.backgroundColor =
+          "#fffcf2ff";
+        document.getElementById("search-input").style.backgroundColor =
+          "#fffcf2ff";
+        document.getElementById("search-icon").style.backgroundColor =
+          "#fffcf2ff";
 
         // display today weather information
         document.getElementById("weather-icon").src =
@@ -64,11 +67,9 @@ document
             target_list[i].style.visibility = "visible";
           }
         }
-        // Load the Visualization API and the piechart package.
-        google.load("visualization", "1.0", { packages: ["corechart"] });
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(draw_charts);
+        // draw charts to display today and next five days temperature
+        draw_charts();
 
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
@@ -123,39 +124,60 @@ async function draw_charts() {
 
 // Define a function to draw a chart for a specific day
 async function drawChartForDay(hourlyData, chartContainerId) {
-  // Create a DataTable for the chart
-  const dataTable = new google.visualization.DataTable();
-  dataTable.addColumn("string", "Hour");
-  dataTable.addColumn("number", "Min Temperature");
-  dataTable.addColumn("number", "Max Temperature");
+  const ctx = document.getElementById(chartContainerId).getContext("2d");
 
-  // Convert the hourlyData to an array of arrays
-  const dataArray = hourlyData.map(([hour, minTemp, maxTemp]) => [
-    hour,
-    minTemp,
-    maxTemp,
-  ]);
+  // Convert the hourlyData to separate arrays for labels, minTemp, and maxTemp
+  const labels = hourlyData.map(([hour, minTemp, maxTemp]) => hour);
+  const minTempData = hourlyData.map(([hour, minTemp, maxTemp]) => minTemp);
+  const maxTempData = hourlyData.map(([hour, minTemp, maxTemp]) => maxTemp);
 
-  // Add the data to the DataTable
-  dataTable.addRows(dataArray);
-
-  // Set chart options (you can customize this as needed)
-  const options = {
-    curveType: "function",
-    legend: { position: "bottom" },
-    vAxis: {
-      title: "Temperature (°C)",
+  // Create the chart
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Min Temperature",
+          data: minTempData,
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 2,
+        },
+        {
+          label: "Max Temperature",
+          data: maxTempData,
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 2,
+        },
+      ],
     },
-  };
-
-  // Create the chart and attach it to the specified container
-  const chart = new google.visualization.LineChart(
-    document.getElementById(chartContainerId)
-  );
-  // google.visualization.events.addListener(chart, "ready", () => {
-  //   resolve();
-  // });
-  chart.draw(dataTable, options);
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Hour",
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Temperature (°C)",
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom",
+        },
+        customCanvasBackgroundColor: {
+          color: "#fffcf2ff",
+        },
+      },
+    },
+  });
 }
 
 // display next five days forecast

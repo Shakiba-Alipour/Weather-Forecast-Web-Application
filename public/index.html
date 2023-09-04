@@ -22,11 +22,8 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
 
-    <!-- Google Charts -->
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
+    <!-- Charts.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -172,8 +169,8 @@
         </div>
       </div>
 
-      <div id="today-forecast-hourly" class="hourly">
-        <!-- a chart drawn in js to show min and max temp for next hours -->
+      <div id="today-forecast-chart" class="hourly">
+        <canvas id="today-forecast-hourly"></canvas>
       </div>
     </div>
 
@@ -203,11 +200,11 @@
       </div>
 
       <div id="next-days-charts">
-        <div class="hourly" id="day1_chart"></div>
-        <div class="hourly" id="day2_chart"></div>
-        <div class="hourly" id="day3_chart"></div>
-        <div class="hourly" id="day4_chart"></div>
-        <div class="hourly" id="day5_chart"></div>
+        <canvas class="hourly" id="day1_chart"></canvas>
+        <canvas class="hourly" id="day2_chart" style="display: none"></canvas>
+        <canvas class="hourly" id="day3_chart" style="display: none"></canvas>
+        <canvas class="hourly" id="day4_chart" style="display: none"></canvas>
+        <canvas class="hourly" id="day5_chart" style="display: none"></canvas>
       </div>
     </div>
 
