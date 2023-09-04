@@ -27,6 +27,7 @@ document
         form.reset();
         header.appendChild(form);
         header.style.justifyContent = "space-between";
+        document.getElementById("search-bar").style.top = "50%";
         document.getElementById("search-bar").style.backgroundColor =
           "#fffcf2ff";
         document.getElementById("search-input").style.backgroundColor =
