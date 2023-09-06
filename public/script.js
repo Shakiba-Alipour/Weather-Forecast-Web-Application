@@ -77,7 +77,7 @@ document
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
 
-        // displayExerciseRecommendation(data);
+        displayExerciseRecommendation(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -340,10 +340,28 @@ async function displayExerciseRecommendation(weatherData) {
   )
     .then((response) => response.json())
     .then((data) => {
-      // Handle the exercise recommendations (data) here
-      console.log("Exercise Recommendations:", data);
+      let table = document.getElementById("exercises-table");
+
+      // add data to the table
+      for (let i = 0; i < data.length; i++) {
+        var row = table.insertRow(i + 1);
+        var name = row.insertCell(0);
+        var type = row.insertCell(1);
+        var equipment = row.insertCell(2);
+        var difficulty = row.insertCell(3);
+
+        name.innerHTML = data[i].name;
+        type.innerHTML = data[i].type;
+        equipment.innerHTML = data[i].equipment_needed;
+        difficulty.innerHTML = data[i].difficulty_level;
+      }
+
+      // display the table
+      document.getElementById(
+        "exercise-recommendation-section"
+      ).style.visibility = "visible";
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Error in fetching exercise recommendation data:", error);
     });
 }

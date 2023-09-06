@@ -283,3 +283,26 @@ body {
   color: red;
   margin-right: 10px;
 }
+
+#exercise-recommendation-section {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  align-items: center;
+  justify-content: space-around;
+  visibility: hidden;
+}
+
+#exercises-table-div {
+  overflow-x: auto; /* make table responsive*/
+}
+
+#exercise-image {
+  max-width: 30%;
+  max-height: 30%;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

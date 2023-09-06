@@ -283,12 +283,214 @@ app.listen(PORT, () => {
 //   console.log("Server is running (HTTPS)");
 // });
 
+app.get("/make-db", (req, res) => {
+  const dbPath = "databases/exercises";
+  const db = new sqlite3.Database(dbPath, async (err) => {
+    const query = `
+      CREATE TABLE exercises (
+          id INTEGER PRIMARY KEY,
+          name TEXT,
+          type TEXT,
+          indoor INTEGER,
+          outdoor INTEGER,
+          air_quality_sensitivity TEXT,
+          equipment_needed TEXT,
+          difficulty_level TEXT
+      );
+    `;
+
+    // Execute the SQL query and retrieve the recommendations
+    const rows = await new Promise((resolve, reject) => {
+      db.all(query, [], (err, rows) => {
+        if (err) {
+          console.log(err.message);
+          reject(err);
+        } else {
+          console.log(rows);
+          resolve(rows);
+        }
+      });
+    });
+
+    const query2 = `
+      INSERT INTO exercises (
+              name,
+              type,
+              indoor,
+              outdoor,
+              air_quality_sensitivity,
+              equipment_needed,
+              difficulty_level
+          )
+      VALUES (
+              'Jogging',
+              'Cardio',
+              0,
+              1,
+              'Normal',
+              'None',
+              'Beginner'
+          ),
+          (
+              'Yoga',
+              'Stretching',
+              1,
+              1,
+              'Low',
+              'Mat',
+              'Beginner'
+          ),
+          (
+              'Cycling',
+              'Cardio',
+              0,
+              1,
+              'Normal',
+              'Bicycle',
+              'Intermediate'
+          ),
+          (
+              'Weight Lifting',
+              'Strength',
+              1,
+              0,
+              'Low',
+              'Weights',
+              'Intermediate'
+          ),
+          (
+              'Hiking',
+              'Outdoor',
+              0,
+              1,
+              'High',
+              'None',
+              'Intermediate'
+          ),
+          (
+              'Swimming',
+              'Cardio',
+              1,
+              0,
+              'Normal',
+              'Pool',
+              'Intermediate'
+          ),
+          (
+              'Martial Arts',
+              'Cardio',
+              1,
+              1,
+              'Low',
+              'None',
+              'Intermediate'
+          ),
+          (
+              'Aerobics',
+              'Cardio',
+              1,
+              1,
+              'Low',
+              'None',
+              'Beginner'
+          ),
+          (
+              'Bodyweight Workout',
+              'Strength',
+              1,
+              1,
+              'Normal',
+              'None',
+              'Intermediate'
+          ),
+          (
+              'Barre',
+              'Dance',
+              1,
+              1,
+              'Low',
+              'Ballet Barre',
+              'Intermediate'
+          ),
+          (
+              'Kayaking',
+              'Outdoor',
+              0,
+              1,
+              'Normal',
+              'Kayak',
+              'Intermediate'
+          ),
+          (
+              'Tai Chi',
+              'Relaxation',
+              1,
+              1,
+              'Low',
+              'None',
+              'Beginner'
+          ),
+          (
+              'Boxing',
+              'Cardio',
+              1,
+              1,
+              'Normal',
+              'Boxing Gloves',
+              'Intermediate'
+          ),
+          (
+              'TRX Suspension',
+              'Strength',
+              1,
+              1,
+              'Normal',
+              'TRX Straps',
+              'Intermediate'
+          ),
+          (
+              'Dance',
+              'Dance',
+              1,
+              1,
+              'Low',
+              'None',
+              'Beginner'
+          ),
+          (
+              'Spinning',
+              'Cardio',
+              1,
+              1,
+              'Normal',
+              'Spin Bike',
+              'Intermediate'
+          );
+    `;
+
+    // Execute the SQL query and retrieve the recommendations
+    const rows2 = await new Promise((resolve, reject) => {
+      db.all(query2, [], (err, rows2) => {
+        if (err) {
+          console.log(err.message);
+          reject(err);
+        } else {
+          console.log(rows2);
+          resolve(rows2);
+        }
+      });
+    });
+
+    res.json(rows2);
+  });
+});
+
 // exercise recommendation management
 app.get("/exercise-recommendations", (req, res) => {
   const weatherDataString = req.query.weatherData;
   const weatherData = JSON.parse(weatherDataString);
 
-  const dbPath = "../databases/exercises.db";
+  const dbPath = "databases/exercises";
   const db = new sqlite3.Database(dbPath, async (err) => {
     if (err) {
       console.error("Error opening database:", err.message);
@@ -334,7 +536,7 @@ app.get("/exercise-recommendations", (req, res) => {
             (
                 outdoor = 1 AND (
                     air_quality_sensitivity != 'High'
-                    OR weatherData.air_pollution IN ('Good', 'Fair')
+                    OR '${weatherData.air_pollution}' IN ('Good', 'Fair')
                 )
             )
             OR (${outdoor_possibility} = 1)
@@ -348,7 +550,6 @@ app.get("/exercise-recommendations", (req, res) => {
           console.log(err.message);
           reject(err);
         } else {
-          console.log(rows);
           resolve(rows);
         }
       });
@@ -356,41 +557,5 @@ app.get("/exercise-recommendations", (req, res) => {
 
     // Send the list of exercises as a JSON response
     res.json(rows);
-    // db.all(query, [], (err, rows) => {
-    //   if (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: "Failed to fetch exercise recommendations" });
-    //   } else {
-    //     // Send the list of exercises as a JSON response
-    //     console.log(rows);
-    //     res.json(rows);
-    //   }
-    // });
-    // const query = `
-    //   SELECT DISTINCT name, type, equipment_needed, difficulty_level
-    //   FROM exercises
-    //   WHERE
-    //       (
-    //           outdoor = 1 AND (
-    //               air_quality_sensitivity != 'High'
-    //               OR air_pollution IN ('Good', 'Fair')
-    //           )
-    //       )
-    //       OR (? = 1)
-    //       OR indoor = 1
-    // `;
-
-    // // Bind the values to the placeholders in the query
-    // db.all(query, [outdoor_possibility], (err, rows) => {
-    //   if (err) {
-    //     res
-    //       .status(500)
-    //       .json({ error: "Failed to fetch exercise recommendations" });
-    //   } else {
-    //     // Send the list of exercises as a JSON response
-    //     res.json(rows);
-    //   }
-    // });
   });
 });
