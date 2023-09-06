@@ -352,7 +352,11 @@ async function displayExerciseRecommendation(weatherData) {
 
         name.innerHTML = data[i].name;
         type.innerHTML = data[i].type;
-        equipment.innerHTML = data[i].equipment_needed;
+        if (data[i].equipment_needed == "None") {
+          equipment.innerHTML = "-";
+        } else {
+          equipment.innerHTML = data[i].equipment_needed;
+        }
         difficulty.innerHTML = data[i].difficulty_level;
       }
 

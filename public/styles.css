@@ -303,6 +303,7 @@ body {
 
 #exercises-table-div {
   overflow-x: auto; /* make table responsive*/
+  width: 60%;
 }
 
 #exercise-image {
@@ -310,6 +311,22 @@ body {
   max-height: 30%;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+tr:nth-child() {
+  background-color: var(--timberwolf);
+}
+
+#table-title {
+  background-color: var(--flame);
+}
+
+th,
+td {
+  border: 1px solid;
+  border-color: var(--eerie-black);
+  padding: 1%;
+}
+
+#exercises-table {
+  width: 100%;
+  border-collapse: collapse;
 }
