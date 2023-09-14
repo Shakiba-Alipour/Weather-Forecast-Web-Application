@@ -214,6 +214,10 @@ body {
   border-style: solid;
 }
 
+#button_today {
+  height: inherit;
+}
+
 .date {
   background-color: var(--floral-white);
   height: 80%;

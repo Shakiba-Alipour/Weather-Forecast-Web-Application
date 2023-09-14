@@ -135,15 +135,14 @@
           </div>
         </div>
       </div>
-
-      <div id="today-forecast-chart" class="hourly">
-        <canvas id="today-forecast-hourly"></canvas>
-      </div>
     </div>
 
-    <!-- Next Days Forecast -->
+    <!-- Charts -->
     <div id="next-days-section" class="forecast-result">
       <div id="next-days-data">
+        <button class="date" id="button_today">
+          <p class="day_number" id="button_today"></p>
+        </button>
         <button class="date" id="button_day1">
           <p class="day_number" id="day1"></p>
           <p id="condition1"></p>
@@ -167,6 +166,7 @@
       </div>
 
       <div id="next-days-charts">
+        <canvas class="hourly" id="today-forecast-hourly"></canvas>
         <canvas class="hourly" id="day1_chart"></canvas>
         <canvas class="hourly" id="day2_chart" style="display: none"></canvas>
         <canvas class="hourly" id="day3_chart" style="display: none"></canvas>

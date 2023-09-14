@@ -71,6 +71,9 @@ document
           }
         }
 
+        // set data for today chart's button
+        document.getElementById("button_today").innerHTML = "Today";
+
         // draw charts to display today and next five days temperature
         draw_charts();
 
@@ -87,6 +90,7 @@ document
 // display hourly chart related to each day when user clicks on each day
 let user_selection = document.getElementsByClassName("date");
 let chartIds = [
+  "today-forecast-hourly",
   "day1_chart",
   "day2_chart",
   "day3_chart",
@@ -97,7 +101,12 @@ for (let i = 0; i < user_selection.length; i++) {
   user_selection[i].addEventListener("click", async function () {
     for (let j = 0; j < chartIds.length; j++) {
       let chart = document.getElementById(chartIds[j]);
-      let button = document.getElementById(`button_day${j + 1}`);
+      let button;
+      if (j == 0) {
+        button = document.getElementById("button_today");
+      } else {
+        button = document.getElementById(`button_day${j}`);
+      }
 
       if (i === j) {
         chart.style.display = "block";
