@@ -218,12 +218,14 @@ body {
   color: blue;
   width: max-content;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .max-temp {
   color: red;
   width: max-content;
   margin-top: 0.5rem;
+  font-weight: bold;
 }
 
 .temp-range {
@@ -279,14 +281,9 @@ body {
   padding-bottom: 2%;
 }
 
-#button_today {
-  height: inherit;
-  border-style: solid;
-}
-
 .date {
   background-color: var(--floral-white);
-  height: 80%;
+  height: fit-content;
   width: min-content;
   border-radius: 0.7em;
   margin-top: 1%;
@@ -295,7 +292,6 @@ body {
   align-items: center;
   flex-direction: row;
   border-style: none;
-  border-color: var(--floral-white);
   cursor: pointer;
 }
 

@@ -63,9 +63,6 @@ document
         today_hourly_data = data.today_total_forecast.today;
         fetch_next_days_data(data.next_five_days.days);
 
-        // draw a border for today button to show that the chart belongs to today
-        document.getElementById("button_today").style.borderColor = "black";
-
         var target_list = document.getElementsByClassName("forecast-result");
         if (target_list) {
           for (let i = 0; i < target_list.length; i++) {
@@ -120,11 +117,10 @@ for (let i = 0; i < user_selection.length; i++) {
 
       if (i === j) {
         chart.style.display = "block";
-        button.style.borderColor = "#403d39ff";
-        button.style.borderStyle = "solid";
+        document.getElementById("div" + j).className = "active";
       } else {
         chart.style.display = "none";
-        button.style.borderStyle = "none"; // Reset border color for other buttons
+        document.getElementById("div" + j).className = "deactive";
       }
     }
   });
