@@ -81,9 +81,8 @@ body {
   height: auto;
   cursor: pointer;
   display: block;
-  margin-left: 3rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 3rem;
+  right: 0;
   font-weight: bold;
 }
 
@@ -138,7 +137,6 @@ body {
 #today-forecast {
   margin-top: 4em;
   display: flex;
-  height: 80%;
   width: 100%;
   border-radius: 0.7em;
   margin-left: auto;
@@ -162,15 +160,43 @@ body {
   align-items: flex-start;
 }
 
-#total-info {
-  display: grid;
-  justify-items: start;
-}
-
 #temp-info {
   display: flex;
+  align-items: center;
+}
+
+#temp-info div {
+  margin-left: 1rem;
+  margin-right: 1.5rem;
+}
+
+#city-container {
+  display: flex;
   flex-direction: row;
-  justify-self: flex-start;
+}
+
+#city {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+#country {
+  margin-left: 17px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#favorite-checker {
+  display: flex;
+  align-self: center;
+  margin-left: 1rem;
+  color: var(--black-olive);
+}
+
+/* today's temperature */
+#temp {
+  font-size: xx-large;
+  font-weight: bold;
 }
 
 #additional-info {
@@ -178,13 +204,22 @@ body {
   flex-direction: row;
 }
 
-#additional-info div {
+/* #additional-info div {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
+} */
+
+.additional-info-title {
+  font-size: smaller;
+}
+
+/* additional data about today's weather e.g. air quality, wind speed and humudity level */
+.additional-data {
+  font-size: large;
 }
 
 #today-forecast-hourly {

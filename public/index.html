@@ -87,52 +87,43 @@
     <!-- Today Forecast -->
     <div id="today-forecast" class="forecast-result">
       <div id="temp-info">
-        <div id="total-info">
-          <div id="temp-info">
-            <ul id="condition-info">
-              <li>
-                <img src="" id="weather-icon" alt="weather icon" />
-              </li>
-              <li id="condition"></li>
-            </ul>
-            <ul>
-              <li id="temp"></li>
-              <li id="feels-like"></li>
-            </ul>
+        <div id="location">
+          <div id="city-container">
+            <p id="city"></p>
+            <i class="material-icons" id="favorite-checker"></i>
           </div>
+          <p id="country"></p>
+        </div>
+        <div id="condition-info">
+          <img src="" id="weather-icon" alt="weather icon" />
+        </div>
+        <div>
+          <p id="temp"></p>
+        </div>
+        <div>
+          <p id="condition"></p>
+          <p id="feels-like"></p>
+        </div>
+      </div>
 
-          <div id="additional-info">
-            <div>
-              <ul id="location">
-                <li id="city"></li>
-                <li id="country"></li>
-              </ul>
-            </div>
-            <div>
-              <ul id="temp-range">
-                <li id="min-temp"></li>
-                <li id="max-temp"></li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <li>Wind Speed</li>
-                <li id="wind-speed"></li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <li>Humidity</li>
-                <li id="humidity"></li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <li>Air Quality</li>
-                <li id="air-pollution"></li>
-              </ul>
-            </div>
-          </div>
+      <div id="additional-info">
+        <div>
+          <ul>
+            <li class="additional-info-title">Wind Speed</li>
+            <li id="wind-speed" class="additional-data"></li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li class="additional-info-title">Humidity</li>
+            <li id="humidity" class="additional-data"></li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li class="additional-info-title">Air Quality</li>
+            <li id="air-pollution" class="additional-data"></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -142,6 +133,13 @@
       <div id="next-days-data">
         <button class="date" id="button_today">
           <p class="day_number" id="button_today"></p>
+
+          <div>
+            <ul id="temp-range">
+              <li id="min-temp"></li>
+              <li id="max-temp"></li>
+            </ul>
+          </div>
         </button>
         <button class="date" id="button_day1">
           <p class="day_number" id="day1"></p>

@@ -27,9 +27,10 @@ document
         const form = document.querySelector("form");
         const header = document.getElementById("header");
         form.reset();
-        header.appendChild(form);
+        header.prepend(form);
         header.style.justifyContent = "space-between";
         document.getElementById("search-bar").style.top = "50%";
+        document.getElementById("search-bar").style.left = "25%";
         document.getElementById("search-bar").style.backgroundColor =
           "#fffcf2ff";
         document.getElementById("search-input").style.backgroundColor =
@@ -46,6 +47,8 @@ document
           "Feels like " + data.feels_like + " °C";
         document.getElementById("city").innerHTML = data.city_name;
         document.getElementById("country").innerHTML = data.country_name;
+        document.getElementById("favorite-checker").innerHTML = "star";
+        document.getElementById("favorite-checker").style.fill = "blue";
         document.getElementById("min-temp").innerHTML =
           data.min_temperature + " °C";
         document.getElementById("min-temp").style.color = "blue";
