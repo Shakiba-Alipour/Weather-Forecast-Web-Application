@@ -208,7 +208,14 @@ function fetch_next_days_data(data) {
     let chart_data = [];
     ct++;
     day_number = data[i][1];
+
+    // add the data that is for the current day
     for (; j < data.length && data[j][1] == day_number; j++) {
+      chart_data.push([data[j][2], data[j][3], data[j][4]]);
+    }
+
+    // add hour 24 to the array
+    if (data[j]) {
       chart_data.push([data[j][2], data[j][3], data[j][4]]);
     }
 
