@@ -248,6 +248,7 @@ body {
 
 .days-conditions {
   font-weight: bold;
+  width: max-content;
 }
 
 .additional-info-title {
