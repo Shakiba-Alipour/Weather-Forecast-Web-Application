@@ -505,12 +505,8 @@ app.get("/exercise-recommendations", (req, res) => {
     if (weatherData.min_temperature < 4 || weatherData.max_temperature > 30) {
       outdoor_possibility = 0;
     }
-    // humudity check
-    if (weatherData.humidity < 30 || weatherData.humidity > 70) {
-      outdoor_possibility = 0;
-    }
     // wind speen check
-    if (weatherData.wind_speed >= 10) {
+    if (weatherData.wind_speed >= 17) {
       outdoor_possibility = 0;
     }
     // main weather condition check
@@ -539,7 +535,7 @@ app.get("/exercise-recommendations", (req, res) => {
                     OR '${weatherData.air_pollution}' IN ('Good', 'Fair')
                 )
             )
-            OR (${outdoor_possibility} = 1)
+            OR (outdoor = 1 AND (${outdoor_possibility} = 1))
             OR indoor = 1
         `;
 
