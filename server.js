@@ -2,10 +2,10 @@ import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 import https from "https";
-const app = express();
 import sqlite3 from "sqlite3";
-import bodyParser from "body-parser";
+import countryList from "country-list";
 const PORT = 3000;
+const app = express();
 
 class Weather {
   constructor(
@@ -27,7 +27,10 @@ class Weather {
     today_total_forecast
   ) {
     this.city_name = city_name;
-    this.country_name = country_name;
+    this.country_name = countryList.getName(country_name);
+    if (country_name === "IR") {
+      this.country_name = "Iran";
+    }
     this.longitude = longitude;
     this.latitude = latitude;
     this.temperature = temperature;
