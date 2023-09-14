@@ -141,7 +141,6 @@ body {
   border-radius: 0.7em;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 5%;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
@@ -213,6 +212,40 @@ body {
   justify-content: center;
 } */
 
+.min-temp {
+  color: blue;
+  width: max-content;
+  margin-bottom: 0.5rem;
+}
+
+.max-temp {
+  color: red;
+  width: max-content;
+  margin-top: 0.5rem;
+}
+
+.temp-range {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.each-day-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  align-items: flex-start;
+}
+
+.day_number {
+  width: max-content;
+}
+
+.days-conditions {
+  font-weight: bold;
+}
+
 .additional-info-title {
   font-size: smaller;
 }
@@ -253,15 +286,52 @@ body {
 .date {
   background-color: var(--floral-white);
   height: 80%;
-  width: 10%;
+  width: min-content;
   border-radius: 0.7em;
   margin-top: 1%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   border-style: none;
   border-color: var(--floral-white);
+  cursor: pointer;
+}
+
+.humidity-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* active day button */
+.active {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.active .each-day-info {
+  margin-right: 3rem;
+}
+
+/* deactive day button */
+.deactive {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.deactive .each-day-info {
+  margin-right: 1rem;
+}
+
+.deactive .days-conditions {
+  display: none;
+}
+
+.deactive .humidity-div {
+  display: none;
 }
 
 .hourly {

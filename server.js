@@ -91,8 +91,10 @@ class Five_days_forecast {
     hour,
     min_temp,
     max_temp,
+    humidity,
     main_weather_condition,
-    description
+    description,
+    icon_id
   ) {
     this.days.push([
       month_name,
@@ -100,8 +102,10 @@ class Five_days_forecast {
       hour,
       min_temp,
       max_temp,
+      humidity,
       main_weather_condition,
       description,
+      icon_id,
     ]);
     return;
   }
@@ -118,10 +122,6 @@ class Five_days_forecast {
     }
   }
 }
-
-app.get("/", (req, res) => {
-  res.send("Hello, Weather App (HTTPS)!");
-});
 
 // const server = https.createServer(options, app);
 
@@ -228,6 +228,8 @@ app.get("/weather", async (req, res) => {
       let hour = time[1];
       let min_temp = Math.round(item.main.temp_min - 273.15, 2);
       let max_temp = Math.round(item.main.temp_max - 273.15, 2);
+      let humidity = item.main.humidity;
+      let icon_id = data.weather[0].icon;
       // today forecast
       if (day == current_day) {
         today_forecast.push_day_data(hour, min_temp, max_temp);
@@ -242,8 +244,10 @@ app.get("/weather", async (req, res) => {
           hour,
           min_temp,
           max_temp,
+          humidity,
           main_weather_condition,
-          description
+          description,
+          icon_id
         );
       }
     }

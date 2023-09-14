@@ -1,5 +1,10 @@
 // arrays to store next five days data
-let today_data, day1_data, day2_data, day3_data, day4_data, day5_data;
+let today_hourly_data,
+  day1_hourly_data,
+  day2_hourly_data,
+  day3_hourly_data,
+  day4_hourly_data,
+  day5_hourly_data;
 
 // about popup management
 document
@@ -49,19 +54,13 @@ document
         document.getElementById("country").innerHTML = data.country_name;
         document.getElementById("favorite-checker").innerHTML = "star";
         document.getElementById("favorite-checker").style.fill = "blue";
-        document.getElementById("min-temp").innerHTML =
-          data.min_temperature + " °C";
-        document.getElementById("min-temp").style.color = "blue";
-        document.getElementById("max-temp").innerHTML =
-          data.max_temperature + " °C";
-        document.getElementById("max-temp").style.color = "red";
         document.getElementById("wind-speed").innerHTML =
           data.wind_speed + " m/s";
         document.getElementById("humidity").innerHTML = data.humidity + "%";
         document.getElementById("air-pollution").innerHTML = data.air_pollution;
 
         // display today and next five days forecast
-        today_data = data.today_total_forecast.today;
+        today_hourly_data = data.today_total_forecast.today;
         fetch_next_days_data(data.next_five_days.days);
 
         // draw a border for today button to show that the chart belongs to today
@@ -74,8 +73,16 @@ document
           }
         }
 
-        // set data for today chart's button
-        document.getElementById("button_today").innerHTML = "Today";
+        // set data for today's button
+        document.getElementById("today-icon").src =
+          "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
+        document.getElementById("day0").innerHTML = "Today";
+        document.getElementById("condition0").innerHTML = data.description;
+        document.getElementById("humidity0").innerHTML = data.humidity + "%";
+        document.getElementById("min-temp0").innerHTML =
+          data.min_temperature + " °C";
+        document.getElementById("max-temp0").innerHTML =
+          data.max_temperature + " °C";
 
         // draw charts to display today and next five days temperature
         draw_charts();
@@ -126,12 +133,12 @@ for (let i = 0; i < user_selection.length; i++) {
 // Draw charts for each day asynchronously to display min and max temperature
 async function draw_charts() {
   try {
-    await drawChartForDay(today_data, "today-forecast-hourly");
-    await drawChartForDay(day1_data, "day1_chart");
-    await drawChartForDay(day2_data, "day2_chart");
-    await drawChartForDay(day3_data, "day3_chart");
-    await drawChartForDay(day4_data, "day4_chart");
-    await drawChartForDay(day5_data, "day5_chart");
+    await drawChartForDay(today_hourly_data, "today-forecast-hourly");
+    await drawChartForDay(day1_hourly_data, "day1_chart");
+    await drawChartForDay(day2_hourly_data, "day2_chart");
+    await drawChartForDay(day3_hourly_data, "day3_chart");
+    await drawChartForDay(day4_hourly_data, "day4_chart");
+    await drawChartForDay(day5_hourly_data, "day5_chart");
   } catch (error) {
     console.error("An error occurred in drawing charts:", error);
   }
@@ -195,14 +202,13 @@ async function drawChartForDay(hourlyData, chartContainerId) {
   });
 }
 
-// display next five days forecast
+// fetch next five days forecast
 function fetch_next_days_data(data) {
   let day_number = 0,
     ct = 0, // counts forecast's day number (1 to 5)
     j = 0;
   for (let i = 0; i < data.length; i = j) {
     let month = getMonth(data[i][0]);
-    let condition = data[i][6];
     let chart_data = [];
     ct++;
     day_number = data[i][1];
@@ -212,23 +218,30 @@ function fetch_next_days_data(data) {
 
     // set date and conditions
     document.getElementById("day" + ct).innerHTML = month + " " + day_number;
-    document.getElementById("condition" + ct).innerHTML = condition;
+    document.getElementById("day" + ct + "-min-temp").innerHTML =
+      data[i][3] + " °C";
+    document.getElementById("day" + ct + "-max-temp").innerHTML =
+      data[i][4] + " °C";
+    document.getElementById("humidity" + ct).innerHTML = data[i][5] + "%";
+    document.getElementById("condition" + ct).innerHTML = data[i][6];
+    document.getElementById("day" + ct + "-icon").src =
+      "http://openweathermap.org/img/wn/" + data[i][8] + ".png";
 
     switch (ct) {
       case 1:
-        day1_data = chart_data;
+        day1_hourly_data = chart_data;
         break;
       case 2:
-        day2_data = chart_data;
+        day2_hourly_data = chart_data;
         break;
       case 3:
-        day3_data = chart_data;
+        day3_hourly_data = chart_data;
         break;
       case 4:
-        day4_data = chart_data;
+        day4_hourly_data = chart_data;
         break;
       case 5:
-        day5_data = chart_data;
+        day5_hourly_data = chart_data;
         break;
     }
   }
