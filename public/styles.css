@@ -210,12 +210,9 @@ body {
   padding-bottom: 5%;
 }
 
-#button_day1 {
-  border-style: solid;
-}
-
 #button_today {
   height: inherit;
+  border-style: solid;
 }
 
 .date {

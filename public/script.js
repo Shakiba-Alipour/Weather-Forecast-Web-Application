@@ -61,8 +61,8 @@ document
         today_data = data.today_total_forecast.today;
         fetch_next_days_data(data.next_five_days.days);
 
-        // draw a border for day1 button to show that the chart belongs to day 1
-        document.getElementById("button_day1").style.borderColor = "black";
+        // draw a border for today button to show that the chart belongs to today
+        document.getElementById("button_today").style.borderColor = "black";
 
         var target_list = document.getElementsByClassName("forecast-result");
         if (target_list) {
