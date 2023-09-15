@@ -6,6 +6,14 @@ let today_hourly_data,
   day4_hourly_data,
   day5_hourly_data;
 
+// chart instances
+let today_instance,
+  day1_instance,
+  day2_instance,
+  day3_instance,
+  day4_instance,
+  day5_instance;
+
 // temperature unit
 let temp_unit = "C";
 
@@ -130,12 +138,15 @@ for (let i = 0; i < user_selection.length; i++) {
 // Draw charts for each day asynchronously to display min and max temperature
 async function draw_charts() {
   try {
-    await drawChartForDay(today_hourly_data, "today-forecast-hourly");
-    await drawChartForDay(day1_hourly_data, "day1_chart");
-    await drawChartForDay(day2_hourly_data, "day2_chart");
-    await drawChartForDay(day3_hourly_data, "day3_chart");
-    await drawChartForDay(day4_hourly_data, "day4_chart");
-    await drawChartForDay(day5_hourly_data, "day5_chart");
+    today_instance = await drawChartForDay(
+      today_hourly_data,
+      "today-forecast-hourly"
+    );
+    day1_instance = await drawChartForDay(day1_hourly_data, "day1_chart");
+    day2_instance = await drawChartForDay(day2_hourly_data, "day2_chart");
+    day3_instance = await drawChartForDay(day3_hourly_data, "day3_chart");
+    day4_instance = await drawChartForDay(day4_hourly_data, "day4_chart");
+    day5_instance = await drawChartForDay(day5_hourly_data, "day5_chart");
   } catch (error) {
     console.error("An error occurred in drawing charts:", error);
   }
@@ -151,7 +162,7 @@ async function drawChartForDay(hourlyData, chartContainerId) {
   const maxTempData = hourlyData.map(([hour, minTemp, maxTemp]) => maxTemp);
 
   // Create the chart
-  new Chart(ctx, {
+  let instance = new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
@@ -197,6 +208,8 @@ async function drawChartForDay(hourlyData, chartContainerId) {
       },
     },
   });
+
+  return instance;
 }
 
 // fetch next five days forecast
@@ -406,60 +419,219 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
     temp_unit = "F";
 
     document.getElementById("temp").innerHTML =
-      (parseFloat(document.getElementById("temp").innerHTML) * 9) / 5 + 32;
+      (parseFloat(document.getElementById("temp").innerHTML) * 9) / 5 +
+      32 +
+      " °" +
+      temp_unit;
     document.getElementById("feels-like").innerHTML =
+      "Feels like " +
       (parseFloat(document.getElementById("feels-like").innerHTML) * 9) / 5 +
-      32;
+      32 +
+      " °" +
+      temp_unit;
     document.getElementById("min-temp0").innerHTML =
-      (parseFloat(document.getElementById("min-temp0").innerHTML) * 9) / 5 + 32;
+      (parseFloat(document.getElementById("min-temp0").innerHTML) * 9) / 5 +
+      32 +
+      " °" +
+      temp_unit;
     document.getElementById("max-temp0").innerHTML =
-      (parseFloat(document.getElementById("max-temp0").innerHTML) * 9) / 5 + 32;
+      (parseFloat(document.getElementById("max-temp0").innerHTML) * 9) / 5 +
+      32 +
+      " °" +
+      temp_unit;
 
     // change the data which is related to the charts
+    // store min and max temps
+    let new_min = [],
+      new_max = [];
     for (let i = 0; i < today_hourly_data.length; i++) {
       today_hourly_data[i][1] = (today_hourly_data[i][1] * 9) / 5 + 32;
+      new_min.push(today_hourly_data[i][1]);
       today_hourly_data[i][2] = (today_hourly_data[i][2] * 9) / 5 + 32;
-    }
-    for (let j = 1; j < 6; j++) {
-      for (let i = 0; i < today_hourly_data.length; i++) {
-        `day${j}_hourly_data`[i][1] =
-          (`day${j}_hourly_data`[i][1] * 9) / 5 + 32;
-        `day${j}_hourly_data`[i][2] =
-          (`day${j}_hourly_data`[i][2] * 9) / 5 + 32;
-      }
+      new_max.push(today_hourly_data[i][2]);
     }
 
-    draw_charts();
+    // update chart's data
+    today_instance.data.datasets[0].data = new_min;
+    today_instance.data.datasets[1].data = new_max;
+    today_instance.update();
+
+    for (let j = 1; j < 6; j++) {
+      let array;
+      switch (j) {
+        case 1:
+          array = day1_hourly_data;
+          break;
+        case 2:
+          array = day2_hourly_data;
+          break;
+        case 3:
+          array = day3_hourly_data;
+          break;
+        case 4:
+          array = day4_hourly_data;
+          break;
+        case 5:
+          array = day5_hourly_data;
+          break;
+      }
+
+      // store min and max temps
+      let new_min = [],
+        new_max = [];
+      for (let i = 0; i < array.length; i++) {
+        array[i][1] = (array[i][1] * 9) / 5 + 32;
+        new_min.push(array[i][1]);
+        array[i][2] = (array[i][2] * 9) / 5 + 32;
+        new_max.push(array[i][2]);
+      }
+
+      switch (j) {
+        case 1:
+          day1_hourly_data = array;
+          // update chart's data
+          day1_instance.data.datasets[0].data = new_min;
+          day1_instance.data.datasets[1].data = new_max;
+          day1_instance.update();
+          break;
+        case 2:
+          day2_hourly_data = array;
+          // update chart's data
+          day2_instance.data.datasets[0].data = new_min;
+          day2_instance.data.datasets[1].data = new_max;
+          day2_instance.update();
+          break;
+        case 3:
+          day3_hourly_data = array;
+          // update chart's data
+          day3_instance.data.datasets[0].data = new_min;
+          day3_instance.data.datasets[1].data = new_max;
+          day3_instance.update();
+          break;
+        case 4:
+          day4_hourly_data = array;
+          // update chart's data
+          day4_instance.data.datasets[0].data = new_min;
+          day4_instance.data.datasets[1].data = new_max;
+          day4_instance.update();
+          break;
+        case 5:
+          day5_hourly_data = array;
+          // update chart's data
+          day5_instance.data.datasets[0].data = new_min;
+          day5_instance.data.datasets[1].data = new_max;
+          day5_instance.update();
+          break;
+      }
+    }
   } else {
     // Switch is OFF, use Celsius for all temperature-related data
     temp_unit = "C";
 
     document.getElementById("temp").innerHTML =
-      ((parseFloat(document.getElementById("temp").innerHTML) - 32) * 5) / 9;
+      ((parseFloat(document.getElementById("temp").innerHTML) - 32) * 5) / 9 +
+      " °" +
+      temp_unit;
     document.getElementById("feels-like").innerHTML =
+      "Feels like " +
       ((parseFloat(document.getElementById("feels-like").innerHTML) - 32) * 5) /
-      9;
+        9 +
+      " °" +
+      temp_unit;
     document.getElementById("min-temp0").innerHTML =
       ((parseFloat(document.getElementById("min-temp0").innerHTML) - 32) * 5) /
-      9;
+        9 +
+      " °" +
+      temp_unit;
     document.getElementById("max-temp0").innerHTML =
       ((parseFloat(document.getElementById("max-temp0").innerHTML) - 32) * 5) /
-      9;
+        9 +
+      " °" +
+      temp_unit;
 
     // change the data which is related to the charts
+    // store min and max temps
+    let new_min = [],
+      new_max = [];
     for (let i = 0; i < today_hourly_data.length; i++) {
       today_hourly_data[i][1] = ((today_hourly_data[i][1] - 32) * 5) / 9;
+      new_min.push(today_hourly_data[i][1]);
       today_hourly_data[i][2] = ((today_hourly_data[i][2] - 32) * 5) / 9;
-    }
-    for (let j = 1; j < 6; j++) {
-      for (let i = 0; i < today_hourly_data.length; i++) {
-        `day${j}_hourly_data`[i][1] =
-          ((`day${j}_hourly_data`[i][1] - 32) * 5) / 9;
-        `day${j}_hourly_data`[i][2] =
-          ((`day${j}_hourly_data`[i][2] - 32) * 5) / 9;
-      }
+      new_max.push(today_hourly_data[i][2]);
     }
 
-    draw_charts();
+    // update chart's data
+    today_instance.data.datasets[0].data = new_min;
+    today_instance.data.datasets[1].data = new_max;
+    today_instance.update();
+
+    for (let j = 1; j < 6; j++) {
+      let array;
+      switch (j) {
+        case 1:
+          array = day1_hourly_data;
+          break;
+        case 2:
+          array = day2_hourly_data;
+          break;
+        case 3:
+          array = day3_hourly_data;
+          break;
+        case 4:
+          array = day4_hourly_data;
+          break;
+        case 5:
+          array = day5_hourly_data;
+          break;
+      }
+
+      // store min and max temps
+      let new_min = [],
+        new_max = [];
+      for (let i = 0; i < array.length; i++) {
+        array[i][1] = ((array[i][1] - 32) * 5) / 9;
+        new_min.push(array[i][1]);
+        array[i][2] = ((array[i][2] - 32) * 5) / 9;
+        new_max.push(array[i][2]);
+      }
+
+      switch (j) {
+        case 1:
+          day1_hourly_data = array;
+          // update chart's data
+          day1_instance.data.datasets[0].data = new_min;
+          day1_instance.data.datasets[1].data = new_max;
+          day1_instance.update();
+          break;
+        case 2:
+          day2_hourly_data = array;
+          // update chart's data
+          day2_instance.data.datasets[0].data = new_min;
+          day2_instance.data.datasets[1].data = new_max;
+          day2_instance.update();
+          break;
+        case 3:
+          day3_hourly_data = array;
+          // update chart's data
+          day3_instance.data.datasets[0].data = new_min;
+          day3_instance.data.datasets[1].data = new_max;
+          day3_instance.update();
+          break;
+        case 4:
+          day4_hourly_data = array;
+          // update chart's data
+          day4_instance.data.datasets[0].data = new_min;
+          day4_instance.data.datasets[1].data = new_max;
+          day4_instance.update();
+          break;
+        case 5:
+          day5_hourly_data = array;
+          // update chart's data
+          day5_instance.data.datasets[0].data = new_min;
+          day5_instance.data.datasets[1].data = new_max;
+          day5_instance.update();
+          break;
+      }
+    }
   }
 });
