@@ -486,15 +486,6 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
-/* background for quiz options to show the correct and selected answers */
-.correct-background {
-  background-color: green !important;
-}
-
-.incorrect-background {
-  background-color: palevioletred !important;
-}
-
 #exercise-recommendation-section {
   display: flex;
   flex-direction: row;

@@ -335,13 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // manage next question button
-  const nextButton = document.getElementById("next-button");
-  nextButton.addEventListener("click", function () {
-    loadRandomQuestion();
-    hasAnswered = false;
-  });
-
   // show correct answer after user submits his choice
   // Handle button click when an option is selected
   function handleOptionClick(event) {
@@ -350,19 +343,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const correctAnswer = questions[currentQuestionIndex].correctAnswer;
 
       if (selectedValue === correctAnswer) {
-        event.target.classList.add("correct-background");
+        event.target.style.backgroundColor = "green";
+        event.target.style.borderColor = "green";
       } else {
-        event.target.classList.add("incorrect-background");
+        event.target.style.backgroundColor = "green";
+        event.target.style.borderColor = "green";
         const correctOption = optionsContainer.querySelector(
           `button[data-value='${correctAnswer}']`
         );
         if (correctOption) {
-          correctOption.classList.add("correct-background");
+          event.target.style.backgroundColor = "palevioletred";
+          event.target.style.borderColor = "palevioletred";
         }
       }
 
       hasAnswered = true;
     }
+
+    // Load another random question 5 seconds after the user responses the quiz
+    setTimeout(loadRandomQuestion, 4000);
   }
 });
 
