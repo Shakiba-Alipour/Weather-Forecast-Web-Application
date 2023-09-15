@@ -31,8 +31,20 @@
   </head>
 
   <body>
-    <header>
-      <div id="header">
+    <header id="header">
+      <!-- Rounded switch to swutch between celcius and farenheit-->
+      <!-- The default setting is celcius -->
+      <div class="unit-switch" id="unit-switch" style="visibility: hidden">
+        <span class="unitLabel">°C</span>
+        <label class="switch">
+          <input type="checkbox" id="unitToggle" />
+          <span class="slider round"></span>
+        </label>
+        <span class="unitLabel">°F</span>
+      </div>
+
+      <!-- about text -->
+      <div>
         <p id="open-about-popup">About</p>
       </div>
     </header>

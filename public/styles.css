@@ -76,6 +76,20 @@ body {
   z-index: 1;
 }
 
+#about-div {
+  width: 100%;
+  height: 4rem;
+  position: fixed;
+  background-color: var(--timberwolf);
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  z-index: 1;
+}
+
 #open-about-popup {
   width: fit-content;
   height: auto;
@@ -128,6 +142,77 @@ body {
   margin-bottom: 0.5%;
   border: none;
   background-color: transparent;
+}
+
+/* Rounded switch to swutch between celcius and farenheit */
+.unit-switch {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* Styles for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 35px;
+  margin-left: 10px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--floral-white);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 30px;
+  align-self: center;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--timberwolf);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--black-olive);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--black-olive);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Styling for the temperature unit label */
+.unitLabel {
+  font-weight: bold;
+  font-size: large;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .forecast-result {
@@ -299,7 +384,7 @@ body {
 .humidity-div {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* active day button */

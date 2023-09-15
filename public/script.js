@@ -6,6 +6,9 @@ let today_hourly_data,
   day4_hourly_data,
   day5_hourly_data;
 
+// temperature unit
+let temp_unit = "C";
+
 // about popup management
 document
   .getElementById("open-about-popup")
@@ -28,6 +31,9 @@ document
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
       .then((response) => response.json())
       .then((data) => {
+        // display temperature unit switch
+        document.getElementById("unit-switch").style.visibility = "visible";
+
         // change the location of the search bar
         const form = document.querySelector("form");
         const header = document.getElementById("header");
@@ -47,9 +53,10 @@ document
         document.getElementById("weather-icon").src =
           "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
         document.getElementById("condition").innerHTML = data.description;
-        document.getElementById("temp").innerHTML = data.temperature + " °C";
+        document.getElementById("temp").innerHTML =
+          data.temperature + " °" + temp_unit;
         document.getElementById("feels-like").innerHTML =
-          "Feels like " + data.feels_like + " °C";
+          "Feels like " + data.feels_like + " °" + temp_unit;
         document.getElementById("city").innerHTML = data.city_name;
         document.getElementById("country").innerHTML = data.country_name;
         document.getElementById("favorite-checker").innerHTML = "star";
@@ -77,9 +84,9 @@ document
         document.getElementById("condition0").innerHTML = data.description;
         document.getElementById("humidity0").innerHTML = data.humidity + "%";
         document.getElementById("min-temp0").innerHTML =
-          data.min_temperature + " °C";
+          data.min_temperature + " °" + temp_unit;
         document.getElementById("max-temp0").innerHTML =
-          data.max_temperature + " °C";
+          data.max_temperature + " °" + temp_unit;
 
         // draw charts to display today and next five days temperature
         draw_charts();
@@ -108,12 +115,6 @@ for (let i = 0; i < user_selection.length; i++) {
   user_selection[i].addEventListener("click", async function () {
     for (let j = 0; j < chartIds.length; j++) {
       let chart = document.getElementById(chartIds[j]);
-      let button;
-      if (j == 0) {
-        button = document.getElementById("button_today");
-      } else {
-        button = document.getElementById(`button_day${j}`);
-      }
 
       if (i === j) {
         chart.style.display = "block";
@@ -222,9 +223,9 @@ function fetch_next_days_data(data) {
     // set date and conditions
     document.getElementById("day" + ct).innerHTML = month + " " + day_number;
     document.getElementById("day" + ct + "-min-temp").innerHTML =
-      data[i][3] + " °C";
+      data[i][3] + " °" + temp_unit;
     document.getElementById("day" + ct + "-max-temp").innerHTML =
-      data[i][4] + " °C";
+      data[i][4] + " °" + temp_unit;
     document.getElementById("humidity" + ct).innerHTML = data[i][5] + "%";
     document.getElementById("condition" + ct).innerHTML = data[i][6];
     document.getElementById("day" + ct + "-icon").src =
@@ -397,3 +398,68 @@ async function displayExerciseRecommendation(weatherData) {
       console.error("Error in fetching exercise recommendation data:", error);
     });
 }
+
+// celcius-farenheit switch management
+document.getElementById("unitToggle").addEventListener("change", (e) => {
+  if (temp_unit === "C") {
+    // Switch is ON, use farenheit for all temperature-related data
+    temp_unit = "F";
+
+    document.getElementById("temp").innerHTML =
+      (parseFloat(document.getElementById("temp").innerHTML) * 9) / 5 + 32;
+    document.getElementById("feels-like").innerHTML =
+      (parseFloat(document.getElementById("feels-like").innerHTML) * 9) / 5 +
+      32;
+    document.getElementById("min-temp0").innerHTML =
+      (parseFloat(document.getElementById("min-temp0").innerHTML) * 9) / 5 + 32;
+    document.getElementById("max-temp0").innerHTML =
+      (parseFloat(document.getElementById("max-temp0").innerHTML) * 9) / 5 + 32;
+
+    // change the data which is related to the charts
+    for (let i = 0; i < today_hourly_data.length; i++) {
+      today_hourly_data[i][1] = (today_hourly_data[i][1] * 9) / 5 + 32;
+      today_hourly_data[i][2] = (today_hourly_data[i][2] * 9) / 5 + 32;
+    }
+    for (let j = 1; j < 6; j++) {
+      for (let i = 0; i < today_hourly_data.length; i++) {
+        `day${j}_hourly_data`[i][1] =
+          (`day${j}_hourly_data`[i][1] * 9) / 5 + 32;
+        `day${j}_hourly_data`[i][2] =
+          (`day${j}_hourly_data`[i][2] * 9) / 5 + 32;
+      }
+    }
+
+    draw_charts();
+  } else {
+    // Switch is OFF, use Celsius for all temperature-related data
+    temp_unit = "C";
+
+    document.getElementById("temp").innerHTML =
+      ((parseFloat(document.getElementById("temp").innerHTML) - 32) * 5) / 9;
+    document.getElementById("feels-like").innerHTML =
+      ((parseFloat(document.getElementById("feels-like").innerHTML) - 32) * 5) /
+      9;
+    document.getElementById("min-temp0").innerHTML =
+      ((parseFloat(document.getElementById("min-temp0").innerHTML) - 32) * 5) /
+      9;
+    document.getElementById("max-temp0").innerHTML =
+      ((parseFloat(document.getElementById("max-temp0").innerHTML) - 32) * 5) /
+      9;
+
+    // change the data which is related to the charts
+    for (let i = 0; i < today_hourly_data.length; i++) {
+      today_hourly_data[i][1] = ((today_hourly_data[i][1] - 32) * 5) / 9;
+      today_hourly_data[i][2] = ((today_hourly_data[i][2] - 32) * 5) / 9;
+    }
+    for (let j = 1; j < 6; j++) {
+      for (let i = 0; i < today_hourly_data.length; i++) {
+        `day${j}_hourly_data`[i][1] =
+          ((`day${j}_hourly_data`[i][1] - 32) * 5) / 9;
+        `day${j}_hourly_data`[i][2] =
+          ((`day${j}_hourly_data`[i][2] - 32) * 5) / 9;
+      }
+    }
+
+    draw_charts();
+  }
+});
