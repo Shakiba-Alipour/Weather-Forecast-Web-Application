@@ -521,28 +521,55 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
           day5_instance.update();
           break;
       }
+
+      // update min and max temp for next days
+      let min =
+        (parseFloat(
+          document.getElementById("day" + j + "-min-temp").innerHTML
+        ) *
+          9) /
+          5 +
+        32;
+      document.getElementById("day" + j + "-min-temp").innerHTML =
+        min + " °" + temp_unit;
+      let max =
+        (parseFloat(
+          document.getElementById("day" + j + "-max-temp").innerHTML
+        ) *
+          9) /
+          5 +
+        32;
+      document.getElementById("day" + j + "-max-temp").innerHTML =
+        max + " °" + temp_unit;
     }
   } else {
     // Switch is OFF, use Celsius for all temperature-related data
     temp_unit = "C";
 
     document.getElementById("temp").innerHTML =
-      ((parseFloat(document.getElementById("temp").innerHTML) - 32) * 5) / 9 +
+      ((parseFloat(document.getElementById("temp").innerHTML) - 32).toFixed(2) *
+        5) /
+        9 +
       " °" +
       temp_unit;
     let feels_like = document.getElementById("feels-like").textContent;
     let feels_like_temp = feels_like.split(" ")[2];
-    let new_feels_like_temp = ((feels_like_temp - 32) * 5) / 9;
-    console.log(new_feels_like_temp);
+    let new_feels_like_temp = ((feels_like_temp - 32).toFixed(2) * 5) / 9;
     document.getElementById("feels-like").innerHTML =
       "Feels like " + new_feels_like_temp + " °" + temp_unit;
     document.getElementById("min-temp0").innerHTML =
-      ((parseFloat(document.getElementById("min-temp0").innerHTML) - 32) * 5) /
+      ((
+        parseFloat(document.getElementById("min-temp0").innerHTML) - 32
+      ).toFixed(2) *
+        5) /
         9 +
       " °" +
       temp_unit;
     document.getElementById("max-temp0").innerHTML =
-      ((parseFloat(document.getElementById("max-temp0").innerHTML) - 32) * 5) /
+      ((
+        parseFloat(document.getElementById("max-temp0").innerHTML) - 32
+      ).toFixed(2) *
+        5) /
         9 +
       " °" +
       temp_unit;
@@ -552,9 +579,11 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
     let new_min = [],
       new_max = [];
     for (let i = 0; i < today_hourly_data.length; i++) {
-      today_hourly_data[i][1] = ((today_hourly_data[i][1] - 32) * 5) / 9;
+      today_hourly_data[i][1] =
+        ((today_hourly_data[i][1] - 32) * 5).toFixed(2) / 9;
       new_min.push(today_hourly_data[i][1]);
-      today_hourly_data[i][2] = ((today_hourly_data[i][2] - 32) * 5) / 9;
+      today_hourly_data[i][2] =
+        ((today_hourly_data[i][2] - 32) * 5).toFixed(2) / 9;
       new_max.push(today_hourly_data[i][2]);
     }
 
@@ -630,6 +659,28 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
           day5_instance.update();
           break;
       }
+
+      // update min and max temp for next days
+      let min =
+        ((
+          parseFloat(
+            document.getElementById("day" + j + "-min-temp").innerHTML
+          ) - 32
+        ).toFixed(2) *
+          5) /
+        9;
+      document.getElementById("day" + j + "-min-temp").innerHTML =
+        min + " °" + temp_unit;
+      let max =
+        ((
+          parseFloat(
+            document.getElementById("day" + j + "-max-temp").innerHTML
+          ) - 32
+        ).toFixed(2) *
+          5) /
+        9;
+      document.getElementById("day" + j + "-max-temp").innerHTML =
+        max + " °" + temp_unit;
     }
   }
 });
