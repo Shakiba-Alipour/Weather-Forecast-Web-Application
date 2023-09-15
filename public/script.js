@@ -375,30 +375,48 @@ async function displayExerciseRecommendation(weatherData) {
   )
     .then((response) => response.json())
     .then((data) => {
-      let table = document.getElementById("exercises-table");
+      const carousel = $(".exercise-carousel");
 
-      // add data to the table
+      // Clear existing slides before adding new ones
+      carousel.owlCarousel("destroy");
+
       for (let i = 0; i < data.length; i++) {
-        var row = table.insertRow(i + 1);
-        var name = row.insertCell(0);
-        var type = row.insertCell(1);
-        var equipment = row.insertCell(2);
-        var difficulty = row.insertCell(3);
+        // Create a slide for each exercise
+        const slideHTML = `
+          <div class="exercise-slide">
+            <h4>${data[i].name}</h4>
+            <p>Equipment: ${data[i].equipment_needed}</p>
+            <p>Difficulty: ${data[i].difficulty_level}</p>
+          </div>
+        `;
 
-        name.innerHTML = data[i].name;
-        type.innerHTML = data[i].type;
-        if (data[i].equipment_needed == "None") {
-          equipment.innerHTML = "-";
-        } else {
-          equipment.innerHTML = data[i].equipment_needed;
-        }
-        difficulty.innerHTML = data[i].difficulty_level;
+        // Add the new slide to the carousel
+        carousel.append(slideHTML);
       }
 
-      // display the table
-      document.getElementById(
-        "exercise-recommendation-section"
-      ).style.visibility = "visible";
+      // Initialize Owl Carousel with desired settings
+      carousel.owlCarousel({
+        items: 3, // Number of items to display
+        loop: false, // Infinite loop
+        margin: 8, // Space between items
+        autoplay: false, // Auto-play the carousel
+        nav: true, // Show navigation buttons
+        responsive: {
+          0: {
+            items: 1, // Number of items to display at a smaller screen size
+          },
+          768: {
+            items: 3, // Number of items to display at a medium screen size
+          },
+          992: {
+            items: 5, // Number of items to display at a larger screen size
+          },
+        },
+      });
+
+      // display exercise recommendation section
+      document.getElementById("exercise-recommendation-div").style.visibility =
+        "visible";
     })
     .catch((error) => {
       console.error("Error in fetching exercise recommendation data:", error);

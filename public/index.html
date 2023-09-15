@@ -28,6 +28,18 @@
 
     <!-- Charts.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Owl Carousel CSS and JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </head>
 
   <body>
@@ -277,18 +289,11 @@
     </div>
 
     <!-- Exercise Recommendation Section -->
-    <div id="exercise-recommendation-section">
-      <div id="exercises-table-div">
-        <table id="exercises-table">
-          <tr id="table-title">
-            <th>Name</th>
-            <th>Type</th>
-            <th>Equipment Needed</th>
-            <th>Difficulty</th>
-          </tr>
-        </table>
+    <div id="exercise-recommendation-div" style="visibility: hidden">
+      <h2>Today's Recommended Activities</h2>
+      <div class="owl-carousel exercise-carousel">
+        <!-- slides for each exercise recommendation will be added -->
       </div>
-      <embed src="../assets/Grand slam-bro.svg" id="exercise-image" />
     </div>
 
     <!-- Javascript -->

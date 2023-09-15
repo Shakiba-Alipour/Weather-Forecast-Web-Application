@@ -486,44 +486,50 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
-#exercise-recommendation-section {
+/* exercise recommendation section */
+#exercise-recommendation-div {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
   display: flex;
-  flex-direction: row;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  visibility: hidden;
-  padding-top: 5%;
-  padding-bottom: 5%;
 }
 
-#exercises-table-div {
-  overflow-x: auto; /* make table responsive*/
-  width: 60%;
+/* exercise recommendation section title */
+#exercise-recommendation-div h2 {
+  margin-bottom: 2rem;
 }
 
-#exercise-image {
-  max-width: 30%;
-  max-height: 30%;
+/* exercise recommendation carousel */
+.owl-stage {
+  margin-left: 4rem;
+  margin-right: 4rem;
 }
 
-tr:nth-child() {
-  background-color: var(--timberwolf);
+/* style navigation arrows for exercise recommendation section */
+/* Position the navigation arrows on the sides */
+.owl-prev {
+  position: absolute;
+  top: 50%;
+  left: 2rem; /* Adjust the left position as needed */
+  transform: translateY(-50%);
+  font-size: 2rem; /* Customize the arrow size */
+  color: var(--black-olive); /* Customize the arrow color */
+  cursor: pointer;
 }
 
-#table-title {
-  background-color: var(--flame);
+.owl-next {
+  position: absolute;
+  top: 50%;
+  right: 2rem; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+  font-size: 2rem; /* Customize the arrow size */
+  color: var(--black-olive); /* Customize the arrow color */
+  cursor: pointer;
 }
 
-th,
-td {
-  border: 1px solid;
-  border-color: var(--eerie-black);
-  padding: 1%;
-}
-
-#exercises-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Style the navigation arrows on hover (optional) */
+.owl-prev:hover,
+.owl-next:hover {
+  color: var(--eerie-black); /* Change color on hover */
 }
