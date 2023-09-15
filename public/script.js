@@ -423,12 +423,10 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
       32 +
       " °" +
       temp_unit;
+    let feels_like = document.getElementById("feels-like").textContent;
+    let feels_like_temp = feels_like.split(" ")[2];
     document.getElementById("feels-like").innerHTML =
-      "Feels like " +
-      (parseFloat(document.getElementById("feels-like").innerHTML) * 9) / 5 +
-      32 +
-      " °" +
-      temp_unit;
+      "Feels like " + ((feels_like_temp * 9) / 5 + 32) + " °" + temp_unit;
     document.getElementById("min-temp0").innerHTML =
       (parseFloat(document.getElementById("min-temp0").innerHTML) * 9) / 5 +
       32 +
@@ -532,12 +530,12 @@ document.getElementById("unitToggle").addEventListener("change", (e) => {
       ((parseFloat(document.getElementById("temp").innerHTML) - 32) * 5) / 9 +
       " °" +
       temp_unit;
+    let feels_like = document.getElementById("feels-like").textContent;
+    let feels_like_temp = feels_like.split(" ")[2];
+    let new_feels_like_temp = ((feels_like_temp - 32) * 5) / 9;
+    console.log(new_feels_like_temp);
     document.getElementById("feels-like").innerHTML =
-      "Feels like " +
-      ((parseFloat(document.getElementById("feels-like").innerHTML) - 32) * 5) /
-        9 +
-      " °" +
-      temp_unit;
+      "Feels like " + new_feels_like_temp + " °" + temp_unit;
     document.getElementById("min-temp0").innerHTML =
       ((parseFloat(document.getElementById("min-temp0").innerHTML) - 32) * 5) /
         9 +
