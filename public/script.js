@@ -319,22 +319,19 @@ document.addEventListener("DOMContentLoaded", function () {
     questionContainer.textContent = questionData.question;
 
     optionsContainer.innerHTML = "";
-    for (const option in questionData.options) {
-      const label = document.createElement("label");
-      label.classList.add("options-container");
+    for (const optionValue in questionData.options) {
+      const optionText = questionData.options[optionValue];
 
-      const radio = document.createElement("input");
-      radio.type = "radio";
-      radio.name = "option";
-      radio.value = option;
+      // Create a button for each option
+      const button = document.createElement("button");
+      button.classList.add("quiz-option");
+      button.textContent = optionText;
+      button.setAttribute("data-value", optionValue);
 
-      const text = document.createElement("span");
-      text.textContent = questionData.options[option];
+      // Add a click event listener to handle option selection
+      button.addEventListener("click", handleOptionClick);
 
-      label.appendChild(radio);
-      label.appendChild(text);
-
-      optionsContainer.appendChild(label);
+      optionsContainer.appendChild(button);
     }
   }
 
@@ -346,32 +343,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // show correct answer after user submits his choice
-  optionsContainer.addEventListener("change", function () {
+  // Handle button click when an option is selected
+  function handleOptionClick(event) {
     if (!hasAnswered) {
-      const selectedOption = document.querySelector(
-        "input[name='option']:checked"
-      );
+      const selectedValue = event.target.getAttribute("data-value");
+      const correctAnswer = questions[currentQuestionIndex].correctAnswer;
 
-      if (selectedOption) {
-        const selectedValue = selectedOption.value;
-        const correctAnswer = questions[currentQuestionIndex].correctAnswer;
-
-        if (selectedValue === correctAnswer) {
-          selectedOption.parentNode.classList.add("correct-icon");
-        } else {
-          selectedOption.parentNode.classList.add("incorrect-icon");
-          const correctOption = optionsContainer.querySelector(
-            `input[value='${correctAnswer}']`
-          );
-          if (correctOption) {
-            correctOption.parentNode.classList.add("correct-icon");
-          }
+      if (selectedValue === correctAnswer) {
+        event.target.classList.add("correct-background");
+      } else {
+        event.target.classList.add("incorrect-background");
+        const correctOption = optionsContainer.querySelector(
+          `button[data-value='${correctAnswer}']`
+        );
+        if (correctOption) {
+          correctOption.classList.add("correct-background");
         }
-
-        hasAnswered = true;
       }
+
+      hasAnswered = true;
     }
-  });
+  }
 });
 
 // Exercise Recommendation Section

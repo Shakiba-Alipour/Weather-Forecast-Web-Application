@@ -442,40 +442,57 @@ input:checked + .slider:before {
   margin-top: 5%;
   margin-bottom: 5%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   visibility: hidden;
-  padding-top: 5%;
 }
 
 #quiz {
   display: flex;
   flex-direction: column;
   width: 50%;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 #quiz-image {
   max-width: 25%;
   max-height: 25%;
+  margin-left: 5rem;
 }
 
+/* quiz question */
+#question {
+  width: 80%;
+  margin-bottom: 2rem;
+}
+
+/* quiz options */
 #options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 2%;
   margin-bottom: 4%;
+  width: 70%;
+  height: 3rem;
+  justify-content: space-evenly;
 }
 
-.correct-icon::after {
-  content: "✔️";
-  color: green;
-  margin-right: 10px;
+/* quiz options buttons */
+#options button {
+  width: 8rem;
+  border-style: dashed;
+  border-color: var(--black-olive);
+  border-radius: 0.5rem;
+  background-color: var(--floral-white);
+  cursor: pointer;
 }
 
-.incorrect-icon::after {
-  content: "✖️";
-  color: red;
-  margin-right: 10px;
+/* background for quiz options to show the correct and selected answers */
+.correct-background {
+  background-color: green !important;
+}
+
+.incorrect-background {
+  background-color: palevioletred !important;
 }
 
 #exercise-recommendation-section {
