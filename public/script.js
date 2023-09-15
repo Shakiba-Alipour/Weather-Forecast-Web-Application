@@ -332,6 +332,8 @@ document.addEventListener("DOMContentLoaded", function () {
       button.addEventListener("click", handleOptionClick);
 
       optionsContainer.appendChild(button);
+
+      hasAnswered = false;
     }
   }
 
@@ -346,22 +348,22 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.style.backgroundColor = "green";
         event.target.style.borderColor = "green";
       } else {
-        event.target.style.backgroundColor = "green";
-        event.target.style.borderColor = "green";
+        event.target.style.backgroundColor = "palevioletred";
+        event.target.style.borderColor = "palevioletred";
         const correctOption = optionsContainer.querySelector(
           `button[data-value='${correctAnswer}']`
         );
         if (correctOption) {
-          event.target.style.backgroundColor = "palevioletred";
-          event.target.style.borderColor = "palevioletred";
+          correctOption.style.backgroundColor = "green";
+          correctOption.style.borderColor = "green";
         }
       }
 
       hasAnswered = true;
-    }
 
-    // Load another random question 5 seconds after the user responses the quiz
-    setTimeout(loadRandomQuestion, 4000);
+      // Load another random question 4 seconds after the user responses the quiz
+      setTimeout(loadRandomQuestion, 4000);
+    }
   }
 });
 
