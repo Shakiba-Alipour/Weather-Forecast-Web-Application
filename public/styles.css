@@ -29,6 +29,10 @@ body {
 }
 
 /* search bar styling */
+form {
+  position: inherit;
+  top: 1.25%;
+}
 #search-bar-container {
   display: flex;
   flex-direction: row;

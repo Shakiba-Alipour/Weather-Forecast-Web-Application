@@ -25,27 +25,11 @@ let cities = [];
 fetch("../databases/city.list.json")
   .then((response) => response.json())
   .then((data) => {
-    cities = data
-      .filter((city) => city.name)
-      .map((city) => {
-        const cityName = city.name.toLowerCase();
-        const countryCode = city.country;
-
-        // Find the full country name
-        let countryName = countryCode;
-        if (countryCode === "IR") {
-          countryName = "Iran";
-        } else {
-          const fullCountryName = new Intl.DisplayNames(["en"], {
-            type: "region",
-          }).of(countryCode);
-          if (fullCountryName) {
-            countryName = fullCountryName;
-          }
-        }
-
-        return [cityName, countryName];
-      });
+    cities = data.map((entry) => {
+      const cityName = entry.city_ascii.toLowerCase();
+      const countryName = entry.country;
+      return [cityName, countryName];
+    });
   })
   .catch((error) => {
     console.error("Error loading city names:", error);
@@ -87,7 +71,7 @@ cityInput.addEventListener("input", () => {
     cityList.innerHTML = "";
 
     // Display the matching city suggestions.
-    matchingCities.forEach((cityEntry, index) => {
+    matchingCities.forEach((cityEntry) => {
       if (cityList.getElementsByTagName("li").length < 5) {
         const li = document.createElement("li");
         const city_name = document.createElement("p");
@@ -133,14 +117,15 @@ document
         form.reset();
         header.prepend(form);
         header.style.justifyContent = "space-between";
-        document.getElementById("search-bar").style.top = "50%";
-        document.getElementById("search-bar").style.left = "25%";
-        document.getElementById("search-bar").style.backgroundColor =
+        form.style.left = "25%";
+        document.getElementById("search-bar-container").style.backgroundColor =
           "#fffcf2ff";
         document.getElementById("search-input").style.backgroundColor =
           "#fffcf2ff";
         document.getElementById("search-icon").style.backgroundColor =
           "#fffcf2ff";
+        document.getElementById("search-bar").style.backgroundColor =
+          "#ccc5b9ff";
 
         // display today weather information
         document.getElementById("weather-icon").src =
