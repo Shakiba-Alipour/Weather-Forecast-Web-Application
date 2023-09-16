@@ -22,27 +22,30 @@ const cityList = document.getElementById("cityList");
 
 // extract city names from json file and store in an array for search suggestion
 let cities = [];
-let countries = [];
 fetch("../databases/city.list.json")
   .then((response) => response.json())
   .then((data) => {
     cities = data
       .filter((city) => city.name)
-      .map((city) => city.name.toLowerCase());
+      .map((city) => {
+        const cityName = city.name.toLowerCase();
+        const countryCode = city.country;
 
-    // Extract country names from the JSON data and add them to the countries array.
-    const countryCodes = [...new Set(data.map((city) => city.country))];
-    // find full country name
-    countries = countryCodes.map((countryCode) => {
-      if (countryCode === "IR") {
-        return "Iran";
-      } else {
-        const fullCountryName = new Intl.DisplayNames(["en"], {
-          type: "region",
-        }).of(countryCode);
-        return fullCountryName || countryCode; // Use the full name or the code if not found
-      }
-    });
+        // Find the full country name
+        let countryName = countryCode;
+        if (countryCode === "IR") {
+          countryName = "Iran";
+        } else {
+          const fullCountryName = new Intl.DisplayNames(["en"], {
+            type: "region",
+          }).of(countryCode);
+          if (fullCountryName) {
+            countryName = fullCountryName;
+          }
+        }
+
+        return [cityName, countryName];
+      });
   })
   .catch((error) => {
     console.error("Error loading city names:", error);
@@ -76,25 +79,24 @@ cityInput.addEventListener("input", () => {
   if (searchTerm) {
     cityList.style.display = "flex";
     cityList.style.flexDirection = "column";
-    const matchingCities = cities.filter((city) => city.includes(searchTerm));
+    const matchingCities = cities.filter((cityEntry) =>
+      cityEntry[0].includes(searchTerm)
+    );
 
     // Clear previous suggestions.
     cityList.innerHTML = "";
 
     // Display the matching city suggestions.
-    matchingCities.forEach((matchingCity, index) => {
+    matchingCities.forEach((cityEntry, index) => {
       if (cityList.getElementsByTagName("li").length < 5) {
         const li = document.createElement("li");
         const city_name = document.createElement("p");
         city_name.classList.add("city");
-        city_name.textContent = matchingCity;
-        let country_name = document.createElement("p");
-        country_name.textContent = countries[index];
-        country_name.classList.add("country");
-        li.append(city_name, country_name);
+        city_name.textContent = cityEntry[0] + ", " + cityEntry[1]; // Access city and country using cityEntry[0] and cityEntry[1]
+        li.appendChild(city_name);
         li.addEventListener("click", () => {
           // When a city is selected from the list, populate the input field.
-          cityInput.value = matchingCity;
+          cityInput.value = cityEntry[0];
           // Fetch weather data for the selected city using the OpenWeatherMap API.
           document.querySelector("#search-icon").click();
           // Clear previous suggestions when the input is empty

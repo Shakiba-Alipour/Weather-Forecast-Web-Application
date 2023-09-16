@@ -80,16 +80,6 @@ body {
   cursor: pointer;
 }
 
-/* draw a line after each item in suggestion list */
-#cityList li:not(:last-of-type) {
-  border-bottom: 4px solid var(--flame);
-}
-
-/* country text color in search suggestion */
-#cityList .country {
-  color: gray;
-}
-
 /* city text color in search suggestion */
 #cityList .city {
   color: var(--eerie-black);
