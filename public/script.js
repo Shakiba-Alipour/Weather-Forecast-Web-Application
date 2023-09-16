@@ -118,6 +118,12 @@ document
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
       .then((response) => response.json())
       .then((data) => {
+        // Clear previous suggestions when the input is empty
+        cityList.innerHTML = "";
+        cityList.style.display = "none";
+
+        document.getElementById("today-forecast").style.display = "flex";
+
         // display temperature unit switch
         document.getElementById("unit-switch").style.visibility = "visible";
 
@@ -178,8 +184,12 @@ document
         // draw charts to display today and next five days temperature
         draw_charts();
 
+        // display charts
+        document.getElementById("next-days-section").style.display = "flex";
+
         // diplay quiz section
         document.getElementById("quiz-section").style.visibility = "visible";
+        document.getElementById("quiz-section").style.display = "flex";
 
         displayExerciseRecommendation(data);
       })
@@ -454,6 +464,10 @@ async function displayExerciseRecommendation(weatherData) {
   )
     .then((response) => response.json())
     .then((data) => {
+      // display exercise recommendation section
+      document.getElementById("exercise-recommendation-div").style.display =
+        "flex";
+
       const carousel = $(".exercise-carousel");
 
       // Clear existing slides before adding new ones

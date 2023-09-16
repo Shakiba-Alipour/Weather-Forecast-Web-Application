@@ -18,9 +18,12 @@ a {
 
 body {
   width: 100%;
-  position: absolute;
+  max-width: 1440;
+  min-height: auto;
   left: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
   background-color: var(--floral-white);
 }
 
@@ -32,9 +35,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  align-items: center;
+  align-items: flex-start;
   position: absolute;
-  top: 25%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin-bottom: 0.5%;
@@ -379,6 +382,7 @@ input:checked + .slider:before {
   margin-bottom: 5%;
   padding-top: 2%;
   padding-bottom: 2%;
+  flex-direction: column;
 }
 
 .date {
