@@ -66,7 +66,16 @@ let cityInput = document.getElementById("search-input");
 cityInput.addEventListener("input", () => {
   const searchTerm = cityInput.value.toLowerCase(); // Convert user input to lowercase.
 
+  // Clear previous suggestions when the input is empty
+  if (!searchTerm) {
+    cityList.innerHTML = "";
+    cityList.style.display = "none";
+    return;
+  }
+
   if (searchTerm) {
+    cityList.style.display = "flex";
+    cityList.style.flexDirection = "column";
     const matchingCities = cities.filter((city) => city.includes(searchTerm));
 
     // Clear previous suggestions.
@@ -74,18 +83,23 @@ cityInput.addEventListener("input", () => {
 
     // Display the matching city suggestions.
     matchingCities.forEach((matchingCity, index) => {
-      if (cityList.getElementsByTagName("li").length < 6) {
+      if (cityList.getElementsByTagName("li").length < 5) {
         const li = document.createElement("li");
         const city_name = document.createElement("p");
+        city_name.classList.add("city");
         city_name.textContent = matchingCity;
         let country_name = document.createElement("p");
-        country_name = countries[index];
+        country_name.textContent = countries[index];
+        country_name.classList.add("country");
         li.append(city_name, country_name);
         li.addEventListener("click", () => {
           // When a city is selected from the list, populate the input field.
           cityInput.value = matchingCity;
           // Fetch weather data for the selected city using the OpenWeatherMap API.
-          // You can make an API request here and display the weather information.
+          document.querySelector("#search-icon").click();
+          // Clear previous suggestions when the input is empty
+          cityList.innerHTML = "";
+          cityList.style.display = "none";
         });
         cityList.appendChild(li);
       }

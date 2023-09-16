@@ -30,13 +30,21 @@ body {
   border-radius: 40px;
   background: var(--timberwolf);
   display: flex;
+  flex-direction: column;
   justify-content: left;
   align-items: center;
   position: absolute;
-  top: 10%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin-bottom: 0.5%;
+}
+
+/* a div that just contains search icon and search input */
+#search-bar div {
+  display: flex;
+  justify-items: center;
+  align-items: center;
 }
 
 #search-icon {
@@ -60,6 +68,31 @@ body {
   font-size: 1rem;
   position: relative;
   justify-content: center;
+}
+
+#cityList {
+  list-style: none;
+  display: none;
+}
+
+/* each list item in search suggestion */
+#cityList li {
+  cursor: pointer;
+}
+
+/* draw a line after each item in suggestion list */
+#cityList li:not(:last-of-type) {
+  border-bottom: 4px solid var(--flame);
+}
+
+/* country text color in search suggestion */
+#cityList .country {
+  color: gray;
+}
+
+/* city text color in search suggestion */
+#cityList .city {
+  color: var(--eerie-black);
 }
 
 #header {
@@ -289,15 +322,6 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: row;
 }
-
-/* #additional-info div {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: center;
-} */
 
 .min-temp {
   color: blue;
