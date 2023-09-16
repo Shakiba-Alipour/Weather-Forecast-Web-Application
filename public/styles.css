@@ -33,11 +33,12 @@ form {
   position: inherit;
   top: 1.25%;
 }
+
 #search-bar-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: fit-content;
+  width: 20rem;
   box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
 }
 
@@ -55,6 +56,8 @@ form {
   right: 0;
   display: flex;
   justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .container .searchInput {
@@ -95,15 +98,15 @@ form {
 .resultBox li {
   list-style: none;
   padding: 8px 12px;
-  display: none;
-  width: 100%;
+  width: fit-content;
   cursor: default;
   border-radius: 3px;
 }
 
-.searchInput.active .resultBox li {
+/* .searchInput.active .resultBox li {
   display: block;
-}
+} */
+
 .resultBox li:hover {
   background: inherit;
 }
@@ -135,17 +138,14 @@ form {
 
 #cityList {
   list-style: none;
-  display: none;
+  width: 17.8rem;
+  background-color: var(--floral-white);
+  box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
 }
 
 /* each list item in search suggestion */
 #cityList li {
   cursor: pointer;
-}
-
-/* city text color in search suggestion */
-#cityList .city {
-  color: var(--eerie-black);
 }
 
 #header {

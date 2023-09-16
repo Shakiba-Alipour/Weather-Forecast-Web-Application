@@ -60,36 +60,40 @@ cityInput.addEventListener("input", () => {
     return;
   }
 
-  if (searchTerm) {
-    cityList.style.display = "flex";
-    cityList.style.flexDirection = "column";
-    const matchingCities = cities.filter((cityEntry) =>
-      cityEntry[0].includes(searchTerm)
-    );
+  // Display the suggestion list
+  cityList.style.display = "flex";
+  cityList.style.flexDirection = "column";
 
-    // Clear previous suggestions.
-    cityList.innerHTML = "";
+  // Filter matching cities
+  const matchingCities = cities.filter((cityEntry) =>
+    cityEntry[0].includes(searchTerm)
+  );
 
-    // Display the matching city suggestions.
-    matchingCities.forEach((cityEntry) => {
-      if (cityList.getElementsByTagName("li").length < 5) {
-        const li = document.createElement("li");
-        const city_name = document.createElement("p");
-        city_name.classList.add("city");
-        city_name.textContent = cityEntry[0] + ", " + cityEntry[1]; // Access city and country using cityEntry[0] and cityEntry[1]
-        li.appendChild(city_name);
-        li.addEventListener("click", () => {
-          // When a city is selected from the list, populate the input field.
-          cityInput.value = cityEntry[0];
-          // Fetch weather data for the selected city using the OpenWeatherMap API.
-          document.querySelector("#search-icon").click();
-          // Clear previous suggestions when the input is empty
-          cityList.innerHTML = "";
-          cityList.style.display = "none";
-        });
-        cityList.appendChild(li);
-      }
+  // Clear and append the fragment to the suggestion list
+  cityList.innerHTML = "";
+
+  // Build the suggestion list in a document fragment
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < matchingCities.length && i < 5; i++) {
+    const cityEntry = matchingCities[i];
+    const li = document.createElement("li");
+    const city_name = document.createElement("p");
+    city_name.classList.add("city");
+    city_name.textContent = cityEntry[0] + ", " + cityEntry[1];
+    li.appendChild(city_name);
+    cityList.appendChild(fragment);
+
+    li.addEventListener("click", () => {
+      // When a city is selected from the list, populate the input field.
+      cityInput.value = cityEntry[0];
+      // Fetch weather data for the selected city using the OpenWeatherMap API.
+      document.querySelector("#search-icon").click();
+      // Clear previous suggestions when the input is empty
+      cityList.innerHTML = "";
+      cityList.style.display = "none";
     });
+    fragment.appendChild(li);
   }
 });
 
@@ -117,7 +121,7 @@ document
         form.reset();
         header.prepend(form);
         header.style.justifyContent = "space-between";
-        form.style.left = "25%";
+        form.style.left = "10%";
         document.getElementById("search-bar-container").style.backgroundColor =
           "#fffcf2ff";
         document.getElementById("search-input").style.backgroundColor =
