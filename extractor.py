@@ -1,3 +1,5 @@
+# this code piece extracts data from two columns of a csv file and store it in a json database
+
 import pandas as pd
 
 # Read the CSV file
