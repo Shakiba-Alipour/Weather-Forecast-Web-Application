@@ -445,10 +445,11 @@ input:checked + .slider:before {
   flex-direction: column;
 }
 
+/* each day's button */
 .date {
   background-color: var(--floral-white);
   height: fit-content;
-  width: min-content;
+  width: fit-content;
   border-radius: 0.7em;
   margin-top: 1%;
   display: flex;
@@ -470,6 +471,7 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-items: flex-start;
 }
 
 .active .each-day-info {
