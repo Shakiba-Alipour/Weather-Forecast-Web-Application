@@ -17,6 +17,37 @@ let today_instance,
 // temperature unit
 let temp_unit = "C";
 
+// load cityList element (for the search bar)
+const cityList = document.getElementById("cityList");
+
+// extract city names from json file and store in an array for search suggestion
+let cities = [];
+let countries = [];
+fetch("../databases/city.list.json")
+  .then((response) => response.json())
+  .then((data) => {
+    cities = data
+      .filter((city) => city.name)
+      .map((city) => city.name.toLowerCase());
+
+    // Extract country names from the JSON data and add them to the countries array.
+    const countryCodes = [...new Set(data.map((city) => city.country))];
+    // find full country name
+    countries = countryCodes.map((countryCode) => {
+      if (countryCode === "IR") {
+        return "Iran";
+      } else {
+        const fullCountryName = new Intl.DisplayNames(["en"], {
+          type: "region",
+        }).of(countryCode);
+        return fullCountryName || countryCode; // Use the full name or the code if not found
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("Error loading city names:", error);
+  });
+
 // about popup management
 document
   .getElementById("open-about-popup")
@@ -28,6 +59,38 @@ document
 document.getElementById("close-popup").addEventListener("click", function () {
   document.getElementById("about-popup").style.display = "none";
   document.getElementById("overlay").style.display = "none";
+});
+
+// search suggestion management
+let cityInput = document.getElementById("search-input");
+cityInput.addEventListener("input", () => {
+  const searchTerm = cityInput.value.toLowerCase(); // Convert user input to lowercase.
+
+  if (searchTerm) {
+    const matchingCities = cities.filter((city) => city.includes(searchTerm));
+
+    // Clear previous suggestions.
+    cityList.innerHTML = "";
+
+    // Display the matching city suggestions.
+    matchingCities.forEach((matchingCity, index) => {
+      if (cityList.getElementsByTagName("li").length < 6) {
+        const li = document.createElement("li");
+        const city_name = document.createElement("p");
+        city_name.textContent = matchingCity;
+        let country_name = document.createElement("p");
+        country_name = countries[index];
+        li.append(city_name, country_name);
+        li.addEventListener("click", () => {
+          // When a city is selected from the list, populate the input field.
+          cityInput.value = matchingCity;
+          // Fetch weather data for the selected city using the OpenWeatherMap API.
+          // You can make an API request here and display the weather information.
+        });
+        cityList.appendChild(li);
+      }
+    });
+  }
 });
 
 // search management
