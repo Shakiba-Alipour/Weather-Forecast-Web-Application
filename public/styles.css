@@ -9,6 +9,8 @@
 * {
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
     "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+  /*include the padding and border in an element's total width and height and prevent paddings to affect styling*/
+  box-sizing: border-box;
 }
 
 a {
