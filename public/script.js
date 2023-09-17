@@ -69,13 +69,23 @@ cityInput.addEventListener("input", () => {
     cityEntry[0].includes(searchTerm)
   );
 
+  if (matchingCities.length == 0) {
+    cityList.innerHTML = "";
+    cityList.style.display = "none";
+  }
+
   // Clear and append the fragment to the suggestion list
   cityList.innerHTML = "";
 
   // Build the suggestion list in a document fragment
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < matchingCities.length && i < 5; i++) {
+  // "suggested" variable is defined to be sure that at most 5 suggestions would be appeared
+  for (
+    let i = 0, suggested = 0;
+    i < matchingCities.length && suggested < 5;
+    i++, suggested++
+  ) {
     const cityEntry = matchingCities[i];
     const li = document.createElement("li");
     const city_name = document.createElement("p");
