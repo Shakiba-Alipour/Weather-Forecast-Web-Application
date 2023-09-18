@@ -133,7 +133,7 @@ document
           const form = document.querySelector("form");
           const header = document.getElementById("header");
           form.reset();
-          header.prepend(form);
+          header.appendChild(form);
           header.style.justifyContent = "space-between";
           form.style.left = "10%";
           document.getElementById(
