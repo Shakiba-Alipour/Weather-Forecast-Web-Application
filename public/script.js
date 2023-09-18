@@ -151,8 +151,6 @@ document
           "Feels like " + data.feels_like + " °" + temp_unit;
         document.getElementById("city").innerHTML = data.city_name;
         document.getElementById("country").innerHTML = data.country_name;
-        document.getElementById("favorite-checker").innerHTML = "star";
-        document.getElementById("favorite-checker").style.fill = "blue";
         document.getElementById("wind-speed").innerHTML =
           data.wind_speed + " m/s";
         document.getElementById("humidity").innerHTML = data.humidity + "%";
