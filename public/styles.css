@@ -609,3 +609,9 @@ input:checked + .slider:before {
 .owl-next:hover {
   color: var(--eerie-black); /* Change color on hover */
 }
+
+/* footer */
+footer {
+  display: flex;
+  justify-content: center;
+}
