@@ -116,79 +116,86 @@ document
     await fetch("http://127.0.0.1:3000/weather?city_name=" + city_name)
       .then((response) => response.json())
       .then((data) => {
-        // Clear previous suggestions when the input is empty
-        cityList.innerHTML = "";
-        cityList.style.display = "none";
+        // if user enters an unvalid city, an alert would be appeared
+        if (data.city_name == "undefined" || data.city_name == null) {
+          alert("The city name you entered is not valid");
+        } else {
+          // Clear previous suggestions when the input is empty
+          cityList.innerHTML = "";
+          cityList.style.display = "none";
 
-        document.getElementById("today-forecast").style.display = "flex";
+          document.getElementById("today-forecast").style.display = "flex";
 
-        // display temperature unit switch
-        document.getElementById("unit-switch").style.visibility = "visible";
+          // display temperature unit switch
+          document.getElementById("unit-switch").style.visibility = "visible";
 
-        // change the location of the search bar
-        const form = document.querySelector("form");
-        const header = document.getElementById("header");
-        form.reset();
-        header.prepend(form);
-        header.style.justifyContent = "space-between";
-        form.style.left = "10%";
-        document.getElementById("search-bar-container").style.backgroundColor =
-          "#fffcf2ff";
-        document.getElementById("search-input").style.backgroundColor =
-          "#fffcf2ff";
-        document.getElementById("search-icon").style.backgroundColor =
-          "#fffcf2ff";
-        document.getElementById("search-bar").style.backgroundColor =
-          "#ccc5b9ff";
+          // change the location of the search bar
+          const form = document.querySelector("form");
+          const header = document.getElementById("header");
+          form.reset();
+          header.prepend(form);
+          header.style.justifyContent = "space-between";
+          form.style.left = "10%";
+          document.getElementById(
+            "search-bar-container"
+          ).style.backgroundColor = "#fffcf2ff";
+          document.getElementById("search-input").style.backgroundColor =
+            "#fffcf2ff";
+          document.getElementById("search-icon").style.backgroundColor =
+            "#fffcf2ff";
+          document.getElementById("search-bar").style.backgroundColor =
+            "#ccc5b9ff";
 
-        // display today weather information
-        document.getElementById("weather-icon").src =
-          "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
-        document.getElementById("condition").innerHTML = data.description;
-        document.getElementById("temp").innerHTML =
-          data.temperature + " °" + temp_unit;
-        document.getElementById("feels-like").innerHTML =
-          "Feels like " + data.feels_like + " °" + temp_unit;
-        document.getElementById("city").innerHTML = data.city_name;
-        document.getElementById("country").innerHTML = data.country_name;
-        document.getElementById("wind-speed").innerHTML =
-          data.wind_speed + " m/s";
-        document.getElementById("humidity").innerHTML = data.humidity + "%";
-        document.getElementById("air-pollution").innerHTML = data.air_pollution;
+          // display today weather information
+          document.getElementById("weather-icon").src =
+            "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
+          document.getElementById("condition").innerHTML = data.description;
+          document.getElementById("temp").innerHTML =
+            data.temperature + " °" + temp_unit;
+          document.getElementById("feels-like").innerHTML =
+            "Feels like " + data.feels_like + " °" + temp_unit;
+          document.getElementById("city").innerHTML = data.city_name;
+          document.getElementById("country").innerHTML = data.country_name;
+          document.getElementById("wind-speed").innerHTML =
+            data.wind_speed + " m/s";
+          document.getElementById("humidity").innerHTML = data.humidity + "%";
+          document.getElementById("air-pollution").innerHTML =
+            data.air_pollution;
 
-        // display today and next five days forecast
-        today_hourly_data = data.today_total_forecast.today;
-        fetch_next_days_data(data.next_five_days.days);
+          // display today and next five days forecast
+          today_hourly_data = data.today_total_forecast.today;
+          fetch_next_days_data(data.next_five_days.days);
 
-        var target_list = document.getElementsByClassName("forecast-result");
-        if (target_list) {
-          for (let i = 0; i < target_list.length; i++) {
-            target_list[i].style.visibility = "visible";
+          var target_list = document.getElementsByClassName("forecast-result");
+          if (target_list) {
+            for (let i = 0; i < target_list.length; i++) {
+              target_list[i].style.visibility = "visible";
+            }
           }
+
+          // set data for today's button
+          document.getElementById("today-icon").src =
+            "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
+          document.getElementById("day0").innerHTML = "Today";
+          document.getElementById("condition0").innerHTML = data.description;
+          document.getElementById("humidity0").innerHTML = data.humidity + "%";
+          document.getElementById("min-temp0").innerHTML =
+            data.min_temperature + " °" + temp_unit;
+          document.getElementById("max-temp0").innerHTML =
+            data.max_temperature + " °" + temp_unit;
+
+          // draw charts to display today and next five days temperature
+          draw_charts();
+
+          // display charts
+          document.getElementById("next-days-section").style.display = "flex";
+
+          // diplay quiz section
+          document.getElementById("quiz-section").style.visibility = "visible";
+          document.getElementById("quiz-section").style.display = "flex";
+
+          displayExerciseRecommendation(data);
         }
-
-        // set data for today's button
-        document.getElementById("today-icon").src =
-          "http://openweathermap.org/img/wn/" + data.icon_id + ".png";
-        document.getElementById("day0").innerHTML = "Today";
-        document.getElementById("condition0").innerHTML = data.description;
-        document.getElementById("humidity0").innerHTML = data.humidity + "%";
-        document.getElementById("min-temp0").innerHTML =
-          data.min_temperature + " °" + temp_unit;
-        document.getElementById("max-temp0").innerHTML =
-          data.max_temperature + " °" + temp_unit;
-
-        // draw charts to display today and next five days temperature
-        draw_charts();
-
-        // display charts
-        document.getElementById("next-days-section").style.display = "flex";
-
-        // diplay quiz section
-        document.getElementById("quiz-section").style.visibility = "visible";
-        document.getElementById("quiz-section").style.display = "flex";
-
-        displayExerciseRecommendation(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
