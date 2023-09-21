@@ -284,7 +284,7 @@ async function drawChartForDay(hourlyData, chartContainerId) {
         y: {
           title: {
             display: true,
-            text: "Temperature (°C)",
+            text: "Temperature",
           },
         },
       },
