@@ -13,7 +13,7 @@ Welcome to the Weather Forecast Website repository! This website provides users 
 
 ## Features
 
-- **Real-Time Weather Data**: Get the latest weather updates for any location around the world, powered by the [OpenWeather API]((https://openweathermap.org/).
+- **Real-Time Weather Data**: Get the latest weather updates for any location around the world, powered by the [OpenWeather API](https://openweathermap.org/).
 - **Search Functionality**: Find weather information for any city or region.
 - **Customization**: Customize the units (e.g., Celsius or Fahrenheit) and settings to suit your preferences.
 - **Detailed Forecasts**: Access detailed weather forecasts, including temperature, humidity, wind speed, and more.
