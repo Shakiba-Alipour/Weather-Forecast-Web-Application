@@ -9,7 +9,7 @@ Welcome to the Weather Forecast Website repository! This webite provides users w
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
+- [Feedback](#feedback)
 
 ## Features
 
