@@ -1,5 +1,5 @@
 :root {
-  --floral-white: #fffcf2ff;
+  --floral-white: #fff;
   --timberwolf: #ddd;
   --black-olive: #403d39ff;
   --eerie-black: #252422ff;
@@ -103,10 +103,6 @@ form {
   border-radius: 3px;
 }
 
-/* .searchInput.active .resultBox li {
-  display: block;
-} */
-
 .resultBox li:hover {
   background: inherit;
 }
@@ -162,6 +158,7 @@ form {
   z-index: 1;
 }
 
+/* about popup */
 #about-div {
   width: 100%;
   height: 4rem;
@@ -579,26 +576,25 @@ input:checked + .slider:before {
 
 /* exercise recommendation carousel */
 .owl-stage {
-  margin-left: 4rem;
-  margin-right: 4rem;
+  width: 100%;
 }
 
 /* style navigation arrows for exercise recommendation section */
 /* Position the navigation arrows on the sides */
 .owl-prev {
   position: absolute;
-  top: 50%;
-  left: 2rem; /* Adjust the left position as needed */
+  margin-top: 2rem;
+  left: 49%; /* Adjust the left position as needed */
   transform: translateY(-50%);
-  font-size: 2rem; /* Customize the arrow size */
+  font-size: 5rem; /* Customize the arrow size */
   color: var(--black-olive); /* Customize the arrow color */
   cursor: pointer;
 }
 
 .owl-next {
   position: absolute;
-  top: 50%;
-  right: 2rem; /* Adjust the right position as needed */
+  margin-top: 2rem;
+  right: 49%; /* Adjust the right position as needed */
   transform: translateY(-50%);
   font-size: 2rem; /* Customize the arrow size */
   color: var(--black-olive); /* Customize the arrow color */
@@ -609,6 +605,21 @@ input:checked + .slider:before {
 .owl-prev:hover,
 .owl-next:hover {
   color: var(--eerie-black); /* Change color on hover */
+}
+
+/* exercises styking */
+.exercise-slide {
+  border-style: solid;
+  padding: 10%;
+  border-radius: 10%;
+  border-color: var(--timberwolf);
+  width: 85%;
+  height: 13rem;
+}
+
+.exercise-name h4 {
+  display: flex;
+  justify-content: center;
 }
 
 /* footer */
