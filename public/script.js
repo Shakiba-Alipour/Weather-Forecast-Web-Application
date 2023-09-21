@@ -66,7 +66,7 @@ cityInput.addEventListener("input", () => {
 
   // Filter matching cities
   const matchingCities = cities.filter((cityEntry) =>
-    cityEntry[0].includes(searchTerm)
+    cityEntry[0].startsWith(searchTerm)
   );
 
   if (matchingCities.length == 0) {
@@ -138,13 +138,11 @@ document
           form.style.left = "10%";
           document.getElementById(
             "search-bar-container"
-          ).style.backgroundColor = "#fffcf2ff";
+          ).style.backgroundColor = "#fff";
           document.getElementById("search-input").style.backgroundColor =
-            "#fffcf2ff";
-          document.getElementById("search-icon").style.backgroundColor =
-            "#fffcf2ff";
-          document.getElementById("search-bar").style.backgroundColor =
-            "#ccc5b9ff";
+            "#fff";
+          document.getElementById("search-icon").style.backgroundColor = "#fff";
+          document.getElementById("search-bar").style.backgroundColor = "#fff";
 
           // display today weather information
           document.getElementById("weather-icon").src =
@@ -440,6 +438,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (selectedValue === correctAnswer) {
         event.target.style.backgroundColor = "green";
         event.target.style.borderColor = "green";
+        event.target.style.color = "white";
       } else {
         event.target.style.backgroundColor = "palevioletred";
         event.target.style.borderColor = "palevioletred";
@@ -449,6 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (correctOption) {
           correctOption.style.backgroundColor = "green";
           correctOption.style.borderColor = "green";
+          correctOption.style.color = "white";
         }
       }
 
@@ -481,9 +481,13 @@ async function displayExerciseRecommendation(weatherData) {
         // Create a slide for each exercise
         const slideHTML = `
           <div class="exercise-slide">
-            <h4>${data[i].name}</h4>
-            <p>Equipment: ${data[i].equipment_needed}</p>
-            <p>Difficulty: ${data[i].difficulty_level}</p>
+            <div class="exercise-name">
+              <h4>${data[i].name}</h4>
+            </div>
+            <div class="exercise-info">
+              <p>Equipment <b>${data[i].equipment_needed}</b></p>
+              <p>Difficulty <b>${data[i].difficulty_level}</b></p>
+            </div>
           </div>
         `;
 
@@ -493,10 +497,9 @@ async function displayExerciseRecommendation(weatherData) {
 
       // Initialize Owl Carousel with desired settings
       carousel.owlCarousel({
-        items: 3, // Number of items to display
         loop: false, // Infinite loop
-        margin: 8, // Space between items
         autoplay: false, // Auto-play the carousel
+        stagePadding: 15,
         nav: true, // Show navigation buttons
         responsive: {
           0: {
@@ -506,7 +509,7 @@ async function displayExerciseRecommendation(weatherData) {
             items: 3, // Number of items to display at a medium screen size
           },
           992: {
-            items: 5, // Number of items to display at a larger screen size
+            items: 4, // Number of items to display at a larger screen size
           },
         },
       });

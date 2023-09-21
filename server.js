@@ -125,7 +125,7 @@ class Five_days_forecast {
 
 // const server = https.createServer(options, app);
 
-// Set up CORS to allow requests from your Glitch app's domain
+// Set up CORS to allow requests from your app's domain
 const corsOpts = {
   origin: "*",
 
@@ -158,11 +158,6 @@ app.get("/weather", async (req, res) => {
     const response = await fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
     );
-
-    // use a proxy server when app isn't running locally
-    // const response = await fetch(
-    //   `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${api_key}`
-    // );
 
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
