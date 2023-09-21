@@ -1,6 +1,6 @@
 # Weather Forecast Website
 
-Welcome to the Weather Forecast Website repository! This webite provides users with up-to-date weather information, interactive maps, and more. Whether you're planning a trip, checking the forecast for your location, or just curious about the weather, this website has you covered.
+Welcome to the Weather Forecast Website repository! This website provides users with up-to-date weather information, charts visualizations, and more. Whether you're planning a trip, checking the forecast for your location, or just curious about the weather, this website has you covered.
 
 
 ## Table of Contents
