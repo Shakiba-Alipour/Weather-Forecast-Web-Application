@@ -17,8 +17,8 @@ Welcome to the Weather Forecast Website repository! This website provides users 
 - **Search Functionality**: Find weather information for any city or region.
 - **Customization**: Customize the units (e.g., Celsius or Fahrenheit) and settings to suit your preferences.
 - **Detailed Forecasts**: Access detailed weather forecasts, including temperature, humidity, wind speed, and more.
-- **Exercise Recommendation: Explore the Exercise Recommendation feature, where you can discover tailored exercise suggestions based on weather conditions and air quality. Whether it's a sunny or rainy day, stay active and fit with personalized exercise recommendations.
-- **Quiz Section: Test your weather knowledge with the interactive quiz section. Challenge yourself and others to see how well you know your weather facts.
+- **Exercise Recommendation**: Explore the Exercise Recommendation feature, where you can discover tailored exercise suggestions based on weather conditions and air quality. Whether it's a sunny or rainy day, stay active and fit with personalized exercise recommendations.
+- **Quiz Section**: Test your weather knowledge with the interactive quiz section. Challenge yourself and others to see how well you know your weather facts.
 
 ## Getting Started
 
